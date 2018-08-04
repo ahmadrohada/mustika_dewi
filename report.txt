@@ -1,0 +1,29 @@
+mustika 1 agustus 
+
+
+
+
+transaksi penjualan
+ada banyaknya karung * tonase 
+
+komisi per item 
+komisi per kilo
+misal harga 8000 jadi 8500
+pengurangan terhadap harga perkilo
+
+
+
+
+transaks pembelian
+
+banyak karung * tonase
+
+upah kuli = rupiah * jumlah tonase
+
+total bayar = total - upah kuli ( grand total)
+
+STOK 
+
+parent jenis_beras
+child nama_karung -> jumlah karung , tonase dan harga beli ( muncuk if != 0)
+

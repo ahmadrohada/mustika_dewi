@@ -95,18 +95,27 @@ button.sm{
 	height:28px !important;
 }
 
-input[readonly],
+
 input[disabled],
 select[readonly],
 select[disabled],
 textarea[readonly],
-textarea[disabled]{
+textarea[disabled],
+.form_bayar{
   /** font-family: inherit; **/
-  font-size:13px; 
+  font-size:20px !important; 
   line-height: inherit;
 	font-family: isi;
 	background-color:rgba(255, 255, 255, 0.945) !important;
-	border-color:rgba(152, 179, 177, 0.863);
+	border-color:rgba(227, 230, 229, 0.863);
+}
+
+input[readonly]{
+  font-size:14px !important; 
+  line-height: inherit;
+	font-family: isi_2;
+	background-color:rgba(255, 255, 255, 0.945) !important;
+	border-color:rgba(227, 230, 229, 0.863) !important;
 }
 
 
@@ -162,9 +171,9 @@ h5.modal-title,.header-title,.box-title{
 }
 
 @font-face {
-			font-family: isi;
-			src: url('./fonts/ROCK.TTF');
-			font-weight: normal;
+	font-family: isi;
+	src: url('./fonts/rm_typerighter.ttf');
+	font-weight: normal;
 }
 
 @font-face {
@@ -173,3 +182,7 @@ h5.modal-title,.header-title,.box-title{
 			font-weight: normal;
 }
 
+.swal2-overflow {
+  overflow-x: visible;
+  overflow-y: visible;
+}

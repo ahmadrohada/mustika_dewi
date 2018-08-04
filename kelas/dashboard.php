@@ -18,7 +18,7 @@ case"dashboard_detail":
 
 	$response["dashboard"] = array();
 
-	//======penjualan today =================//
+	//======  spenjualan today =================//
 	$ttpt = $koneksi->prepare(" SELECT 	count(id) as jm FROM transaksi WHERE outcome > 0 and date(created_at) ='$tgl_now' ");
 	$ttpt->execute();
 	$total_transaksi_penjualan_today  = $ttpt->fetch(PDO::FETCH_OBJ);
@@ -27,20 +27,35 @@ case"dashboard_detail":
 
 	
 
-	//======penjualan ALL =================//
+	//======  penjualan ALL =================//
 	$ttp = $koneksi->prepare(" SELECT 	count(id) as jm FROM transaksi WHERE outcome > 0 ");
 	$ttp->execute();
 	$total_transaksi_penjualan  = $ttp->fetch(PDO::FETCH_OBJ);
 	
     $h['total_transaksi_penjualan']	    = $total_transaksi_penjualan->jm;
 
+	//=========== S T O K Beras ===============//
+	$stok_in_query = $koneksi->prepare(" SELECT 	sum(income) as jm FROM transaksi");
+	$stok_in_query->execute();
+	$stok_total_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
+
+    //cari jumlah yang keluar kg nya
+    $stok_out_query = $koneksi->prepare(" SELECT 	sum(outcome) as jm FROM transaksi ");
+	$stok_out_query->execute();
+	$stok_total_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
+	$stok_beras  = $stok_total_in->jm - $stok_total_out->jm;
+    $h['stok_beras']	    =  number_format($stok_beras,'0',',','.');
+	
+	//======  PELANGGAN ===============//
+	$pl = $koneksi->prepare(" SELECT 	count(id) as jm FROM pelanggan");
+	$pl->execute();
+	$jm_pelanggan  = $pl->fetch(PDO::FETCH_OBJ);
+	
+    $h['jm_pelanggan']	    = $jm_pelanggan->jm;
+
+
+	
 	array_push($response["dashboard"], $h);
-	
-	
-
-
-	
-
 	if (mysql_errno() == 0){
 		header('HTTP/1.1 200 Sukses'); //if sukses
 		echo json_encode($response);
@@ -65,13 +80,19 @@ case"chart_stok":
 			$query->execute();
 			while($x = $query->fetch(PDO::FETCH_OBJ)) {
 
-                //cari jumlah kg nya
+
+				//cari jumlah yang keluar kg nya
+                $stok_in_query = $koneksi->prepare(" SELECT 	sum(income) as jm FROM transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' ");
+				$stok_in_query->execute();
+				$stok_total_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
+
+                //cari jumlah yang keluar kg nya
                 $stok_out_query = $koneksi->prepare(" SELECT 	sum(outcome) as jm FROM transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' ");
 				$stok_out_query->execute();
 				$stok_total_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
 
                 $h['jenis_beras']	= $x->label;
-                $h['jumlah']	    = $stok_total_out->jm;
+                $h['jumlah']	    = $stok_total_in->jm - $stok_total_out->jm;
 
                 array_push($response["jenis_beras"], $h);
 			}	

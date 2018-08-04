@@ -28,7 +28,7 @@
 						
 						
 							<div class="form-group has-feedback">
-								<input class="form-control nama" placeholder="NIP"  name="nip" type="text" >
+								<input class="form-control nama" placeholder="Username"  name="nip" type="text" >
 								<span class="glyphicon glyphicon-user form-control-feedback"></span>
 							</div>
 							<div class="form-group has-feedback">

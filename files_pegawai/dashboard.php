@@ -36,7 +36,7 @@
 
         <div class="col-lg-6 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-green">
+          <div class="small-box bg-green transaksi_pembelian" style="cursor:pointer;">
             <div class="inner">
               <h3>53</h3>
 
@@ -53,7 +53,7 @@
 
          <div class="col-lg-6 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-yellow transaksi_penjualan" style="cursor:pointer;">
+          <div class="small-box bg-yellow pembelian" style="cursor:pointer;">
             <div class="inner">
               <h3>150</h3>
               <p> DATA PEMBELIAN</p>
@@ -68,9 +68,9 @@
   <div class="row">
     <div class="col-lg-6 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-aqua">
+          <div class="small-box bg-aqua pelanggan" style="cursor:pointer;">
             <div class="inner">
-              <h3>44</h3>
+             <h3><span class="jm_pelanggan">*</span></h3>
 
               <p>PELANGGAN</p>
             </div>
@@ -83,19 +83,35 @@
         <!-- ./col -->
         <div class="col-lg-6 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-red">
+          <div class="small-box bg-red supplier" style="cursor:pointer;">
             <div class="inner">
-              <h3>65</h3>
+              <h3><span class="stok_beras">*</span></h3>
 
-              <p>STOK</p>
+              <p>SUPPLIER</p>
             </div>
             <div class="icon">
-              <i class="ion ion-archive"></i>
+              <i class="ion ion-android-people"></i>
             </div>
             <a href="./home.php?page=dashboard&chart=6" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
-  </div>
+  </div>  
+    <div class="row">
+          <div class="col-lg-6 col-xs-6 stok" style="cursor:pointer;">
+            <!-- small box -->
+            <div class="small-box bg-red">
+              <div class="inner">
+                <h3><span class="stok_beras">*</span></h3>
+
+                <p>STOK ( Kg )</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-archive"></i>
+              </div>
+              <a href="./home.php?page=dashboard&chart=6" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+    </div>
   
   </div>
 
@@ -147,6 +163,9 @@ $(document).ready(function () {
     success: function (data) {
             $(".total_transaksi_penjualan_today").html(data['dashboard'][0]['total_transaksi_penjualan_today']);
             $(".total_transaksi_penjualan").html(data['dashboard'][0]['total_transaksi_penjualan']);
+            $(".stok_beras").html(data['dashboard'][0]['stok_beras']);
+            $(".jm_pelanggan").html(data['dashboard'][0]['jm_pelanggan']);
+
             },
             error: function (data) {
                 
@@ -162,6 +181,28 @@ $(document).ready(function () {
   $(document).on('click','.transaksi_penjualan',function(e){
 		window.location.assign("home.php?page=transaksi_penjualan");
 	});
+
+  $(document).on('click','.pelanggan',function(e){
+		window.location.assign("home.php?page=pelanggan");
+	});
+
+  $(document).on('click','.transaksi_pembelian',function(e){
+		window.location.assign("home.php?page=transaksi_pembelian");
+	});
+
+  $(document).on('click','.pembelian',function(e){
+		window.location.assign("home.php?page=pembelian");
+	});
+
+  $(document).on('click','.supplier',function(e){
+		window.location.assign("home.php?page=supplier");
+	});
+
+
+  $(document).on('click','.stok',function(e){
+		window.location.assign("home.php?page=stok");
+	});
+
 
 	
 });

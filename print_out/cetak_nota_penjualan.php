@@ -43,20 +43,15 @@ $waktu = date('H'.":".'i'.":".'s');
 	
 ?>
 
-<table class="kop" border="0">
+<table class="kop" border="0" >
 <tr>
-	<td style="height:30px;">
-	<FONT style=" font-size:15pt; font-weight:bold; font-family:norasi;  ">TOKO BERAS MUSTIKA DEWI</FONT>
+	<td style="height:25px;">
+	<FONT style=" font-size:13pt; font-weight:bold; font-family:norasi;  ">TOKO BERAS MUSTIKA DEWI</FONT>
 	</td>
 </tr>
 <tr>
 	<td >
-		<FONT style="font-size:11pt; font-family:norasi; ">PASAR INDUK JOHAR</FONT>
-	</td>
-</tr>
-<tr >
-	<td >
-		<FONT style="font-size:11pt; font-family:norasi; letter-spacing:1.4pt;  ">KARAWANG</FONT>
+		<FONT style="font-size:10pt; font-family:norasi; ">PASAR INDUK JOHAR - KARAWANG</FONT>
 	</td>
 </tr>
 </table>
@@ -71,66 +66,66 @@ $waktu = date('H'.":".'i'.":".'s');
 <table class="kop" border="0">
 <tr>
 	<td colspan="6" align="center" valign="top" style="height:40px;">
-		<FONT style=" font-size:16pt; font-weight:bold; font-family:Trebuchet MS; letter-spacing:1.2pt;  "><u>NOTA PENJUALAN</u></FONT>
+		<FONT style=" font-size:13pt; font-weight:bold; font-family:Trebuchet MS; letter-spacing:1.2pt;  "><u>NOTA PENJUALAN</u></FONT>
 	</td>
 </tr>
 <tr>
 	<td width="13%">
-		<FONT style=" font-size:10pt;  font-weight:bold; font-family:dejavuserif;">
+		<FONT style=" font-size:9pt;  font-weight:bold; font-family:dejavuserif;">
 			No Nota
 		</font>
 	</td>
 	<td width="2%">:</td>
 	<td width="47%">
-		<FONT style=" font-size:10pt;  font-weight:bold; font-family:dejavusansmono;">
+		<FONT style=" font-size:9pt;  font-weight:bold; font-family:dejavusansmono;">
 			<?php  echo $x->no_nota; ?>
 		</font>
 	</td>
-	<td width="15%">
-		<FONT style=" font-size:10pt;font-family:dejavuserif;">
+	<td width="20%">
+		<FONT style=" font-size:9pt;font-family:dejavuserif;">
 		Nama Pelanggan
 		</font>
 	</td>
 	<td width="2%">:</td>
-	<td width="23%">
-		<FONT style=" font-size:10pt; font-family:dejavusansmono;">
+	<td width="18%">
+		<FONT style=" font-size:9pt; font-family:dejavusansmono;">
 			<?php  echo $x->nama_pelanggan; ?>
 		</font>
 	</td>
 </tr>
 <tr>
 	<td>
-		<FONT style=" font-size:10pt; font-family:dejavuserif;">
+		<FONT style=" font-size:9pt; font-family:dejavuserif;">
 			Tgl Transaksi
 		</font>
 	</td>
 	<td>:</td>
 	<td>
-		<FONT style=" font-size:10pt; font-family:dejavusansmono;">
+		<FONT style=" font-size:9pt; font-family:dejavusansmono;">
 			<?php  echo $d->tgl_jam($x->tgl_nota); ?>
 		</font>
 	</td>
 	<td>
-		<FONT style=" font-size:10pt;font-family:dejavuserif;">
+		<FONT style=" font-size:9pt;font-family:dejavuserif;">
 		Alamat
 		</font>
 	</td>
 	<td>:</td>
 	<td>
-		<FONT style=" font-size:10pt; font-family:dejavusansmono;">
+		<FONT style=" font-size:9pt; font-family:dejavusansmono;">
 			karawang
 		</font>
 	</td>
 </tr>
 <tr>
 	<td>
-		<FONT style=" font-size:10pt; font-family:dejavuserif;">
+		<FONT style=" font-size:9pt; font-family:dejavuserif;">
 			Pembayaran
 		</font>
 	</td>
 	<td>:</td>
 	<td>
-		<FONT style=" font-size:10pt; font-family:dejavusansmono;">
+		<FONT style=" font-size:9pt; font-family:dejavusansmono;">
 			<?php  echo strtoupper($x->status_pembayaran); ?>
 		</font>
 	</td>
@@ -264,7 +259,8 @@ $waktu = date('H'.":".'i'.":".'s');
 		$out = ob_get_contents();
 		ob_end_clean();
 		include("../mpdf/mpdf.php");
-		$mpdf = new mPDF('c','A5-L','');
+		//$mpdf = new mPDF('c','A5-L','');
+		$mpdf = new mPDF('utf-8', array(210,98), 0,0,5,5,5);
 
 		$mpdf->SetHTMLFooter('
 		<table width="100%">
@@ -289,7 +285,7 @@ $waktu = date('H'.":".'i'.":".'s');
 		$mpdf->WriteHTML($stylesheet,1);
 		$mpdf->WriteHTML($out);
 		$mpdf->SetJS('this.print();');
-		$filename=$bulan."_".$skpd.".pdf";//You might be not adding the extension, 
+		$filename=$x->no_nota.".pdf";//You might be not adding the extension, 
 		$mpdf->Output($filename,'I');
 		
 		

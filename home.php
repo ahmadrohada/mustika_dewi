@@ -1,4 +1,5 @@
 <?php 
+date_default_timezone_set('Asia/Jakarta');
 session_start();
 if(isset($_SESSION['md_user_id'])){
 ?>
@@ -8,7 +9,7 @@ if(isset($_SESSION['md_user_id'])){
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Collapsed Sidebar Layout</title>
+  <title>Mustika Dewi</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="./assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/bower_components/font-awesome/css/font-awesome.min.css">
@@ -82,7 +83,7 @@ if(isset($_SESSION['md_user_id'])){
         <span class="icon-bar"></span>
       </a>
 
-      <div class="navbar-custom-menu">
+      <div class="navbar-custom-menu hidden">
         <ul class="nav navbar-nav">
          
           <!-- User Account: style can be found in dropdown.less -->
@@ -157,10 +158,9 @@ if(isset($_SESSION['md_user_id'])){
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
+      <b>Version</b> 1.0 <i>beta</i>
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-    reserved.
+    <strong>Copyright &copy; PD. Mustika Dewi 2018 
   </footer>
 
   <!-- Control Sidebar -->
@@ -374,7 +374,7 @@ $(document).ready(function () {
 			
 			swal({
 				title: "Logout",
-				text: "keluar dari aplikasi PARE",
+				text: "keluar dari aplikasi",
 				type: "question",
 				showCancelButton: true,
 				confirmButtonText: "Ya",

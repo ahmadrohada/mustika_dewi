@@ -54,7 +54,7 @@ $(document).ready(function () {
 							  "angle" : 38,
 							  "gradientRatio" :  [-0.2, 0, -0.1],
 							  
-							  "balloonText" : "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+							  "balloonText" : "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> Kg ([[percents]]%)</span>",
 							 "fontFamily" : "isi",
 							"colors" : ["#001de0","#00e00b","#ff9724","#fffc24","#e02c00"],
 							"startEffect" : "bounce", //easeInSine, elastic, bounce

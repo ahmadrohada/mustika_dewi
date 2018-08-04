@@ -9,7 +9,7 @@
 
                     <div id="toolbar">
 						<div class="form-inline" role="form">
-							<button class="btn btn-success btn-sm transaksi_penjualan"><span class="fa fa-plus"></span>&nbsp;&nbsp; Transaksi</button>
+							<button class="btn btn-warning btn-sm transaksi_penjualan"><span class="fa fa-plus"></span>&nbsp;&nbsp; Transaksi</button>
 						</div>
 					</div>
 				
@@ -24,21 +24,10 @@
 						>
 					
 					</table>
-
-
-
-
                 </div>
             </div>
-
-
         </div>
     </div>
-
-
-
-
-
 </section>
 
 
@@ -70,9 +59,10 @@ $(document).ready(function () {
 				{
 					/** class: 'hidden-xs', **/
 					field: 'tgl_nota',
-					title: 'TANGGAL',
+					title: 'TANGGAL TRANSAKSI',
 					halign:'center',
 					align:'center',
+					sortable:true
 					
 				}, 
 				{
@@ -80,6 +70,7 @@ $(document).ready(function () {
 					title: 'NO NOTA',
 					halign:'center',
 					align:'center',
+					sortable:true,
 
 					
 				}, 
@@ -96,13 +87,6 @@ $(document).ready(function () {
                     align:'right',
 					width:160,
 				}, 
-				/* {
-					field: 'cash',
-					title: 'CASH',
-					halign:'center',
-                    align:'right',
-					width:160,
-				},  */
 				{
 					field: 'komisi',
 					title: 'KOMISI',
@@ -125,19 +109,20 @@ $(document).ready(function () {
 					align:'center',
 					width:150,
 					formatter: function (value, row) {
-						if ( row.status_pembayaran == 'hutang'){
-                            return 	[  	'<button  style="margin:1px;" class="btn btn-danger 	btn-xs bayar" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Bayar"><span class="fa fa-edit"></span></button>' 
-										+'<button  style="margin:1px;" class="btn btn-info		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
+						if ( row.type_pembayaran == 'hutang'){
+                            return 	[  	'<button  style="margin:1px; margin-top:-5px;" class="btn btn-danger 	btn-xs bayar" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Bayar"><span class="fa fa-edit"></span></button>' 
+										+'<button  style="margin:1px; margin-top:-5px;" class="btn btn-info		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
 									];
                         }else{
-                            return 	[  	'<button  style="margin:1px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 
-										+'<button  style="margin:1px;" class="btn btn-info		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
+                            return 	[  	'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 
+										+'<button  style="margin:1px; margin-top:-5px;" class="btn btn-info		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
 									];
                         }	                                
 								
 								
 					}
 				}
+			
 				]
 	});
 
@@ -159,10 +144,9 @@ $(document).ready(function () {
 				
 			},
 			error: function(data){
-					$('#table').bootstrapTable('removeAll');
+					$('#table_penjualan').bootstrapTable('removeAll');
 					$('.fixed-table-loading').fadeOut(100);
 					$('[data-toggle="tooltip"]').tooltip();
-					$('#table_penjualan').bootstrapTable('removeAll');
 				
 			}
 		});

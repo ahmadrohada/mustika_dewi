@@ -1,16 +1,13 @@
 <?php
-    $penjualan_id = isset($_GET['penjualan_id']) ? $_GET['penjualan_id'] : '';
+    $pembelian_id = isset($_GET['pembelian_id']) ? $_GET['pembelian_id'] : '';
 ?>
-<input type="hidden" value="<?php echo $penjualan_id ?>" class="penjualan_id" id="penjualan_id" name="penjualan_id" >
-
+<input type="hidden" value="<?php echo $pembelian_id ?>" class="pembelian_id" id="pembelian_id" name="pembelian_id" >
 
 
 <!-- Main content -->
 <section class="content">
     <div class="row">
-
-
-        <div class="col-md-3">
+    <div class="col-md-3">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa  fa-tags"></i> Informasi Nota</h3>
@@ -37,17 +34,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-5 text-align">Pelanggan</label>
+                        <label class="col-sm-5 text-align">Supplier</label>
                         <div class="col-sm-7">
-                            <span class="span_label nama_pelanggan"></span>
+                            <span class="span_label nama_supplier"></span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-5 text-align">Status</label>
-                        <div class="col-sm-7">
-                            <span class="span_label status"></span>
-                        </div>
-                    </div>
+                   
                     <div class="form-group">
                         <label class="col-sm-5 text-align">User</label>
                         <div class="col-sm-7">
@@ -68,69 +60,73 @@
         
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa  fa-th-list"></i> Detail Transaksi Penjualan</h3>
+                    <h3 class="box-title"><i class="fa  fa-th-list"></i> Transaksi Pembelian</h3>
                 </div>
                 <div class="box-body">
-                <div class="col-md-12" style="margin-top:10px;">
-
-                    <div id="toolbar">
+                    
+                    
+                    
+                    <div class="col-md-12" style="margin-top:10px;">
+                        
+                  
+                        <div id="toolbar">
+                        </div>
+                        <table
+                            id="list_pembelian"
+                            class="table-striped" 
+							data-toolbar="#toolbar"
+							data-toolbar-align="right" 
+                            >
+                        
+                        </table>
                     </div>
-                    <table
-                        id="list_penjualan"
-                        class="table-striped" 
-                        data-toolbar="#toolbar"
-                        data-toolbar-align="right"  
-                    >
 
-                    </table>
-
-
-
-
-                    </div>
-
-                        <div class="col-md-12" style="margin-top:10px; text-align:right;">
+                    <div class="col-md-12" style="margin-top:10px; text-align:right;">
                         <div class="col-md-8" style="margin-top:6px;">
-                        <span class="grand_total_text" >Total</span>
+                            <span class="grand_total_text" >Total</span>
                         </div>
                         <div class="col-md-4">
-                        <span class="grand_total total_harga"></span>
-                        <input type="hidden" class="grand_total">
+                            <span class="grand_total total_harga"></span>
+                            <input type="hidden" class="total_harga">
                         </div>
-
+                        
                     </div>
 
-                        <div class="col-md-12 no-padding" style="margin-top:10px; ">
+                    <div class="col-md-12 no-padding" style="margin-top:10px; ">
                         <div class="col-md-7">
-                        
+                           
                         <div class="form-group">
-                        <label>Keterangan</label>
-                        <textarea class="form-control keterangan" rows="2" placeholder="Keterangan tambahan" style="width:100%;"></textarea>
+                            <label>Keterangan</label>
+                            <textarea class="form-control keterangan" rows="2" placeholder="Keterangan tambahan" style="width:70%;"></textarea>
                         </div>
 
+
+
+                            
                         </div>
                         <div class="col-md-5">
-                        <form class="form-horizontal">
-                            <div class="form-group" style="margin-top:20px;">
-                                <label class="col-sm-6 control-label">Total Komisi</label>
-                                <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm total_komisi" value="0" style="text-align:right;" disabled> 
+                            <form class="form-horizontal">
+                                <div class="form-group" style="margin-top:20px;">
+                                    <label class="col-sm-6 control-label">Total Upah Kuli</label>
+                                    <div class="col-sm-6">
+                                        <input type="text"  class="form-control input-sm total_upah_kuli" value="0" style="text-align:right; margin-top:5px;" disabled>
+                                    </div>
+                                </div> 
+
+                                <div class="form-group"  style="margin-top:-10px;">
+                                    <label class="col-sm-6 control-label">Total Bayar</label>
+                                    <div class="col-sm-6">
+                                        <input type="text"  class="form-control input-sm total_bayar" value="0" style="text-align:right; margin-top:2px;" disabled>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group hidden"  style="margin-top:-10px;">
-                                <label class="col-sm-6 control-label">Kembali</label>
-                                <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm kembali" value="0" style="text-align:right;" disabled>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                           
+                        </div>
+
                         
-                        </div>
+                    </div>
 
-
-                        </div>
-
-                      
+                    
                 </div>
             </div>
         </div>
@@ -141,44 +137,23 @@
 <script>
 $(document).ready(function () {
 	
-    penjualan_id = $('.penjualan_id').val();
-    
-
+    pembelian_id = $('.pembelian_id').val();
+   
     
     $.ajax({
-			url         : "./kelas/penjualan_get.php",
+			url         : "./kelas/pembelian_get.php",
 			type        : "GET",
 			dataType    : "json",
-			data        : {data:'detail_transaksi_penjualan',penjualan_id:penjualan_id},
+			data        : {data:'detail_transaksi_pembelian',pembelian_id:pembelian_id},
 			success     : function(data) {
 
 				$('.no_nota').html(data['no_nota']);
                 $('.tgl_nota').html(data['tgl_nota']);
                 $('.waktu').html(data['jam']);
-                $('.nama_pelanggan').html(data['nama_pelanggan']);
-                $('.status').html(data['status']);
+                $('.nama_supplier').html(data['nama_supplier']);
                 $('.nama_user').html(data['nama_user']);
 
-                //$('.bayar').val(data['bayar']);
-                //$('.komisi').val(data['komisi']);
-               // $('.besar_komisi').val(data['besar_komisi']);
-                $('.keterangan').html(data['keterangan']);
-
-                //$('.total_harga').html(data['grand_total']);
-
-
-                if ( data['status'] == 'kredit'){
-                    $('.txt-kembali').html("Sisa Hutang");  
-                    $('.kembali').val(data['sisa']);
-                }else{
-                    $('.kembali').val(data['kembali']);
-                }
-
-                
-
-                
-
-                load_data_penjualan(data['no_nota']);
+                load_data_pembelian(data['no_nota']);
 				
 			},
 			error: function(data){
@@ -186,8 +161,9 @@ $(document).ready(function () {
 			}
 	});
 
-   //======================== TABLE   ===================================//
-   $('#list_penjualan').bootstrapTable({
+
+//======================== TABLE   ===================================//
+    $('#list_pembelian').bootstrapTable({
 		columns:[	
 				{
 					field: 'no',
@@ -236,8 +212,8 @@ $(document).ready(function () {
 					
                 }, 
                 {
-					field: 'komisi',
-					title: 'KOMISI @Kg',
+					field: 'upah_kuli',
+					title: 'KULI @Kg',
 					halign:'center',
                     align:'center',
                     width:100,
@@ -254,39 +230,43 @@ $(document).ready(function () {
 	});
 
 
-    
-    function load_data_penjualan(no_nota){
+
+
+//====================== TABLE LIST ITEM ===================================//   
+    function load_data_pembelian(no_nota){
 		
 		$.ajax({
-			url         : "./kelas/penjualan_get.php",
+			url         : "./kelas/pembelian_get.php",
 			type        : "GET",
 			dataType    : "json",
-			data        : {data:'transaksi_penjualan_list_item',no_nota:no_nota},
+			data        : {data:'transaksi_pembelian_list_item',no_nota:no_nota},
 			success     : function(data) {
 				
-                    $('#list_penjualan').bootstrapTable('load',{data: data['tmp_penjualan_list'] });
+					$('#list_pembelian').bootstrapTable('load',{data: data['tmp_pembelian_list'] });
 					$('[data-toggle="tooltip"]').tooltip();
 					$('.fixed-table-loading').fadeOut(100);
 
 
-                    $('.total_harga').html(data['detail_penjualan_list'][0]['total']);
-                    $('.grand_total').val(data['detail_penjualan_list'][0]['total']);
+                    $('.total_harga').html(data['detail_pembelian_list'][0]['total']);
+                    $('.grand_total').val(data['detail_pembelian_list'][0]['total']);
 
-                    $('.total_komisi').val(data['detail_penjualan_list'][0]['total_komisi']);
-
-
-                    //$('.total_harga').html(data['detail_penjualan_list'][0]['total']);
-                  
+                    $('.total_upah_kuli').val(data['detail_pembelian_list'][0]['total_upah_kuli']);
+                    $('.total_bayar').val(data['detail_pembelian_list'][0]['total_bayar']);
+                   
 				
 			},
 			error: function(data){
-					$('#list_penjualan').bootstrapTable('removeAll');
+					$('#table').bootstrapTable('removeAll');
 					$('.fixed-table-loading').fadeOut(100);
 					$('[data-toggle="tooltip"]').tooltip();
+					$('#list_penjualan').bootstrapTable('removeAll');
 				
 			}
 		});
     }
+
+
+
 
 });
 </script>		

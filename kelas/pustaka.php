@@ -266,11 +266,12 @@ class Nota{
 	function new_nota($no_terakhir){
 	
 
-		$user_id	= substr($no_terakhir,0,1); 
-		$date		= substr($no_terakhir,1,6);
-		$id 		= substr($no_terakhir,7,3);
-		$no			= $id+1;
-		$jm			= strlen($no);
+		$user_id				= substr($no_terakhir,0,1); 
+		$jenis_transaksi		= substr($no_terakhir,1,1); 
+		$date					= substr($no_terakhir,2,6);
+		$id 					= substr($no_terakhir,8,3);
+		$no						= $id+1;
+		$jm						= strlen($no);
 		
 		switch($jm)
 			{
@@ -284,10 +285,11 @@ class Nota{
 
 
 
-		$new_no_nota = $user_id.$date.$new_no;
+		$new_no_nota = $user_id.$jenis_transaksi.$date.$new_no;
 				
 	return $new_no_nota;
 	}
+
 	
 }	
 	
