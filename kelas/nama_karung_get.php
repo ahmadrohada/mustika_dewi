@@ -23,7 +23,8 @@ case"nama_karung":
 								a.nama_karung,
 								a.tonase
 								FROM item_transaksi a
-								WHERE nama_karung LIKE '%$nama%'
+								WHERE 		a.jenis_transaksi = 'pembelian'
+										AND a.nama_karung LIKE '%$nama%'
 
 								GROUP BY a.nama_karung,a.tonase		
 								ORDER by a.nama_karung ASC ");
@@ -50,15 +51,17 @@ case"nama_karung":
 			}
 
 break;
-case"nama_karung_list":
+case"nama_karung_stok_list":
 
 		$jenis_beras_id =  isset($_GET['jenis_beras_id'])?$_GET['jenis_beras_id']:null;
 
 		$query = $koneksi->prepare(" SELECT 	
+									a.id,
 									a.nama_karung,
 									a.tonase
 									FROM item_transaksi a
-									WHERE jenis_beras_id = '$jenis_beras_id'
+									WHERE   jenis_transaksi = 'pembelian'
+											AND jenis_beras_id = '$jenis_beras_id'
 
 									GROUP BY a.nama_karung,a.tonase		
 									ORDER by a.nama_karung ASC ");
@@ -73,11 +76,11 @@ case"nama_karung_list":
 
 
 				//pembelian 
-				$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) FROM item_transaksi WHERE jenis_beras_id = '$jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$x->nama_karung' AND tonase = '$x->tonase' ");
+		 		$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) FROM item_transaksi WHERE jenis_beras_id = '$jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$x->nama_karung' AND tonase = '$x->tonase' ");
 				$stok_in_query->execute();
 				$stok_total_in  = $stok_in_query->fetch(PDO::FETCH_NUM);
 				
-				$stok_out_query = $koneksi->prepare(" SELECT 	sum(qty) FROM item_transaksi WHERE jenis_beras_id = '$jenis_beras_id' AND jenis_transaksi = 'penjualan' AND  nama_karung = '$x->nama_karung' AND tonase = '$x->tonase' ");
+				$stok_out_query = $koneksi->prepare(" SELECT 	sum(qty) FROM item_transaksi WHERE jenis_transaksi = 'penjualan' AND  pembelian_id = '$x->id' ");
 				$stok_out_query->execute();
 				$stok_total_out  = $stok_out_query->fetch(PDO::FETCH_NUM);
 

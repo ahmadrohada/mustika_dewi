@@ -133,7 +133,7 @@ $(document).ready(function() {
     var nama_karung = $("#nama_karung option:selected").val();
     //alert(nama_karung);
     $('#jenis_beras').attr('disabled', false);
-    $('#jenis_beras').val(null).trigger('change');
+    //$('#jenis_beras').val(null).trigger('change');
 
     $('#tonase').val(nama_karung.split('|')[1]);
 
@@ -199,56 +199,86 @@ $(document).ready(function() {
 
     $(document).on('click', '#simpan_item', function(){
 		
-        var data = $('#form-add-item').serialize();
-		$.ajax({
-			url     :"./kelas/item_post.php",
-			type	: 'POST',
-			data	:  data,
-			success	: function(data , textStatus, jqXHR) {
-				
-				swal({
-					title: "",
-					text: "Sukses",
-					type: "success",
-					width: "200px",
-					showConfirmButton: false,
-					allowOutsideClick : false,
-					timer:1500
-				}).then(function () {
-					
-					
-				},
-					
-					function (dismiss) {
-						if (dismiss === 'timer') {
-							$('.add-item_penjualan').modal('hide');
-						}
-					}
-			)	
-			},
-			error: function(jqXHR , textStatus, errorThrown) {
-                swal({
-					title: "",
-					text: "Gagal",
-					type: "error",
-					width: "200px",
-					showConfirmButton: false,
-					allowOutsideClick : false,
-					timer:1500
-				}).then(function () {
-					
-					
-				},
-					
-					function (dismiss) {
-						if (dismiss === 'timer') {
-							
-						}
-					}
-			    )	
-			}
-			
-		  });
+        var nama_karung = $("#nama_karung option:selected").val();
+        var tonase_std  = nama_karung.split('|')[1];
+        var tonase_jual = $('#tonase').val();
+       
+       
+
+       if ( tonase_jual <=  tonase_std ){
+            var data = $('#form-add-item').serialize();
+            $.ajax({
+                url     :"./kelas/item_post.php",
+                type	: 'POST',
+                data	:  data,
+                success	: function(data , textStatus, jqXHR) {
+                    
+                    swal({
+                        title: "",
+                        text: "Sukses",
+                        type: "success",
+                        width: "200px",
+                        showConfirmButton: false,
+                        allowOutsideClick : false,
+                        timer:1500
+                    }).then(function () {
+                        
+                        
+                    },
+                        
+                        function (dismiss) {
+                            if (dismiss === 'timer') {
+                                $('.add-item_penjualan').modal('hide');
+                            }
+                        }
+                )	
+                },
+                error: function(jqXHR , textStatus, errorThrown) {
+                    swal({
+                        title: "",
+                        text: "Gagal",
+                        type: "error",
+                        width: "200px",
+                        showConfirmButton: false,
+                        allowOutsideClick : false,
+                        timer:1500
+                    }).then(function () {
+                        
+                        
+                    },
+                        
+                        function (dismiss) {
+                            if (dismiss === 'timer') {
+                                
+                            }
+                        }
+                    )	
+                }
+                
+            });
+       }else{
+            swal({
+                    title: "",
+                    text: "Tonase tidak boleh lebih dari"+tonase_std,
+                    type: "warning",
+                    width: "200px",
+                    showConfirmButton: false,
+                    allowOutsideClick : false,
+                    timer:1800
+                }).then(function () {
+                    $('#tonase').focus();
+                        
+                },
+                        
+                    function (dismiss) {
+                        if (dismiss === 'timer') {
+                            $('#tonase').focus();
+                        }
+                })
+       }
+
+
+
 		
     });
 

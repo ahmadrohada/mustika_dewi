@@ -41,6 +41,9 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa  fa-users"></i> Informasi Supplier</h3>
+                    <div class="box-tools pull-right">
+                        <span  data-toggle="tooltip" title="Tambah Supplier"><a  style="margin-top:5px !important;" class="btn btn-warning btn-xs add_supplier" data-toggle="modal" data-target=".add-supplier"><i class="fa fa-plus" ></i></a></span>
+                    </div>
                 </div>
                 <div class="box-body">
                 
@@ -155,6 +158,7 @@
 
 <?php
     include "modals/add-pembelian.php";
+    include "modals/add-supplier.php";
 ?>
 
 
@@ -625,7 +629,7 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 					},
 					function (dismiss) {
 						if (dismiss === 'timer') {
-                            //window.location.assign("home.php?page=penjualan");
+                            window.location.assign("home.php?page=pembelian");
                             
 						}
 					}

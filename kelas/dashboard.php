@@ -18,40 +18,54 @@ case"dashboard_detail":
 
 	$response["dashboard"] = array();
 
-	//======  spenjualan today =================//
-	$ttpt = $koneksi->prepare(" SELECT 	count(id) as jm FROM transaksi WHERE outcome > 0 and date(created_at) ='$tgl_now' ");
+	//==========JUMLAH TRANSAKSI PENJUALAN HARI INI =============//
+	$ttpt = $koneksi->prepare(" SELECT 	count(id) as jm FROM penjualan WHERE  date(created_at) ='$tgl_now' ");
 	$ttpt->execute();
 	$total_transaksi_penjualan_today  = $ttpt->fetch(PDO::FETCH_OBJ);
 	
     $h['total_transaksi_penjualan_today']	    = $total_transaksi_penjualan_today->jm;
 
 	
-
-	//======  penjualan ALL =================//
-	$ttp = $koneksi->prepare(" SELECT 	count(id) as jm FROM transaksi WHERE outcome > 0 ");
+	//==========  JUMLAH TRANSAKSI PENJUALAN ALL  =============//
+	$ttp = $koneksi->prepare(" SELECT 	count(id) as jm FROM penjualan ");
 	$ttp->execute();
 	$total_transaksi_penjualan  = $ttp->fetch(PDO::FETCH_OBJ);
 	
-    $h['total_transaksi_penjualan']	    = $total_transaksi_penjualan->jm;
+	$h['total_transaksi_penjualan']	    = $total_transaksi_penjualan->jm;
+	
+
+	//==========JUMLAH PEMBELIAN PENJUALAN HARI INI =============//
+	$ttpj = $koneksi->prepare(" SELECT 	count(id) as jm FROM pembelian WHERE  date(created_at) ='$tgl_now' ");
+	$ttpj->execute();
+	$total_transaksi_pembelian_today  = $ttpj->fetch(PDO::FETCH_OBJ);
+	
+    $h['total_transaksi_pembelian_today']	    = $total_transaksi_pembelian_today->jm;
+
+	
+	//==========  JUMLAH TRANSAKSI PENJUALAN ALL  =============//
+	$tpj = $koneksi->prepare(" SELECT 	count(id) as jm FROM pembelian ");
+	$tpj->execute();
+	$total_transaksi_pembelian  = $tpj->fetch(PDO::FETCH_OBJ);
+	
+    $h['total_transaksi_pembelian']	    = $total_transaksi_pembelian->jm;
 
 	//=========== S T O K Beras ===============//
-	$stok_in_query = $koneksi->prepare(" SELECT 	sum(income) as jm FROM transaksi");
-	$stok_in_query->execute();
-	$stok_total_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
+	//pembelian 
+	$stok    = '*';
 
-    //cari jumlah yang keluar kg nya
-    $stok_out_query = $koneksi->prepare(" SELECT 	sum(outcome) as jm FROM transaksi ");
-	$stok_out_query->execute();
-	$stok_total_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
-	$stok_beras  = $stok_total_in->jm - $stok_total_out->jm;
-    $h['stok_beras']	    =  number_format($stok_beras,'0',',','.');
-	
 	//======  PELANGGAN ===============//
 	$pl = $koneksi->prepare(" SELECT 	count(id) as jm FROM pelanggan");
 	$pl->execute();
 	$jm_pelanggan  = $pl->fetch(PDO::FETCH_OBJ);
 	
-    $h['jm_pelanggan']	    = $jm_pelanggan->jm;
+	$h['jm_pelanggan']	    = $jm_pelanggan->jm;
+	
+	//======  SUPPLIER ===============//
+	$pl = $koneksi->prepare(" SELECT 	count(id) as jm FROM supplier");
+	$pl->execute();
+	$jm_supplier  = $pl->fetch(PDO::FETCH_OBJ);
+	
+    $h['jm_supplier']	    = $jm_supplier->jm;
 
 
 	

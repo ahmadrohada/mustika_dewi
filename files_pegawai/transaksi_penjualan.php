@@ -732,7 +732,7 @@ $(document).on('keydown','.tbl_komisi',function(e){
 					},
 					function (dismiss) {
 						if (dismiss === 'timer') {
-                            //window.location.assign("home.php?page=penjualan");
+                            window.location.assign("home.php?page=penjualan");
 						}
 					}
 				)

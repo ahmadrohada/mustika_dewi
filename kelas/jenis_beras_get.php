@@ -26,25 +26,53 @@ case"jenis_beras":
 		}
 		
 
-	/* 	$query = $koneksi->prepare(" SELECT 	
-											b.id as jenis_beras_id,
-											b.label
-											FROM item_transaksi a
-											LEFT JOIN jenis_beras b ON a.jenis_beras_id = b.id
-
-											WHERE 	    a.nama_karung = '$nama_karung' 
-													AND a.tonase = '$tonase'
-													AND b.label LIKE '%$label%'		
-											ORDER by b.label ASC "); */
 		$query = $koneksi->prepare(" SELECT 	
 											c.id as jenis_beras_id,
 											c.label as label
 											FROM item_transaksi a
-											LEFT JOIN item_transaksi b ON a.nama_karung = b.nama_karung AND a.tonase = b. tonase
+											LEFT JOIN item_transaksi b ON a.nama_karung = b.nama_karung AND a.tonase = b.tonase
 											LEFT JOIN jenis_beras c ON c.id = b.jenis_beras_id
 											
 											WHERE 	a.id = '$id_karung'
+												AND b.jenis_transaksi = 'pembelian'
 												AND c.label LIKE '%$label%'	
+											ORDER by c.label ASC 
+											LIMIT 1 
+											");
+
+				
+			$no = 0;
+			$query->execute();
+			while($x = $query->fetch(PDO::FETCH_OBJ)) {
+						$no++;
+						$item[] = array(
+									'no'		=> $no,
+									'id'		=> $x->jenis_beras_id,
+									'label'		=> $x->label,
+						);
+
+			}	
+				
+			if ($no!=0){
+				header('HTTP/1.1 200 Sukses'); //if sukses
+				echo json_encode($item);
+				
+			}else{
+				header('HTTP/1.1 400 error'); //if error
+			}
+
+break; 
+case"jenis_beras_select2":
+
+		$label 		 =  isset($_GET['label'])?$_GET['label']:null;
+
+		
+		$query = $koneksi->prepare(" SELECT 	
+											c.id as jenis_beras_id,
+											c.label as label
+											FROM  jenis_beras c
+											
+											WHERE c.label LIKE '%$label%'	
 											ORDER by c.label ASC ");
 
 				

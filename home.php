@@ -9,7 +9,7 @@ if(isset($_SESSION['md_user_id'])){
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Mustika Dewi</title>
+  <title>PD Mustika Dewi</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="./assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/bower_components/font-awesome/css/font-awesome.min.css">

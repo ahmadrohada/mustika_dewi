@@ -90,7 +90,7 @@ $(document).ready(function () {
 				}, 
 				{
 					field: 'label',
-					title: 'NAMA',
+					title: 'NAMA KARUNG',
 					halign:'center',
 					sortable:true,
                     formatter: function (value, row) {
@@ -177,14 +177,14 @@ $(document).ready(function () {
 				}, 
 				{
 					field: 'nama_karung',
-					title: 'NAMA',
+					title: 'NAMA KARUNG',
 					halign:'center',
 					sortable:true,
 					
 				}, 
                 {
 					field: 'tonase',
-					title: 'TONASE',
+					title: 'TONASE ( Kg )',
 					halign:'center',
 					align:'right',
 					width:100,
@@ -192,7 +192,7 @@ $(document).ready(function () {
 				},
 				{
 					field: 'stok',
-					title: 'STOK',
+					title: 'QTY ( Karung )',
 					halign:'center',
 					align:'right',
 					width:100,
@@ -211,7 +211,7 @@ $(document).ready(function () {
 			url         : "./kelas/nama_karung_get.php",
 			type        : "GET",
 			dataType    : "json",
-			data        : {op:'nama_karung_list',jenis_beras_id:jenis_beras_id},
+			data        : {op:'nama_karung_stok_list',jenis_beras_id:jenis_beras_id},
 			success     : function(data) {
 				
              

@@ -105,7 +105,7 @@ $(document).ready(function() {
             quietMillis: 250,
             data: function (params) {
                 var queryParameters = {
-                    op: 'jenis_beras',
+                    op: 'jenis_beras_select2',
                     label: params.term
                 }
                 return queryParameters;

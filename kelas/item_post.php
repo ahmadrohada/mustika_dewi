@@ -30,7 +30,7 @@ case "add_item_pembelian":
 	$nama_karung 		= $_POST['nama_karung'];	
 	$jenis_beras_id 	= preg_replace('/[^0-9]/', '', $_POST['jenis_beras']);	
 	$harga 				= preg_replace('/[^0-9]/', '', $_POST['harga']);	
-	$tonase 			= preg_replace('/[^0-9]/', '', $_POST['tonase']);	
+	$tonase 			= $_POST['tonase'];	
 	$qty 				= preg_replace('/[^0-9]/', '', $_POST['qty']);	
 	
 
@@ -88,7 +88,7 @@ case "add_item_penjualan":
 
 	$jenis_beras_id 	= preg_replace('/[^0-9]/', '', $_POST['jenis_beras']);	
 	$harga 				= preg_replace('/[^0-9]/', '', $_POST['harga']);	
-	$tonase 			= preg_replace('/[^0-9]/', '', $_POST['tonase']);	
+	$tonase 			= $_POST['tonase'];	
 	$qty 				= preg_replace('/[^0-9]/', '', $_POST['qty']);	
 	
 
@@ -142,7 +142,7 @@ case "update_qty_tmp":
 break;
 case "update_tonase_tmp":
 		
-	$tonase  	= preg_replace('/[^0-9]/', '', $_POST['tonase']);
+	$tonase  	= $_POST['tonase'];
 	$id 		= preg_replace('/[^0-9]/', '', $_POST['id']);		
 	
 

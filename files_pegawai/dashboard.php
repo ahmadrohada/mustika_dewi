@@ -38,7 +38,7 @@
           <!-- small box -->
           <div class="small-box bg-green transaksi_pembelian" style="cursor:pointer;">
             <div class="inner">
-              <h3>53</h3>
+            <h3><span class="total_transaksi_pembelian_today">*</span></h3>
 
               <p>TRANSAKSI PEMBELIAN</p>
             </div>
@@ -55,7 +55,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow pembelian" style="cursor:pointer;">
             <div class="inner">
-              <h3>150</h3>
+              <h3><span class="total_transaksi_pembelian">*</span></h3>
               <p> DATA PEMBELIAN</p>
             </div>
             <div class="icon">
@@ -85,7 +85,7 @@
           <!-- small box -->
           <div class="small-box bg-red supplier" style="cursor:pointer;">
             <div class="inner">
-              <h3><span class="stok_beras">*</span></h3>
+              <h3><span class="jm_supplier">*</span></h3>
 
               <p>SUPPLIER</p>
             </div>
@@ -101,7 +101,7 @@
             <!-- small box -->
             <div class="small-box bg-red">
               <div class="inner">
-                <h3><span class="stok_beras">*</span></h3>
+                <h3><span class="">*</span></h3>
 
                 <p>STOK ( Kg )</p>
               </div>
@@ -163,7 +163,9 @@ $(document).ready(function () {
     success: function (data) {
             $(".total_transaksi_penjualan_today").html(data['dashboard'][0]['total_transaksi_penjualan_today']);
             $(".total_transaksi_penjualan").html(data['dashboard'][0]['total_transaksi_penjualan']);
-            $(".stok_beras").html(data['dashboard'][0]['stok_beras']);
+            $(".total_transaksi_pembelian_today").html(data['dashboard'][0]['total_transaksi_pembelian_today']);
+            $(".total_transaksi_pembelian").html(data['dashboard'][0]['total_transaksi_pembelian']);
+            $(".jm_supplier").html(data['dashboard'][0]['jm_supplier']);
             $(".jm_pelanggan").html(data['dashboard'][0]['jm_pelanggan']);
 
             },
