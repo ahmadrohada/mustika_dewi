@@ -54,15 +54,17 @@ $(document).ready(function () {
 					field: 'no',
 					title: 'NO',
 					halign:'center',
-					align:'center'
+					align:'center',
+					width:40,
 				}, 
 				{
 					/** class: 'hidden-xs', **/
 					field: 'tgl_nota',
-					title: 'TANGGAL TRANSAKSI',
+					title: 'TGL TRANSAKSI',
 					halign:'center',
 					align:'center',
-					sortable:true
+					sortable:true,
+					width:180,
 					
 				}, 
 				{
@@ -71,28 +73,44 @@ $(document).ready(function () {
 					halign:'center',
 					align:'center',
 					sortable:true,
+					width:110,
 
 					
 				}, 
 				{
-					field: 'nama_pelanggan',
-					title: 'NAMA PELANGGAN',
+					field: 'pelanggan',
+					title: 'PELANGGAN',
 					halign:'center',
-					sortable:true
+					sortable:true,
+					width:130,
 				}, 
                 {
-					field: 'total',
-					title: 'TOTAL',
+					field: 'total_belanja',
+					title: 'TOTAL BELANJA',
 					halign:'center',
                     align:'right',
-					width:160,
+					width:110,
 				}, 
 				{
-					field: 'komisi',
+					field: 'total_komisi',
 					title: 'KOMISI',
 					halign:'center',
-                    align:'center',
+                    align:'right',
 					width:80,
+				},
+				{
+					field: 'total_tambahan',
+					title: 'TAMBAHAN',
+					halign:'center',
+                    align:'right',
+					width:80,
+				},
+				{
+					field: 'type_bayar',
+					title: 'STATUS',
+					halign:'center',
+					width:100,
+					sortable:true,
 				},
 				{
 					field: 'sisa',
@@ -100,8 +118,13 @@ $(document).ready(function () {
 					halign:'center',
                     align:'right',
 					sortable:true,
-					width:160,
-				}, 
+					width:110,
+				},
+				{
+					field: 'keterangan',
+					title: 'KETERANGAN',
+					halign:'center',
+				},
 				{
 					field: 'Status',
 					title: '<i class="glyphicon glyphicon-cog"></i>',

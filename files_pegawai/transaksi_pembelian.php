@@ -49,7 +49,9 @@
                 
                     <div class="form-group nama ">
                         <label>Nama Supplier</label>
-                        <select  class="form-control supplier_id" name="supplier_id" id="supplier" style="width:100%;"></select>
+                        <select  class="form-control supplier_id" name="supplier_id" id="supplier" style="width:100%;">
+                            <option value="1" selected>Cash</option>
+                        </select>
                     </div>
 
                     <div class="detail_supplier" hidden>
@@ -136,6 +138,26 @@
                                         <input type="text"  class="form-control input-sm total_bayar" value="0" style="text-align:right; margin-top:2px;" disabled>
                                     </div>
                                 </div>
+
+                                <div class="form-group"  style="margin-top:-10px;">
+                                    <label class="col-sm-6 control-label">Type Bayar</label>
+                                    <div class="col-sm-6">
+                                       
+                                        <select class="form-control type_bayar" name="type_bayar" style="width:100%">
+                                            <option value="1" selected>Cash</option>
+                                            <option value="2">Hutang</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group jumlah_dp"  style="margin-top:-10px;" hidden>
+                                    <label class="col-sm-6 control-label">DP</label>
+                                    <div class="col-sm-6">
+                                        <input type="text"  id="dp" class="form_bayar form-control input-sm txt_jm_dp" value="" style="text-align:right;" name="jumlah_dp" style="text-align:right; margin-top:2px;">
+                                    </div>
+                                </div>
+
+
                             </form>
                            
                         </div>
@@ -144,7 +166,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-block btn-warning simpan_transaksi" style="margin-top:24px;" disabled>SIMPAN</button>
+                        <button type="button" class="btn btn-block btn-warning simpan_transaksi" style="margin-top:24px;">SIMPAN</button>
                     </div>
 
 
@@ -220,7 +242,7 @@ $(document).ready(function () {
 //=========================  S U P P L I E R  =============================// 
 
     $('#supplier').select2({
-        
+       
         allowClear          : true,
         ajax: {
             url: './kelas/supplier_get.php',
@@ -263,10 +285,10 @@ $(document).ready(function () {
 
                 $('.detail_supplier').show(); 
 
-                $('.simpan_transaksi').prop('disabled',false); 
+                //$('.simpan_transaksi').prop('disabled',false); 
             },
             error: function (data) {
-                $('.simpan_transaksi').prop('disabled',true);
+               // $('.simpan_transaksi').prop('disabled',true);
                 $('.detail_supplier').hide(); 
             }
         }); 
@@ -551,6 +573,29 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
     }
 
 
+//=========================== T Y P E   B A Y A R =================================================//
+    $('.type_bayar').select2();
+    $(".type_bayar").change(function(){
+        var type = $(".type_bayar option:selected").val();
+
+
+        if ( type == 2 ){
+            $('.jumlah_dp').show();
+        }else{
+            $('.jumlah_dp').hide();
+        }
+
+
+    });
+
+
+    /* Tanpa Rupiah */
+    var tanpa_rupiah = document.getElementById('dp');
+	tanpa_rupiah.addEventListener('keyup', function(e)
+	{
+        tanpa_rupiah.value = formatRupiah(this.value);
+        
+	});
 
 
 //======================= SIMPAN TRANSAKSI PEMBELIAN ===============================================//
@@ -566,6 +611,8 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
         total_harga         = parseInt($(".total_harga").val().replace(/[^,\d]/g, '').toString());
         total_upah_kuli     = parseInt($(".total_upah_kuli").val().replace(/[^,\d]/g, '').toString());
      
+        type_bayar          = $(".type_bayar").val();
+        jumlah_dp           = parseInt($(".txt_jm_dp").val().replace(/[^,\d]/g, '').toString());
       
         //alert(user_id+supplier_id+no_nota+total_harga+total_upah_kuli);
        
@@ -578,13 +625,13 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 			}).then (function(){
                 	
 			});
-        }else if ( supplier_id == null ){
+        }else if ( ( type_bayar != '1' ) & (supplier_id == '1') ){
             swal({
 				
-				text: "Nama Supplier harus diisi",
+				text: "Nama Supplier tidak boleh Cash",
 				type: "warning"
 			}).then (function(){
-                $('#supllier').select2('open');		
+                $('#supplier').select2('open');		
 			});
             
         }else{
@@ -603,6 +650,9 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
         
         keterangan          = $(".keterangan").val();
 
+        type_bayar          = $(".type_bayar").val();
+        jumlah_dp           = parseInt($(".txt_jm_dp").val().replace(/[^,\d]/g, '').toString());
+
           $.ajax({
 			url         : "./kelas/transaksi_post.php",
 			type        : "POST",
@@ -612,6 +662,8 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
                             no_nota         : no_nota,
                             total_harga     : total_harga,
                             total_upah_kuli : total_upah_kuli,
+                            type_bayar      : type_bayar,
+                            jumlah_dp       : jumlah_dp,
                             keterangan      :keterangan
                           },
 			cache       :false,

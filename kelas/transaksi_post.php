@@ -31,6 +31,8 @@ case "simpan_transaksi_pembelian":
 	$no_nota  		= preg_replace('/[^0-9]/', '', $_POST['no_nota']);
 	$supplier_id 	= $_POST['supplier_id']	;
 	$user_id		= $_POST['user_id'];
+	$type_bayar		= $_POST['type_bayar'];
+	$jumlah_dp		= preg_replace('/[^0-9]/', '', $_POST['jumlah_dp']);
 	$keterangan		= $_POST['keterangan'];
 
 
@@ -68,8 +70,10 @@ case "simpan_transaksi_pembelian":
 																	user_id,
 																	total_harga, 
 																	total_upah_kuli,
+																	type_bayar,
+																	jumlah_dp,
 																	keterangan)
-									VALUES(:a,:b,:c,:d,:e,:f,:g)");
+									VALUES(:a,:b,:c,:d,:e,:f,:g,:h,:i)");
 		$query_3->execute(array(
 							"a" => $no_nota,
 							"b" => date('Y'."-".'m'."-".'d'." ".'H'.":".'i'.":".'s'),
@@ -77,7 +81,9 @@ case "simpan_transaksi_pembelian":
 							"d" => $user_id,
 							"e" => $total_harga,
 							"f" => $total_upah_kuli,
-							"g" => $keterangan
+							"g" => $type_bayar,
+							"h" => $jumlah_dp,
+							"i" => $keterangan
 
 							));	
 
@@ -105,27 +111,20 @@ case "simpan_transaksi_penjualan":
 		
 	
 	
-	$no_nota  		= preg_replace('/[^0-9]/', '', $_POST['no_nota']);
-	$pelanggan_id 	= $_POST['pelanggan_id']	;
-	$user_id		= $_POST['user_id'];
+	$no_nota  			= preg_replace('/[^0-9]/', '', $_POST['no_nota']);
+	$pelanggan_id 		= $_POST['pelanggan_id']	;
+	$user_id			= $_POST['user_id'];
 	
-	$grand_total  	= preg_replace('/[^0-9]/', '', $_POST['grand_total']);
-	$bayar_x 		= preg_replace('/[^0-9]/', '', $_POST['bayar']);
-	$total_komisi 	= preg_replace('/[^0-9]/', '', $_POST['total_komisi']);
+	$total_belanja  	= preg_replace('/[^0-9]/', '', $_POST['total_belanja']);
+	$total_komisi 		= preg_replace('/[^0-9]/', '', $_POST['total_komisi']);
+	$total_tambahan 	= preg_replace('/[^0-9]/', '', $_POST['total_tambahan']);
+	$bayar 				= preg_replace('/[^0-9]/', '', $_POST['bayar']);
+	$kembali 			= preg_replace('/[^0-9]/', '', $_POST['kembali']);
 
-	if ( $bayar_x > $grand_total ){
-		$bayar = $grand_total;
-		$sisa  = 0; 
-	}else{
-		$bayar = $bayar_x;
-		$sisa  = $grand_total - ( $bayar_x + $total_komisi );
-	}
+	$type_bayar     	= $_POST['type_bayar'];
+	$keterangan 		= $_POST['keterangan'];
 
-	$income 		= $bayar - $total_komisi;
-	$type_pembayaran= $_POST['type_pembayaran'];
-
-	$keterangan		= $_POST['keterangan'];
-
+	
 	//====================================   insert data dari tmp  ======================================//
 	$query = $koneksi->prepare(" SELECT * FROM tmp_transaksi WHERE no_nota = '$no_nota' ORDER by id ASC");
 	$no = 0;
@@ -149,6 +148,22 @@ case "simpan_transaksi_penjualan":
 						));	
 		$no++;
 	}	
+
+//====================================   insert data dari tmp tambahan  ======================================//
+	$query_x = $koneksi->prepare(" SELECT * FROM tmp_tambahan WHERE no_nota = '$no_nota' ORDER by id ASC");
+	$response = array();
+	$query_x->execute();
+	while($x = $query_x->fetch(PDO::FETCH_OBJ)) {
+		//INSERT KE TABLE REAL ITEM TRANSAKSI
+		$query_y = $koneksi->prepare("INSERT INTO item_tambahan  (no_nota, item_tambahan ,qty,harga_satuan)
+											VALUES(:a,:b,:c,:d)");
+		$query_y->execute(array(
+							"a" => $x->no_nota,
+							"b" => $x->item_tambahan,
+							"c" => $x->qty,
+							"d" => $x->harga_satuan
+						));	
+	}	
 	//=================================================================================================//
 
 
@@ -158,37 +173,39 @@ case "simpan_transaksi_penjualan":
 																	tgl_nota,
 																	pelanggan_id,
 																	user_id,
-																	grand_total, 
+																	total_belanja, 
+																	total_komisi,
+																	total_tambahan,
 																	bayar,
-																	komisi,
-																	income,
-																	sisa,
-																	type_pembayaran,
+																	type_bayar,
 																	keterangan)
-									VALUES(:a,:b,:c,:d,:e,:f,:g,:h,:i,:j,:k)");
+									VALUES(:a,:b,:c,:d,:e,:f,:g,:h,:i,:j)");
 		$query_3->execute(array(
 							"a" => $no_nota,
 							"b" => date('Y'."-".'m'."-".'d'." ".'H'.":".'i'.":".'s'),
 							"c" => $pelanggan_id,
 							"d" => $user_id,
-							"e" => $grand_total,
-							"f" => $bayar,
-							"g" => $total_komisi,
-							"h" => $income,
-							"i" => $sisa,
-							"j" => $type_pembayaran,
-							"k" => $keterangan
+							"e" => $total_belanja,
+							"f" => $total_komisi,
+							"g" => $total_tambahan,
+							"h" => $bayar,
+							"i" => $type_bayar,
+							"j" => $keterangan
 
 							));	
 
 		if (mysql_errno() == 0){
 
 
-			$query = $koneksi->prepare("DELETE FROM tmp_transaksi  WHERE no_nota = :a ");
-			$query->execute(array(
+			$query_a = $koneksi->prepare("DELETE FROM tmp_transaksi  WHERE no_nota = :a ");
+			$query_a->execute(array(
 								"a" => $no_nota
 							));	
 
+			$query_b = $koneksi->prepare("DELETE FROM tmp_tambahan  WHERE no_nota = :a ");
+			$query_b->execute(array(
+								"a" => $no_nota
+							));	
 			header('HTTP/1.1 200 Sukses'); //if sukses
 		}else{
 			header('HTTP/1.1 401 error'); //if error

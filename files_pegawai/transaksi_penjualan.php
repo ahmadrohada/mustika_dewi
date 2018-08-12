@@ -51,7 +51,9 @@
                 
                     <div class="form-group nama ">
                         <label>Nama Pelanggan</label>
-                        <select  class="form-control pelanggan_id" name="pelanggan_id" id="pelanggan" style="width:100%;"></select>
+                        <select  class="form-control pelanggan_id" name="pelanggan_id" id="pelanggan" style="width:100%;">
+                            <option value="1">Cash</option>
+                        </select>
                     </div>
 
                     <div class="detail_pelanggan" hidden>
@@ -95,25 +97,22 @@
                             >
                         
                         </table>
-
-
-
-
                     </div>
 
-                    <div class="col-md-12" style="margin-top:10px; text-align:right;">
-                        <div class="col-md-8" style="margin-top:6px;">
-                            <span class="grand_total_text" >Total</span>
-                        </div>
-                        <div class="col-md-4">
-                            <span class="grand_total total_harga"></span>
-                            <input type="hidden" class="grand_total">
-                        </div>
-                        
-                    </div>
-
-                    <div class="col-md-12 no-padding" style="margin-top:10px; ">
+                    
+                    <div class="col-md-12 no-padding" style="margin-top:20px; ">
                         <div class="col-md-7">
+
+                            <span  class="pull-left" style="" data-toggle="tooltip" title="Tambahan"><a class="btn btn-warning btn-xs add_item_tambahan" data-toggle="modal" data-target=".add-item_tambahan"><i class="fa fa-plus" ></i> TAMBAHAN</a></span>
+                            
+                            <table 
+                            
+                                id="list_tambahan"
+                                class="table-striped" 
+                                >
+                            
+                            </table>
+
                            
                         <div class="form-group">
                             <label>Keterangan</label>
@@ -131,23 +130,43 @@
                         <div class="col-md-5">
                             <form class="form-horizontal">
 
+                                
+
+                                <div class="form-group" style="margin-top:20px;">
+                                    <label class="col-sm-6 control-label">Total Belanja</label>
+                                    <div class="col-sm-6">
+                                        <input type="text"  class="form-control input-sm total_belanja" value="0" style="text-align:right;" disabled> 
+                                    </div>
+                                </div> 
+                                <div class="form-group" style="margin-top:-10px;">
+                                    <label class="col-sm-6 control-label">Total Komisi</label>
+                                    <div class="col-sm-6">
+                                        <input type="text"  class="form-control input-sm total_komisi" value="0" style="text-align:right;" disabled> 
+                                    </div>
+                                </div> 
+                                <div class="form-group" style="margin-top:-10px;">
+                                    <label class="col-sm-6 control-label">Total Tambahan</label>
+                                    <div class="col-sm-6">
+                                        <input type="text"  class="form-control input-sm total_tambahan" value="0" style="text-align:right;" disabled> 
+                                    </div>
+                                </div> 
+
+                                <hr>
+                                <div class="form-group" style="margin-top:-10px;">
+                                    <span class="col-sm-6 grand_total_text" style="margin-top:4px;">Total Bayar</span>
+                                    <div class="col-sm-6 ">
+                                        <span class="grand_total total_bayar pull-right"></span>
+                                        <input type="hidden" class="total_bayar">
+                                    </div>
+                                </div> 
+
+
                                 <div class="form-group" >
                                     <label class="col-sm-6 control-label" >Bayar</label>
                                     <div class="col-sm-6">
                                         <input type="text" class="form_bayar form-control input-sm bayar"  value="" id="bayar" style="text-align:right;">
                                     </div>
                                 </div>
-
-                                <div class="form-group" style="margin-top:20px;">
-                                    <label class="col-sm-6 control-label">Total Komisi</label>
-                                    <div class="col-sm-6">
-                                        <input type="text"  class="form-control input-sm total_komisi" value="0" style="text-align:right;" disabled> 
-                                    </div>
-                                </div> 
-
-
-                                
-
                                 <div class="form-group"  style="margin-top:-10px;">
                                     <label class="col-sm-6 control-label">Kembali</label>
                                     <div class="col-sm-6">
@@ -162,7 +181,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-block btn-warning simpan_transaksi" style="margin-top:24px;" disabled>SIMPAN</button>
+                        <button type="button" class="btn btn-block btn-warning simpan_transaksi" style="margin-top:24px;">SIMPAN</button>
                     </div>
 
 
@@ -177,6 +196,7 @@
 <?php
     include "modals/add-pelanggan.php";
     include "modals/add-penjualan.php";
+    include "modals/add-tambahan.php";
 ?>
 
 
@@ -213,6 +233,11 @@ $(document).ready(function () {
     $('.add-item_penjualan').on('hidden.bs.modal', function(){
 		load_data_penjualan();
 	});
+
+    $('.add-item_tambahan').on('hidden.bs.modal', function(){
+		load_data_tambahan();
+	});
+    
  
 
     $.ajax({
@@ -280,10 +305,10 @@ $(document).ready(function () {
 
                 $('.detail_pelanggan').show(); 
 
-                $('.simpan_transaksi').prop('disabled',false); 
+                //$('.simpan_transaksi').prop('disabled',false); 
             },
             error: function (data) {
-                $('.simpan_transaksi').prop('disabled',true);
+                //$('.simpan_transaksi').prop('disabled',true);
                 $('.detail_pelanggan').hide(); 
             }
         }); 
@@ -369,6 +394,7 @@ $(document).ready(function () {
 					title: 'JUMLAH HARGA',
 					halign:'center',
                     align:'right',
+                    width:140,
 				}, 
 				{
 					field: 'Status',
@@ -546,10 +572,14 @@ $(document).on('keydown','.tbl_komisi',function(e){
 					$('.fixed-table-loading').fadeOut(100);
 
 
-                    $('.total_harga').html(data['detail_penjualan_list'][0]['total']);
-                    $('.grand_total').val(data['detail_penjualan_list'][0]['total']);
-
+                    $('.total_belanja').val(data['detail_penjualan_list'][0]['total']);
                     $('.total_komisi').val(data['detail_penjualan_list'][0]['total_komisi']);
+
+                    //$('.total_tambahan').val(data['detail_penjualan_list'][0]['total_tambahan']);
+
+                    hitung_total_bayar();
+
+                    
 
                     $('.bayar').val("");
                     $('.kembali').val("0");
@@ -597,28 +627,220 @@ $(document).on('keydown','.tbl_komisi',function(e){
     function hitung_kembalian(bayar,grand_total){
 
         bayar       = parseInt($(".bayar").val().replace(/[^,\d]/g, '').toString());
-        grand_total = parseInt($(".grand_total").val().replace(/[^,\d]/g, '').toString());
-        if (bayar < grand_total){
-           
-            total_komisi    = parseInt($(".total_komisi").val().replace(/[^,\d]/g, ''));
-            kembali = Intl.NumberFormat().format(total_komisi+bayar-grand_total); 
+        total_bayar = parseInt($(".total_bayar").val().replace(/[^,\d]/g, '').toString());
 
-            $(".kembali").val(kembali);
-            
-        }else if (bayar >= grand_total){
-            
-            total_komisi    = parseInt($(".total_komisi").val().replace(/[^,\d]/g, '').toString());
-            kembali         = Intl.NumberFormat().format((bayar-grand_total)+total_komisi); 
+        kembali = Intl.NumberFormat().format(bayar-total_bayar); 
 
-            $(".kembali").val(kembali);
-        }else{
-            total_komisi    = parseInt($(".total_komisi").val().replace(/[^,\d]/g, '').toString());
-            kembali         = Intl.NumberFormat().format(( 0 -grand_total)+total_komisi); 
-
-            $(".kembali").val(kembali);
-        } 
+         $(".kembali").val(kembali);
+        
     }
 
+//====================================================================================================//
+//=========================================== TAMBAHAN PEMBELIAN =====================================//
+//====================================================================================================//
+
+
+$('#list_tambahan').bootstrapTable({
+		columns:[	
+				{
+					field: 'no',
+					title: 'NO',
+					halign:'center',
+					align:'center',
+                    width:30,
+				}, 
+				
+                {
+					field: 'item_tambahan',
+					title: 'ITEM TAMBAHAN',
+					halign:'center',
+					
+				}, 
+                {
+					field: '',
+					title: 'QTY',
+					halign:'center',
+                    align:'center',
+                    width  : 80,
+                    formatter: function (value, row) {
+					    return 	[  	'<input type="text" id="'+row.id+'"  value="'+row.qty+'"  class="form-control input-sm tbl_qty_tambahan" style="width:80px; text-align:center; margin-top:-4px;">' 
+								];
+					}
+					
+				}, 
+                {
+					field: '',
+					title: 'HRG SATUAN',
+					halign:'center',
+                    align:'right',
+                    width  : 80,
+                    formatter: function (value, row) {
+					    return 	[  	'<input type="text" id="'+row.id+'"  value="'+row.harga_satuan+'"  class="form-control input-sm tbl_harga_satuan" style="width:80px; text-align:center; margin-top:-4px;">' 
+								];
+					}
+					
+				}, 
+                {
+					field: 'jumlah',
+					title: 'JUMLAH',
+					halign:'center',
+                    align:'right'
+				}, 
+				{
+					field: 'Status',
+					title: '<i class="glyphicon glyphicon-cog"></i>',
+					halign:'center',
+					align:'center',
+					width:60,
+					formatter: function (value, row) {
+					    return 	[  	'<button  style="margin-top:-4px;" class="btn btn-danger btn-xs tbl_hapus_tambahan" value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus"><span class="fa fa-remove"></span></button>' 
+									
+								];
+					}
+				}
+				]
+	});
+
+//==================== UPDATE QTY PADA TABLE TAMABAHAN  ====================================//
+
+    $(document).on('keydown','.tbl_qty_tambahan',function(e){
+        if ( (e.which == 13)|(e.which == 9)) {
+            
+            qty = $(this).val();
+            id = $(this).attr('id');
+            update_qty_table_tambahan(id,qty);
+            
+
+        } 
+    });
+
+
+    $(document).on('blur','.tbl_qty_tambahan',function(e){
+            qty = $(this).val();
+            id = $(this).attr('id');
+            update_qty_table_tambahan(id,qty);
+    });
+
+    function update_qty_table_tambahan(id,qty){
+        $.ajax({
+                url         :"./kelas/item_post.php",
+                type        : "POST",
+                data        :{op:"update_qty_tmp_tambahan",qty:qty,id:id},
+                cache       :false,
+                success:function(data){
+                    load_data_tambahan();
+                },
+        }); 
+
+    }
+//=============================================================================//
+
+//==================== UPDATE HARGA SATUAN  PADA TABLE TAMABAHAN  ====================================//
+
+    $(document).on('keydown','.tbl_harga_satuan',function(e){
+        if ( (e.which == 13)|(e.which == 9)) {
+            
+            harga_satuan = $(this).val();
+            id = $(this).attr('id');
+            update_harga_satuan_table_tambahan(id,harga_satuan);
+            
+
+        } 
+    });
+
+
+    $(document).on('blur','.tbl_harga_satuan',function(e){
+            harga_satuan = $(this).val();
+            id = $(this).attr('id');
+            update_harga_satuan_table_tambahan(id,harga_satuan);
+    });
+
+    function update_harga_satuan_table_tambahan(id,qty){
+        $.ajax({
+                url         :"./kelas/item_post.php",
+                type        : "POST",
+                data        :{op:"update_harga_satuan_tmp_tambahan",harga_satuan:harga_satuan,id:id},
+                cache       :false,
+                success:function(data){
+                    load_data_tambahan();
+                },
+        }); 
+
+    }
+//=============================================================================//
+//==============================================================================//
+//==================== HAPUS ITEM PEMBELIAN  ====================================//
+$(document).on('click','.tbl_hapus_tambahan',function(e){
+        //e.preventDefault();
+		tmp_transaksi_tambahan_id = $(this).val();
+		$.ajax({
+			url         :"./kelas/item_post.php",
+			type        : "POST",
+			data        :{op:"delete_from_tmp_tambahan",tmp_transaksi_tambahan_id:tmp_transaksi_tambahan_id},
+			cache       :false,
+			success:function(data){
+                load_data_tambahan();
+			},
+		});
+		
+    });
+
+    load_data_tambahan();
+    function load_data_tambahan(){
+        $('#list_tambahan').hide();
+		
+		$.ajax({
+			url         : "./kelas/penjualan_get.php",
+			type        : "GET",
+			dataType    : "json",
+			data        : {data:'tmp_tambahan_list'},
+			success     : function(data) {
+				
+                    if ( data['detail_tambahan_list'][0]['total_tambahan'] != 0 ){
+                        $('#list_tambahan').show();
+                        $('.total_tambahan').val(data['detail_tambahan_list'][0]['total_tambahan']);
+                    }else{
+                        $('.total_tambahan').val(0);
+                    }
+                    
+
+					$('#list_tambahan').bootstrapTable('load',{data: data['tmp_tambahan_list'] });
+					$('[data-toggle="tooltip"]').tooltip();
+					$('.fixed-table-loading').fadeOut(100);
+
+                    hitung_total_bayar();
+
+                    $('.bayar').val("");
+                    $('.kembali').val("0");
+				
+			},
+			error: function(data){
+                    $('#list_tambahan').hide();
+					$('#list_tambahan').bootstrapTable('removeAll');
+                   
+					$('.fixed-table-loading').fadeOut(100);
+					$('[data-toggle="tooltip"]').tooltip();
+				
+			}
+		});
+    }
+
+//================================== hitung ==========================================//
+    function hitung_total_bayar(){
+
+        total_belanja        = parseInt($(".total_belanja").val().replace(/[^,\d]/g, '').toString());
+        total_komisi         = parseInt($(".total_komisi").val().replace(/[^,\d]/g, '').toString());
+        total_tambahan       = parseInt($(".total_tambahan").val().replace(/[^,\d]/g, '').toString());
+
+
+        total_bayar          = Intl.NumberFormat().format((total_belanja-total_komisi)+total_tambahan);   
+       $(".total_bayar").html(total_bayar);
+       $(".total_bayar").val(total_bayar);
+
+
+
+    }
+    
 
 //============================== PROSES SIMPAN TRANSAKSI =============================//
     $(document).on('click','.simpan_transaksi',function(e){
@@ -646,10 +868,10 @@ $(document).on('keydown','.tbl_komisi',function(e){
 			}).then (function(){
                 	
 			});
-        }else if ( pelanggan_id == null ){
+        }else if ( (pelanggan_id == '1' ) & (bayar < grand_total)&(kembali != 0) ){
             swal({
 				
-				text: "Nama pelanggan harus diisi",
+				text: "Nama pelanggan tidak boleh Cash",
 				type: "warning"
 			}).then (function(){
                 $('#pelanggan').select2('open');		
@@ -676,28 +898,28 @@ $(document).on('keydown','.tbl_komisi',function(e){
                 showCancelButton	: true,
                 cancelButtonText	: "Batal",
 			}).then (function(){
-                simpan_transaksi('hutang');	
+                simpan_transaksi('2');	
                 
 			}); 
 
 
         }else{
-            simpan_transaksi('tunai');
+            simpan_transaksi('1');
         }
          
     });
 
 
-    function simpan_transaksi(type_pembayaran){
+    function simpan_transaksi(type_bayar){
         user_id             = $(".user_id").val();
         pelanggan_id        = $("#pelanggan").val();
         no_nota             = $(".no_nota").val();
 
-        grand_total         = $(".grand_total").val();
-        bayar               = $(".bayar").val();
+        total_belanja       = $(".total_belanja").val();
         total_komisi        = $(".total_komisi").val();
-        kembali             = $(".kembali").val();
-        hutang             = $(".kembali").val().replace('-', '');
+        total_tambahan      = $(".total_tambahan").val();
+        bayar               = $(".bayar").val();
+        kembali             = $(".kembali").val().replace('-', '');
 
         keterangan          = $(".keterangan").val();
 
@@ -705,17 +927,18 @@ $(document).on('keydown','.tbl_komisi',function(e){
           $.ajax({
 			url         : "./kelas/transaksi_post.php",
 			type        : "POST",
-			data        : { op           : "simpan_transaksi_penjualan",
-                            user_id      : user_id,
-                            pelanggan_id : pelanggan_id, 
-                            no_nota      : no_nota,
-                            grand_total  : grand_total,
-                            bayar        : bayar,
-                            total_komisi : total_komisi,
-                            type_pembayaran: type_pembayaran,
-                            kembali      : kembali,
-                            hutang       : hutang,
-                            keterangan   : keterangan
+			data        : { op             : "simpan_transaksi_penjualan",
+                            user_id        : user_id,
+                            pelanggan_id   : pelanggan_id, 
+                            no_nota        : no_nota,
+                            total_belanja  : total_belanja,
+                            total_komisi   : total_komisi,
+                            total_tambahan : total_tambahan,
+                            bayar          : bayar,
+                            kembali        : kembali,
+                            type_bayar     : type_bayar,
+                            
+                            keterangan     : keterangan
                           },
 			cache       :false,
 			success:function(data){
@@ -732,7 +955,7 @@ $(document).on('keydown','.tbl_komisi',function(e){
 					},
 					function (dismiss) {
 						if (dismiss === 'timer') {
-                            window.location.assign("home.php?page=penjualan");
+                            //window.location.assign("home.php?page=penjualan");
 						}
 					}
 				)

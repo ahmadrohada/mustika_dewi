@@ -83,52 +83,80 @@
                     >
 
                     </table>
+                </div>
+                <div class="col-md-12 no-padding" style="margin-top:20px; ">
+                    <div class="col-md-7">
 
-
-
-
-                    </div>
-
-                        <div class="col-md-12" style="margin-top:10px; text-align:right;">
-                        <div class="col-md-8" style="margin-top:6px;">
-                        <span class="grand_total_text" >Total</span>
+                        <div class="list_tambahan">
+                            <table 
+                                id="list_tambahan"
+                                class="table-striped" 
+                            >
+                                
+                            </table>
                         </div>
-                        <div class="col-md-4">
-                        <span class="grand_total total_harga"></span>
-                        <input type="hidden" class="grand_total">
-                        </div>
-
-                    </div>
-
-                        <div class="col-md-12 no-padding" style="margin-top:10px; ">
-                        <div class="col-md-7">
                         
-                        <div class="form-group">
+
+                           
+                    <div class="form-group">
                         <label>Keterangan</label>
                         <textarea class="form-control keterangan" rows="2" placeholder="Keterangan tambahan" style="width:100%;"></textarea>
-                        </div>
-
-                        </div>
-                        <div class="col-md-5">
+                    </div>
+                    
+                    </div>
+                    <div class="col-md-5">
                         <form class="form-horizontal">
-                            <div class="form-group" style="margin-top:20px;">
-                                <label class="col-sm-6 control-label">Total Komisi</label>
+
+                                
+                        <div class="form-group" style="margin-top:20px;">
+                            <label class="col-sm-6 control-label">Total Belanja</label>
+                                <div class="col-sm-6">
+                                    <input type="text"  class="form-control input-sm total_belanja" value="0" style="text-align:right;" disabled> 
+                                </div>
+                            </div> 
+                        <div class="form-group" style="margin-top:-10px;">
+                            <label class="col-sm-6 control-label">Total Komisi</label>
                                 <div class="col-sm-6">
                                     <input type="text"  class="form-control input-sm total_komisi" value="0" style="text-align:right;" disabled> 
                                 </div>
+                            </div> 
+                        <div class="form-group" style="margin-top:-10px;">
+                            <label class="col-sm-6 control-label">Total Tambahan</label>
+                                <div class="col-sm-6">
+                                    <input type="text"  class="form-control input-sm total_tambahan" value="0" style="text-align:right;" disabled> 
+                                </div>
+                        </div> 
+
+                        <hr>
+                        <div class="form-group" style="margin-top:-10px;">
+                            <span class="col-sm-6 grand_total_text" style="margin-top:4px;">Total Bayar</span>
+                            <div class="col-sm-6 ">
+                                <span class="grand_total total_bayar pull-right"></span>
+                                    <input type="hidden" class="total_bayar">
+                                </div>
+                            </div> 
+
+
+                        <div class="form-group" >
+                            <label class="col-sm-6 control-label" >Bayar</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form_bayar form-control input-sm bayar"  value="" id="bayar" style="text-align:right;">
+                                </div>
                             </div>
-                            <div class="form-group hidden"  style="margin-top:-10px;">
-                                <label class="col-sm-6 control-label">Kembali</label>
+                        <div class="form-group"  style="margin-top:-10px;">
+                            <label class="col-sm-6 control-label"><span class="txt-kembali">Kembali</span></label>
                                 <div class="col-sm-6">
                                     <input type="text"  class="form-control input-sm kembali" value="0" style="text-align:right;" disabled>
                                 </div>
                             </div>
                         </form>
+                           
+                    </div>
+
                         
-                        </div>
+                </div>
 
 
-                        </div>
 
                       
                 </div>
@@ -159,26 +187,35 @@ $(document).ready(function () {
                 $('.status').html(data['status']);
                 $('.nama_user').html(data['nama_user']);
 
-                //$('.bayar').val(data['bayar']);
-                //$('.komisi').val(data['komisi']);
-               // $('.besar_komisi').val(data['besar_komisi']);
+                $('.total_belanja').val(data['total_belanja']);
+                $('.total_komisi').val(data['total_komisi']);
+                $('.total_tambahan').val(data['total_tambahan']);
+
+                $('.total_bayar').html(data['total_bayar']);
+
+                $('.bayar').val(data['bayar']);
+                $('.kembali').val(data['kembali']);
+
+
+
                 $('.keterangan').html(data['keterangan']);
 
                 //$('.total_harga').html(data['grand_total']);
 
 
-                if ( data['status'] == 'kredit'){
+                if ( data['status'] == '2'){
                     $('.txt-kembali').html("Sisa Hutang");  
                     $('.kembali').val(data['sisa']);
                 }else{
                     $('.kembali').val(data['kembali']);
-                }
+                } 
 
                 
 
                 
 
                 load_data_penjualan(data['no_nota']);
+                load_data_tambahan(data['no_nota']);
 				
 			},
 			error: function(data){
@@ -287,6 +324,84 @@ $(document).ready(function () {
 			}
 		});
     }
+
+//====================================================================================================//
+//=========================================== TAMBAHAN PEMBELIAN =====================================//
+//====================================================================================================//
+
+
+$('#list_tambahan').bootstrapTable({
+		columns:[	
+				{
+					field: 'no',
+					title: 'NO',
+					halign:'center',
+					align:'center',
+                    width:30,
+				}, 
+				
+                {
+					field: 'item_tambahan',
+					title: 'ITEM TAMBAHAN',
+					halign:'center',
+					
+				}, 
+                {
+					field: 'qty',
+					title: 'QTY',
+					halign:'center',
+                    align:'center',
+                    width  : 80
+					
+				}, 
+                {
+					field: 'harga_satuan',
+					title: 'HRG SATUAN',
+					halign:'center',
+                    align:'right',
+                    width  : 80,
+					
+				}, 
+                {
+					field: 'jumlah',
+					title: 'JUMLAH',
+					halign:'center',
+                    align:'right'
+				}
+				]
+	});
+
+    function load_data_tambahan(no_nota){
+		$.ajax({
+			url         : "./kelas/penjualan_get.php",
+			type        : "GET",
+			dataType    : "json",
+			data        : {data:'transaksi_tambahan_list_item',no_nota:no_nota},
+			success     : function(data) {
+				
+                    if ( data['tmp_tambahan_detail'][0]['data_table'] == 'show' ){
+                        $('.list_tambahan').show();
+                    }else{
+                        $('.list_tambahan').hide();
+                    }
+
+                    $('#list_tambahan').bootstrapTable('load',{data: data['tmp_tambahan_list'] });
+					$('[data-toggle="tooltip"]').tooltip();
+					$('.fixed-table-loading').fadeOut(100);
+
+
+
+				
+			},
+			error: function(data){
+					$('#list_tambahan').bootstrapTable('removeAll');
+					$('.fixed-table-loading').fadeOut(100);
+					$('[data-toggle="tooltip"]').tooltip();
+				
+			}
+		});
+    }
+
 
 });
 </script>		

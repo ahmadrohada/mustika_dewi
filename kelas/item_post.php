@@ -242,6 +242,98 @@ case "delete_from_tmp":
 	}
 
 break;
+case "add_item_tambahan":
+		
+
+	$no_nota 			= $_POST['no_nota'];	
+	$item_tambahan 		= $_POST['item_tambahan'];	
+	$qty 				= preg_replace('/[^0-9]/', '', $_POST['qty']);	
+	$harga_satuan		= preg_replace('/[^0-9]/', '', $_POST['harga_satuan']);	
+	
+
+	if ( $item_tambahan != ""){
+		try{
+			$query = $koneksi->prepare("INSERT INTO tmp_tambahan  (no_nota,item_tambahan,qty,harga_satuan)
+													VALUES(:a,:b,:c,:d)");
+			$query->execute(array(
+								"a" => $no_nota,
+								"b" => $item_tambahan,
+								"c" => $qty,
+								"d" => $harga_satuan
+							));	
+			  
+						}
+		catch ( PDOException $e)
+		{
+			header('HTTP/1.1 401 error'); //if error
+		}
+	}else{
+		header('HTTP/1.1 402 error'); //if error
+	}
+
+	
+
+break;
+case "update_qty_tmp_tambahan":
+		
+	$qty  	= preg_replace('/[^0-9]/', '', $_POST['qty']);
+	$id 			= preg_replace('/[^0-9]/', '', $_POST['id']);		
+	
+
+	try{
+		$update = $koneksi->prepare("UPDATE tmp_tambahan
+										SET 	qty		= :qty
+										WHERE   id		= :id ");
+		$update->execute(array(
+								"qty" 			=> $qty,
+								"id" 			=> $id
+							));	
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "update_harga_satuan_tmp_tambahan":
+		
+	$harga_satuan  	= preg_replace('/[^0-9]/', '', $_POST['harga_satuan']);
+	$id 			= preg_replace('/[^0-9]/', '', $_POST['id']);		
+	
+
+	try{
+		$update = $koneksi->prepare("UPDATE tmp_tambahan
+										SET 	harga_satuan		= :harga_satuan
+										WHERE   id					= :id ");
+		$update->execute(array(
+								"harga_satuan" 	=> $harga_satuan,
+								"id" 			=> $id
+							));	
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "delete_from_tmp_tambahan":
+		
+
+	$id = preg_replace('/[^0-9]/', '', $_POST['tmp_transaksi_tambahan_id']);		
+	
+	try{
+	$query = $koneksi->prepare("DELETE FROM tmp_tambahan  WHERE id = :a ");
+	$query->execute(array(
+						"a" => $id
+					));	
+		  
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
 default;
 header('HTTP/1.1 400 request error');
 break;

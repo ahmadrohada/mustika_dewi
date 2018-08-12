@@ -33,6 +33,8 @@ case "pembelian_list":
 								a.supplier_id,
 								a.total_harga,
 								a.total_upah_kuli,
+								a.type_bayar,
+								a.jumlah_dp,
 								a.keterangan,
 								b.nama
 								FROM pembelian a
@@ -50,7 +52,20 @@ case "pembelian_list":
 
 		
 		$jumlah_bayar  = $x->total_harga - $x->total_upah_kuli;
+
+		switch($x->type_bayar)
+			{
+			case 1 : $type = 'Cash';
+				break;
+			case 2 : $type = 'Hutang';
+				break;
+			}
 	
+		if ( $x->type_bayar == '2'){
+			$sisa 	= $jumlah_bayar - $x->jumlah_dp ; 
+		}else{
+			$sisa   =  0 ;
+		}
 
 			$no++;
 			$h['no']				= $no;
@@ -63,6 +78,8 @@ case "pembelian_list":
 			$h['total_harga']		= number_format($x->total_harga,'0',',','.');
 			$h['total_upah_kuli']	= number_format($x->total_upah_kuli,'0',',','.');
 			$h['jumlah_bayar']		= number_format($jumlah_bayar,'0',',','.');
+			$h['type_bayar']		= $type;
+			$h['sisa']			    = number_format($sisa,'0',',','.');
 			$h['keterangan']		= $x->keterangan;
 							
 			array_push($response["pembelian_list"], $h);

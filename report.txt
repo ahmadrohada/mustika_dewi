@@ -27,3 +27,18 @@ STOK
 parent jenis_beras
 child nama_karung -> jumlah karung , tonase dan harga beli ( muncuk if != 0)
 
+7 Agustus 2018
+halaman piutang
+halaman hutang 
+bayar hutang dan pituang
+
+transaksi jual beli default "Cash"
+
+kekurangan tonase hampir mirip konsepnya dengan komisi, ada kemungkinan di tulis pas tapi isi tidak pas
+
+konflik at penjualan saja. manipulasi data tonase
+jual 20*45 -----pengurangan terhadap stok adalah xx/50 - 20*45
+
+
+tambahan saat penjualan over zak dan beli karung dan bos supir,
+masuk ke biaya tambahan penjualan 

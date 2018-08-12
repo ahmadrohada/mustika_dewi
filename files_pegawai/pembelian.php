@@ -59,10 +59,11 @@ $(document).ready(function () {
 				{
 					/** class: 'hidden-xs', **/
 					field: 'tgl_nota',
-					title: 'TANGGAL TRANSAKSI',
+					title: 'TGL TRANSAKSI',
 					halign:'center',
 					align:'center',
-					sortable:true
+					sortable:true,
+					width:180,
 					
 				}, 
 				{
@@ -70,7 +71,6 @@ $(document).ready(function () {
 					title: 'NO NOTA',
 					halign:'center',
 					align:'center',
-					sortable:true,
 
 					
 				}, 
@@ -78,29 +78,43 @@ $(document).ready(function () {
 					field: 'nama_supplier',
 					title: 'NAMA SUPPLIER',
 					halign:'center',
-					sortable:true
+					sortable:true,
+					width:130,
 				}, 
                 {
 					field: 'total_harga',
 					title: 'TOTAL',
 					halign:'center',
                     align:'right',
-					width:160,
+					width:110,
 				}, 
 				{
 					field: 'total_upah_kuli',
-					title: 'TOTAL UPAH KULI',
+					title: 'UPAH KULI',
 					halign:'center',
                     align:'right',
-					width:80,
+					width:110,
 				},
 				{
 					field: 'jumlah_bayar',
-					title: 'JUMLAH BAYAR',
+					title: 'JM BAYAR',
+					halign:'center',
+                    align:'right',
+					width:110,
+				},
+				{
+					field: 'type_bayar',
+					title: 'STATUS',
+					halign:'center',
+					width:100,
+				},
+				{
+					field: 'sisa',
+					title: 'SISA',
 					halign:'center',
                     align:'right',
 					sortable:true,
-					width:160,
+					width:110,
 				},
                 {
 					field: 'keterangan',
@@ -113,7 +127,7 @@ $(document).ready(function () {
 					title: '<i class="glyphicon glyphicon-cog"></i>',
 					halign:'center',
 					align:'center',
-					width:150,
+					width:90,
 					formatter: function (value, row) {
 						
                         return 	[  	'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 

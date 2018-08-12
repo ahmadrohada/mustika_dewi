@@ -3,13 +3,13 @@ session_start();
 ob_start();
 //Koneksi ke database
 
-include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'../kelas/pustaka.php';
-require_once('../config/conn_pdo.php');
+	include_once dirname(__FILE__).DIRECTORY_SEPARATOR.'../kelas/pustaka.php';
+	require_once('../config/conn_pdo.php');
 
-date_default_timezone_set('Asia/Jakarta');
-$d 	= New FormatTanggal();
-$tgl = date('Y'."-".'m'."-".'d');
-$waktu = date('H'.":".'i'.":".'s');
+	date_default_timezone_set('Asia/Jakarta');
+	$d 	= New FormatTanggal();
+	$tgl = date('Y'."-".'m'."-".'d');
+	$waktu = date('H'.":".'i'.":".'s');
 
 	$penjualan_id 			= isset($_GET['penjualan_id'])?$_GET['penjualan_id']: '0';
 	
