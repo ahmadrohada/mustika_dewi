@@ -179,7 +179,7 @@ $(document).ready(function () {
         e.preventDefault();
         pembelian_id   = $(this).val();
 
-		window.open("./print_out/cetak_nota_pembelian.php?pembelian_id="+pembelian_id, "print_nota","width=900,height=500,top=50,left=250" );          
+		window.open("./print_out/cetak_nota_pembelian.php?pembelian_id="+pembelian_id, "print_nota","width=600,height=800,top=50,left=250" );          
 
 	});
 

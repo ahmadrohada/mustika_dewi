@@ -44,6 +44,8 @@
 $(document).ready(function () {
 
 
+	
+
     $(document).on('click','.transaksi_penjualan',function(e){
 		window.location.assign("home.php?page=transaksi_penjualan");
 	});
@@ -130,7 +132,7 @@ $(document).ready(function () {
 					title: '<i class="glyphicon glyphicon-cog"></i>',
 					halign:'center',
 					align:'center',
-					width:150,
+					width:80,
 					formatter: function (value, row) {
 						if ( row.type_pembayaran == 'hutang'){
                             return 	[  	'<button  style="margin:1px; margin-top:-5px;" class="btn btn-danger 	btn-xs bayar" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Bayar"><span class="fa fa-edit"></span></button>' 
@@ -189,9 +191,10 @@ $(document).ready(function () {
         e.preventDefault();
         penjualan_id   = $(this).val();
 
-		window.open("./print_out/cetak_nota_penjualan.php?penjualan_id="+penjualan_id, "print_nota","width=900,height=500,top=50,left=250" );          
+		window.open("./print_out/cetak_nota_penjualan.php?penjualan_id="+penjualan_id, "print_nota","width=600,height=800,top=50,left=250" );          
 
 	});
+
 
 });
 </script>		

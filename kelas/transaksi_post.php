@@ -206,6 +206,9 @@ case "simpan_transaksi_penjualan":
 			$query_b->execute(array(
 								"a" => $no_nota
 							));	
+
+
+			
 			header('HTTP/1.1 200 Sukses'); //if sukses
 		}else{
 			header('HTTP/1.1 401 error'); //if error

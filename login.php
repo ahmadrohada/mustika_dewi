@@ -58,8 +58,8 @@
 			
 			
 			<div class="  col-xs-12 text-center " >
-			<p class="visible-lg visible-md text-muted login-footer" style="font-size:13px; color:#077821;">Toko Beras Mustika Dewi @2018</p>
-			<p class="visible-sm visible-xs text-muted login-footer" style="font-size:10px; margin-top:30px; color:#077821;">Toko Beras Mustika Dewi @2018</p>
+			<p class="visible-lg visible-md text-muted login-footer" style="font-size:13px; color:#077821;">PD. Mustika Dewi @2018</p>
+			<p class="visible-sm visible-xs text-muted login-footer" style="font-size:10px; margin-top:30px; color:#077821;">PD. Mustika Dewi @2018</p>
 			</div>
 		</div><!-- /.col-->
 	</div><!-- /.row -->	

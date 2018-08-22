@@ -681,7 +681,10 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 					},
 					function (dismiss) {
 						if (dismiss === 'timer') {
-                            window.location.assign("home.php?page=pembelian");
+
+                            window.open("./print_out/cetak_nota_pembelian.php", "print_nota","width=600,height=800,top=50,left=250" );
+						
+                            window.location.reload();
                             
 						}
 					}

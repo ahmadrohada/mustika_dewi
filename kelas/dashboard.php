@@ -67,7 +67,19 @@ case"dashboard_detail":
 	
     $h['jm_supplier']	    = $jm_supplier->jm;
 
+	//==========  JUMLAH PIUTANG  =============//
+	$piutang = $koneksi->prepare(" SELECT 	count(id) as jm FROM penjualan WHERE type_bayar = '2' ");
+	$piutang->execute();
+	$total_piutang  = $piutang->fetch(PDO::FETCH_OBJ);
+	
+	$h['jm_piutang']	    = $total_piutang->jm;
 
+	//==========  JUMLAH HUTANG  =============//
+	$hutang = $koneksi->prepare(" SELECT 	count(id) as jm FROM pembelian WHERE type_bayar = '2' ");
+	$hutang->execute();
+	$total_hutang  = $hutang->fetch(PDO::FETCH_OBJ);
+	
+	$h['jm_hutang']	    = $total_hutang->jm;
 	
 	array_push($response["dashboard"], $h);
 	if (mysql_errno() == 0){

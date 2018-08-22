@@ -58,13 +58,14 @@ case"nama_karung_stok_list":
 		$query = $koneksi->prepare(" SELECT 	
 									a.id,
 									a.nama_karung,
-									a.tonase
+									a.tonase,
+									a.harga AS harga_beli
 									FROM item_transaksi a
 									WHERE   jenis_transaksi = 'pembelian'
 											AND jenis_beras_id = '$jenis_beras_id'
 
-									GROUP BY a.nama_karung,a.tonase		
-									ORDER by a.nama_karung ASC ");
+									/*GROUP BY a.nama_karung,a.tonase*/
+									ORDER by a.id DESC ");
 
 				
 			$no = 0;
@@ -91,6 +92,7 @@ case"nama_karung_stok_list":
 				$h['no']			= $no;
 				$h['nama_karung']	= $x->nama_karung;
 				$h['tonase']		= $x->tonase;
+				$h['harga_beli']	= number_format($x->harga_beli,'0',',','.');
 				$h['stok']			= $stok;
 					
 				

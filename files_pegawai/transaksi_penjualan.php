@@ -955,8 +955,13 @@ $(document).on('click','.tbl_hapus_tambahan',function(e){
 					},
 					function (dismiss) {
 						if (dismiss === 'timer') {
+
                             //window.location.assign("home.php?page=penjualan");
-						}
+
+                            window.open("./print_out/cetak_nota_penjualan.php", "print_nota","width=600,height=800,top=50,left=250" );
+						
+                            window.location.reload();
+                        }
 					}
 				)
                 

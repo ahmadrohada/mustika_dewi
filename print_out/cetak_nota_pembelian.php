@@ -11,59 +11,55 @@ ob_start();
 	$tgl = date('Y'."-".'m'."-".'d');
 	$waktu = date('H'.":".'i'.":".'s');
 
-	$penjualan_id 			= isset($_GET['penjualan_id'])?$_GET['penjualan_id']: 0;
+	$pembelian_id 			= isset($_GET['pembelian_id'])?$_GET['pembelian_id']: 0;
 	
 
-	if ( $penjualan_id == 0 ){
+	if ( $pembelian_id == 0 ){
 		$query = $koneksi->prepare(" SELECT 	
-						a.id as penjualan_id,
+						a.id as pembelian_id,
 						a.no_nota,
 						a.tgl_nota,
-						a.type_bayar,
-						a.total_belanja,
-						a.total_komisi,
-						a.total_tambahan,
+						a.total_harga,
+						a.total_upah_kuli,
 						a.keterangan,
-						b.nama as nama_pelanggan,
+						b.nama as nama_supplier,
 						b.alamat,
 						b.no_tlp,
 						c.nama as nama_user
 
 						
-						FROM penjualan a 
-						LEFT JOIN pelanggan b ON b.id = a.pelanggan_id
+						FROM pembelian a 
+						LEFT JOIN supplier b ON b.id = a.supplier_id
 						LEFT JOIN users c ON c.id = a.user_id
 
 
-						ORDER BY a.id DESC	
+						ORDER BY a.id DESC
 						
 						
 						LIMIT 1 ");
 	}else{
 		$query = $koneksi->prepare(" SELECT 	
-				a.id as penjualan_id,
-				a.no_nota,
-				a.tgl_nota,
-				a.type_bayar,
-				a.total_belanja,
-				a.total_komisi,
-				a.total_tambahan,
-				a.keterangan,
-				b.nama as nama_pelanggan,
-				b.alamat,
-				b.no_tlp,
-				c.nama as nama_user
+						a.id as pembelian_id,
+						a.no_nota,
+						a.tgl_nota,
+						a.total_harga,
+						a.total_upah_kuli,
+						a.keterangan,
+						b.nama as nama_supplier,
+						b.alamat,
+						b.no_tlp,
+						c.nama as nama_user
 
-				
-				FROM penjualan a 
-				LEFT JOIN pelanggan b ON b.id = a.pelanggan_id
-				LEFT JOIN users c ON c.id = a.user_id
+						
+						FROM pembelian a 
+						LEFT JOIN supplier b ON b.id = a.supplier_id
+						LEFT JOIN users c ON c.id = a.user_id
 
 
-				WHERE a.id = 	'$penjualan_id'	
-				
-				
-				LIMIT 1 ");
+						WHERE a.id = 	'$pembelian_id'	
+						
+						
+						LIMIT 1 ");
 	}
 	
 
@@ -77,7 +73,7 @@ ob_start();
 
 <table class="kop" border="0">
 	<tr>
-		<td width="54%" valign="top">
+		<td width="50%" valign="top">
 			<font style=" font-size:12pt; font-weight:bold; font-family:arial; letter-spacing:0.3pt;  ">PD. MUSTIKA DEWI</font>
 		</td>
 		<td width="22%" valign="top" align="right">
@@ -86,7 +82,7 @@ ob_start();
 			</font>
 		</td>
 		<td width="1%" valign="top">:</td>
-		<td width="22%" valign="top" align="right">
+		<td width="26%" valign="top" align="right">
 			<font style=" font-size:7pt; font-family:dejavusansmono;">
 				<?php  echo $d->tgl($x->tgl_nota); ?>
 			</font>
@@ -106,7 +102,7 @@ ob_start();
 		<td valign="top">:</td>
 		<td valign="top" align="right">
 			<font style=" font-size:7pt; font-family:dejavusansmono;">
-				<?php  echo $x->nama_pelanggan; ?>
+				<?php  echo $x->nama_supplier; ?>
 			</font>
 		</td>
 	</tr>
@@ -140,7 +136,7 @@ ob_start();
 		<td valign="top"></td>
 		<td valign="top" align="right">
 			<font style=" font-size:7pt; font-family:dejavusansmono;">
-				<?php  echo $x->no_tlp; ?>
+				
 			</font>
 		</td>
 	</tr>
@@ -152,7 +148,7 @@ ob_start();
 	<tr height="40px;">
 		<td colspan="4" valign="bottom" align="center">
 			<font style=" font-size:8pt; font-weight:bold; font-family:arial;">
-				<u>NOTA PENJUALAN</u>
+				<u>NOTA PEMBELIAN</u>
 			</font>
 		</td>
 	</tr>
@@ -180,6 +176,7 @@ ob_start();
 									a.*,
 									b.label AS jenis_beras
 
+
 									FROM item_transaksi a
 									LEFT JOIN jenis_beras b ON b.id = a.jenis_beras_id
 
@@ -198,29 +195,17 @@ ob_start();
 						<td style='font-family:dejavusansmono;' align='right'>".number_format($dt->harga,'0',',','.')."</td>
 						<td style='font-family:dejavusansmono;' align='right'>".number_format(($dt->harga*$dt->tonase)*$dt->qty,'0',',','.')."</td>
 					</tr>";	
-					
 
-		}
 
-		$query_2 = $koneksi->prepare(" SELECT 	
-									a.*
-
-									FROM item_tambahan a
-									WHERE no_nota = '$x->no_nota'
-									
-									ORDER by a.id ASC");
-		
-		
-		$query_2->execute();
-		
-		while($dt = $query_2->fetch(PDO::FETCH_OBJ)) {
-				echo "<tr>
-						<td style='font-family:dejavusansmono;' align='center'>".$dt->qty."</td>
+				if ( $dt->upah_kuli != '0'){
+					echo "<tr>
+						<td style='font-family:dejavusansmono;' align='center'></td>
 							
-						<td style='font-family:dejavusansmono;'>".$dt->item_tambahan."</td>
-						<td style='font-family:dejavusansmono;' align='right'>".number_format($dt->harga_satuan,'0',',','.')."</td>
-						<td style='font-family:dejavusansmono;' align='right'>".number_format(($dt->harga_satuan)*$dt->qty,'0',',','.')."</td>
-						</tr>";	
+						<td style='font-family:dejavusansmono;'>Upah Kuli</td>
+						<td style='font-family:dejavusansmono;' align='right'>".number_format($dt->upah_kuli,'0',',','.')."</td>
+						<td style='font-family:dejavusansmono;' align='right'>".number_format(($dt->upah_kuli*$dt->tonase)*$dt->qty,'0',',','.')."</td>
+					</tr>";	
+				}
 					
 
 		}
@@ -245,7 +230,7 @@ ob_start();
 		<td width="3%"> </td>
 		<td align="right" width="19%">
 			<font style=" font-size:9pt;  font-weight:bold; font-family:dejavusansmono;">
-				<?php  echo number_format(($x->total_belanja)+$x->total_tambahan,'0',',','.'); ?>
+				<?php  echo number_format($x->total_harga-$x->total_upah_kuli,'0',',','.'); ?>
 			</font>
 		</td>
 	</tr>

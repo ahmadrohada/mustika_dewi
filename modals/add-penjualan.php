@@ -16,19 +16,13 @@
 							
 						
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <div class="form-group nama ">
                                     <label class="control-label">Nama Karung :</label>
                                     <select  class="form-control nama_karung" name="nama_karung" id="nama_karung" style="width:100%;"></select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <label class="control-label">Tonase</label>
-                                    <div class="input-group input-group">
-                                    <input type="text" name="tonase" id="tonase" required class="form-control tonase" onkeypress='return angka(event)'>
-                                    <span class="input-group-addon">Kg / Karung</span>
-                                </div>
-                            </div>
+                           
                             <div class="col-md-4">
                                 <div class="form-group nama ">
                                     <label>Jenis Beras</label>
@@ -45,6 +39,13 @@
                                 <div class="input-group input-group">
                                 <input type="text" name="harga" id="harga" required class="form-control f_harga" onkeypress='return angka(event)'>
                                 <span class="input-group-addon">/Kg</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">Tonase</label>
+                                    <div class="input-group input-group">
+                                    <input type="text" name="tonase" id="tonase" required class="form-control tonase" onkeypress='return angka(event)'>
+                                    <span class="input-group-addon">Kg / Karung</span>
                                 </div>
                             </div>
                             <div class="col-md-4">

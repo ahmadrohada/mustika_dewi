@@ -120,10 +120,10 @@ $(document).ready(function () {
 					width:80,
 					formatter: function (value, row) {
                         if ( row.jenis_beras_id == jenis_beras_id){
-                            return 	[  '<span style="margin:1px;" ><a class="btn btn-success btn-xs "><i class="fa fa-forward" ></i></a></span>'
+                            return 	[  '<span style="margin:1px;" ><a class="btn btn-warning btn-xs "><i class="fa fa-forward" ></i></a></span>'
 									];	
                         }else{
-                            return 	[  '<span  data-toggle="tooltip" title="Lihat Detail" style="margin:1px;" ><a class="btn btn-warning btn-xs lihat_detail" data-toggle="" data-target="" data-label="'+row.label+'" data-id="'+row.jenis_beras_id+'"><i class="fa fa-forward" ></i></a></span>'
+                            return 	[  '<span  data-toggle="tooltip" title="Lihat Detail" style="margin:1px;" ><a class="btn btn-default btn-xs lihat_detail" data-toggle="" data-target="" data-label="'+row.label+'" data-id="'+row.jenis_beras_id+'"><i class="fa fa-forward" ></i></a></span>'
 									];
                             
                         }
@@ -191,8 +191,24 @@ $(document).ready(function () {
 					
 				},
 				{
+					field: 'harga_beli',
+					title: 'HARGA BELI',
+					halign:'center',
+					align:'right',
+					width:100,
+					
+				},
+				{
+					field: 'harga_jual',
+					title: 'HARGA JUAL',
+					halign:'center',
+					align:'right',
+					width:100,
+					
+				},
+				{
 					field: 'stok',
-					title: 'QTY ( Karung )',
+					title: 'QTY STOK ( Karung )',
 					halign:'center',
 					align:'right',
 					width:100,
