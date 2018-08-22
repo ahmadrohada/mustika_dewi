@@ -79,8 +79,8 @@ $(document).ready(function () {
 					
 				}, 
                 {
-					field: 'qty',
-					title: 'QTY',
+					field: 'stok',
+					title: 'QTY STOK',
 					halign:'center',
 					align:'right',
 					width:50,

@@ -233,7 +233,22 @@ class FormatTanggal{
 
 	}
 
-	
+	function tonase($data){
+
+
+		$x			= explode('.', $data);
+		$tonase		= $x[0];
+		$desimal 	= $x[1];
+
+		if ( $desimal == 0 ){
+			$dret  = $tonase;
+		}else{
+			$dret  = $data;
+		}
+		
+		return $dret;
+
+	}
 	
 	function namahari($tanggal){
     

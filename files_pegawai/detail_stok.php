@@ -105,8 +105,8 @@ $(document).ready(function () {
 					
 				}, 
                 {
-					field: 'qty',
-					title: 'QTY',
+					field: 'stok',
+					title: 'QTY STOK',
 					halign:'center',
 					align:'right',
 					width:50,
@@ -189,7 +189,7 @@ $(document).ready(function () {
 					align:'right',
 					width:100,
 					
-				},
+				}/* ,
 				{
 					field: 'harga_beli',
 					title: 'HARGA BELI',
@@ -205,7 +205,7 @@ $(document).ready(function () {
 					align:'right',
 					width:100,
 					
-				},
+				} */,
 				{
 					field: 'stok',
 					title: 'QTY STOK ( Karung )',

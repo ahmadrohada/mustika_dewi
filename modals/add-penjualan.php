@@ -87,13 +87,10 @@ $(document).ready(function() {
         $('.qty').val("");
         $('.tonase').val("");
         $('.harga').val("");
-
-
-
-
 	});
 
-//========================= NAMA KARUNG  =============================// 
+
+//========================= NAMA KARUNG  =============================//
     $('#jenis_beras').select2();
     $('#jenis_beras').attr('disabled', true);
     
@@ -128,14 +125,16 @@ $(document).ready(function() {
     });
 
 
+    $('.add-item_penjualan').on('shown.bs.modal', function(){
+        $('#nama_karung').select2('open');
+	});
 
-    $("#nama_karung").change(function(){
+
+    $('#nama_karung').on('select2:select', function (e) {
 
     var nama_karung = $("#nama_karung option:selected").val();
-    //alert(nama_karung);
+ 
     $('#jenis_beras').attr('disabled', false);
-    //$('#jenis_beras').val(null).trigger('change');
-
     $('#tonase').val(nama_karung.split('|')[1]);
 
     $('#jenis_beras').select2({
@@ -166,14 +165,40 @@ $(document).ready(function() {
                             }
                           }
             });
+    $('#jenis_beras').select2('open');
+
+    });
 
 
+     $('#jenis_beras').on('select2:select', function (e) {
+        $('.f_harga').focus();
+    });
+
+    $(document).on('keydown','.f_harga',function(e){
+        //13 = enter 9 = tab
+        if ( e.which == 13) {
+            $('.tonase').focus();
+        } 
+    });
+
+    $(document).on('keydown','.tonase',function(e){
+        //13 = enter 9 = tab
+        if ( e.which == 13) {
+            $('.f_qty').focus();
+        } 
+    });
+
+     $(document).on('keydown','.f_qty',function(e){
+        //13 = enter 9 = tab
+        if ( e.which == 13) {
+            $('#simpan_item').focus();
+        } 
     });
 //=========================================================================// 
 
     
 
-    $("#jenis_beras").change(function(){
+    /* $("#jenis_beras").change(function(){
         var jenis_beras_id = $("#jenis_beras option:selected").val();
         
         //alert(jenis_beras_id);
@@ -192,7 +217,7 @@ $(document).ready(function() {
             }
 
         }); 
-    });
+    }); */
 
 
 

@@ -138,7 +138,7 @@ case "tmp_pembelian_list":
 			$h['nama_karung']	= $x->nama_karung;
 			$h['jenis_beras']	= $x->jenis_beras;
 			$h['qty']			= $x->qty;
-			$h['tonase']		= $x->tonase;
+			$h['tonase']		= $d->tonase($x->tonase);
 			$h['upah_kuli']		= $x->upah_kuli;
 			$h['harga']			= number_format($x->harga,'0',',','.');
 			
@@ -214,7 +214,7 @@ case "transaksi_pembelian_list_item":
 			$h['nama_karung']	= $x->nama_karung;
 			$h['jenis_beras']	= $x->jenis_beras;
 			$h['qty']			= $x->qty;
-			$h['tonase']		= $x->tonase;
+			$h['tonase']		= $d->tonase($x->tonase);
 			$h['upah_kuli']		= $x->upah_kuli;
 			$h['harga']			= number_format($x->harga,'0',',','.');
 

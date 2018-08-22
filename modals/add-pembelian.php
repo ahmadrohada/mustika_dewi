@@ -88,11 +88,9 @@ $(document).ready(function() {
         $('.qty').val("");
         $('.tonase').val("");
         $('.harga').val("");
-
-
-
-
 	});
+
+
 
 //========================= JENIS BERAS  =============================// 
 
@@ -124,6 +122,44 @@ $(document).ready(function() {
             }
         }
     });
+
+//======================== SHORT  PROCCESS ============================//
+    $('.add-item_pembelian').on('shown.bs.modal', function(){
+        $('.nama_karung').focus();
+	});
+
+    $(document).on('keydown','.nama_karung',function(e){
+        //13 = enter 9 = tab
+        if ( e.which == 13) {
+            $('#jenis_beras').select2('open');
+        } 
+    });
+
+    $('#jenis_beras').on('select2:select', function (e) {
+        $('.qty').focus();
+    });
+   
+    $(document).on('keydown','.qty',function(e){
+        //13 = enter 9 = tab
+        if ( e.which == 13) {
+            $('.tonase').focus();
+        } 
+    });
+
+    $(document).on('keydown','.tonase',function(e){
+        //13 = enter 9 = tab
+        if ( e.which == 13) {
+            $('.harga').focus();
+        } 
+    });
+
+    $(document).on('keydown','.harga',function(e){
+        //13 = enter 9 = tab
+        if ( e.which == 13) {
+            $('#simpan_item').focus();
+        } 
+    });
+
 
 
     $(document).on('click', '#simpan_item', function(){

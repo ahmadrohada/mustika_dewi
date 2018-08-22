@@ -168,7 +168,7 @@ ob_start();
 	<table class="cetak_report" width="100%">
 	<thead>
 		<tr>
-            <th width="20%">Banyak nya</th>
+            <th width="14%">Banyak nya</th>
             <th width="">Nama Barang</th>
             <th width="18%">Harga Satuan</th>
 			<th width="23%">Jumlah</th>
@@ -194,7 +194,7 @@ ob_start();
 				echo "<tr>
 						<td style='font-family:dejavusansmono;' align='center'>".$dt->qty."</td>
 							
-						<td style='font-family:dejavusansmono;'>".$dt->jenis_beras .' /'.$dt->nama_karung.'@'.$dt->tonase.'Kg'."</td>
+						<td style='font-family:dejavusansmono;'>".$dt->nama_karung.'@'.$d->tonase($dt->tonase).' / '.$dt->qty*$dt->tonase. ' Kg'."</td>
 						<td style='font-family:dejavusansmono;' align='right'>".number_format($dt->harga,'0',',','.')."</td>
 						<td style='font-family:dejavusansmono;' align='right'>".number_format(($dt->harga*$dt->tonase)*$dt->qty,'0',',','.')."</td>
 					</tr>";	

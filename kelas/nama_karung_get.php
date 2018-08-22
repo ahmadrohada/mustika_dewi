@@ -64,7 +64,7 @@ case"nama_karung_stok_list":
 									WHERE   jenis_transaksi = 'pembelian'
 											AND jenis_beras_id = '$jenis_beras_id'
 
-									/*GROUP BY a.nama_karung,a.tonase*/
+									GROUP BY a.nama_karung,a.tonase
 									ORDER by a.id DESC ");
 
 				
@@ -77,15 +77,25 @@ case"nama_karung_stok_list":
 
 
 				//pembelian 
-		 		$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) FROM item_transaksi WHERE jenis_beras_id = '$jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$x->nama_karung' AND tonase = '$x->tonase' ");
+		 		$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) AS qty  FROM item_transaksi WHERE jenis_beras_id = '$jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$x->nama_karung' AND tonase = '$x->tonase' ");
 				$stok_in_query->execute();
-				$stok_total_in  = $stok_in_query->fetch(PDO::FETCH_NUM);
-				
-				$stok_out_query = $koneksi->prepare(" SELECT 	sum(qty) FROM item_transaksi WHERE jenis_transaksi = 'penjualan' AND  pembelian_id = '$x->id' ");
-				$stok_out_query->execute();
-				$stok_total_out  = $stok_out_query->fetch(PDO::FETCH_NUM);
+				$stok_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
 
-				$stok    = $stok_total_in[0] - $stok_total_out[0];
+				$in 	  = $stok_in->qty * $x->tonase;
+				
+				$stok_out_query = $koneksi->prepare(" SELECT 	qty,tonase FROM item_transaksi WHERE jenis_transaksi = 'penjualan' AND  pembelian_id = '$x->id' ");
+				$stok_out_query->execute();
+				//$stok_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
+				//$out       = $stok_out->qty;
+
+				$total_out = 0 ;
+				while($v = $stok_out_query->fetch(PDO::FETCH_OBJ)) {
+					$total_out = $total_out + ( $v->qty*$v->tonase);
+
+				}
+
+				$out = $total_out ;
+				$stok    = floor(($in - $out)/$x->tonase);
 
 
 				$no++;
@@ -93,6 +103,8 @@ case"nama_karung_stok_list":
 				$h['nama_karung']	= $x->nama_karung;
 				$h['tonase']		= $x->tonase;
 				$h['harga_beli']	= number_format($x->harga_beli,'0',',','.');
+				$h['in']			= $in;
+				$h['out']			= $out;
 				$h['stok']			= $stok;
 					
 				

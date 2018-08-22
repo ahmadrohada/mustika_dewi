@@ -36,8 +36,8 @@ case "add_item_pembelian":
 
 	if ( ($nama_karung != "")&( $jenis_beras_id != "") ){
 		try{
-			$query = $koneksi->prepare("INSERT INTO tmp_transaksi  (no_nota, jenis_transaksi, jenis_beras_id,nama_karung,qty,tonase,harga)
-													VALUES(:a,:b,:c,:d,:e,:f,:g)");
+			$query = $koneksi->prepare("INSERT INTO tmp_transaksi  (no_nota, jenis_transaksi, jenis_beras_id,nama_karung,qty,tonase,harga,upah_kuli)
+													VALUES(:a,:b,:c,:d,:e,:f,:g ,:h)");
 			$query->execute(array(
 								"a" => $no_nota,
 								"b" => 'pembelian',
@@ -45,7 +45,8 @@ case "add_item_pembelian":
 								"d" => $nama_karung,
 								"e" => $qty,
 								"f" => $tonase,
-								"g" => $harga
+								"g" => $harga,
+								"h" => 10
 							));	
 			  
 						}
