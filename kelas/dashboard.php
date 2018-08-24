@@ -91,37 +91,81 @@ case"dashboard_detail":
 	}
 
 break;
-case"chart_stok":
+case"stok_beras":
 
-		$query = $koneksi->prepare(" SELECT 	
-								        a.id as jenis_beras_id,
-								        a.label
-								        FROM jenis_beras a
+			$query = $koneksi->prepare(" SELECT 	
+											a.id as jenis_beras_id,
+											a.label
 
-								        ORDER by a.label ASC ");
+											FROM jenis_beras a
+											ORDER by a.id DESC");
 
-				
-            $no = 0;
-            $response["jenis_beras"] = array();
+			$no = 0;
+			$response = array();
+			$response["stok_beras"] = array();
+			$total = 0;
 			$query->execute();
+
 			while($x = $query->fetch(PDO::FETCH_OBJ)) {
 
 
-				//cari jumlah yang keluar kg nya
-                $stok_in_query = $koneksi->prepare(" SELECT 	sum(income) as jm FROM transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' ");
-				$stok_in_query->execute();
-				$stok_total_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
+			$query_2 = $koneksi->prepare(" SELECT 	
+				a.id,
+				a.nama_karung,
+				a.tonase,
+				a.harga AS harga_beli
+				FROM item_transaksi a
+				WHERE   jenis_transaksi = 'pembelian'
+						AND jenis_beras_id = '$x->jenis_beras_id'
 
-                //cari jumlah yang keluar kg nya
-                $stok_out_query = $koneksi->prepare(" SELECT 	sum(outcome) as jm FROM transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' ");
-				$stok_out_query->execute();
-				$stok_total_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
+				GROUP BY a.nama_karung,a.tonase
+				ORDER by a.id DESC ");
 
-                $h['jenis_beras']	= $x->label;
-                $h['jumlah']	    = $stok_total_in->jm - $stok_total_out->jm;
 
-                array_push($response["jenis_beras"], $h);
-			}	
+			$no = 0;
+			$query_2->execute();
+			$stok = 0;
+			while($y = $query_2->fetch(PDO::FETCH_OBJ)) {
+
+
+
+			//pembelian 
+			$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) AS qty  FROM item_transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$y->nama_karung' AND tonase = '$y->tonase' ");
+			$stok_in_query->execute();
+			$stok_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
+
+			$in 	  = $stok_in->qty * $y->tonase;
+
+			$stok_out_query = $koneksi->prepare(" SELECT 	qty,tonase FROM item_transaksi WHERE jenis_transaksi = 'penjualan' AND  pembelian_id = '$y->id' ");
+			$stok_out_query->execute();
+			//$stok_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
+			//$out       = $stok_out->qty;
+
+			$total_out = 0 ;
+			while($v = $stok_out_query->fetch(PDO::FETCH_OBJ)) {
+			$total_out = $total_out + ( $v->qty*$v->tonase);
+
+			}
+
+			$out = $total_out ;
+			$stok    = $stok + floor(($in - $out)/$y->tonase);
+
+
+			} 
+
+		/* 	$no++;
+			$h['no']				= $no;
+			$h['jenis_beras_id']	= $x->jenis_beras_id;
+			$h['label']				= $x->label;
+			$h['stok']				= $stok;
+
+		 */
+			$h['jenis_beras']	= $x->label;
+            $h['jumlah']	    = $stok;
+				
+			array_push($response["stok_beras"], $h);
+
+			}
                 
          
 
@@ -152,7 +196,7 @@ case"chart_penjualan_today":
 
 				//cari jumlah kg nya dalam transaksi
 				
-                $stok_out_query = $koneksi->prepare(" SELECT sum(outcome) AS jm FROM transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' and date(created_at) ='$tgl_now' ");
+                $stok_out_query = $koneksi->prepare(" SELECT sum(qty) AS jm FROM item_transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' and date(created_at) ='$tgl_now' ");
 				$stok_out_query->execute();
 				$stok_total_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
 
@@ -189,7 +233,7 @@ case"chart_penjualan_setahun":
 
 		$bulan = $i;
 
-		$total_penjualan = $koneksi->prepare(" SELECT sum(outcome) AS jm FROM transaksi WHERE MONTH(created_at) = '$bulan' ");
+		$total_penjualan = $koneksi->prepare(" SELECT sum(id) AS jm FROM penjualan WHERE MONTH(created_at) = '$bulan' ");
 		$total_penjualan->execute();
 		$total_out  = $total_penjualan->fetch(PDO::FETCH_OBJ);
 

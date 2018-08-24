@@ -111,33 +111,51 @@
   </div>
 
   <div class="col-md-6">
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">GRAPH PD MUSTIKA DEWI</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="box-group" id="accordion">
+                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                <div class="panel box box-primary">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        DATA PENJUALAN
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="box-body">
+                      <?php  include './chart/penjualan_all.php'; ?>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel box box-danger">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        STOK BERAS
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="box-body">
+                      <?php  include './chart/stok_beras.php'; ?>
+                    </div>
+                  </div>
+                </div>
+                
+                  
+                </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
 
-
-    <?php 
-      $chart = isset($_GET['chart']) ? $_GET['chart'] : '';
-
-
-      switch($chart)
-					{
-				case 1 : $chart_show='./chart/penjualan_today.php';
-						break;
-				case 2 : $chart_show='./chart/penjualan_all.php';
-						break;
-				case 3 : $chart_show='./chart/stok_beras.php';
-						break;
-				case 4 : $chart_show='./chart/stok_beras.php';
-						break;
-				case 5 : $chart_show='./chart/stok_beras.php';
-						break;
-				case 6 : $chart_show='./chart/stok_beras.php';
-						break;
-				default : $chart_show='./chart/penjualan_today.php';;
-					}
-
-			include $chart_show;
-     
-       
-    ?>
+    
     
      
   </div>

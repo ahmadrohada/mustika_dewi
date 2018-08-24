@@ -1,19 +1,11 @@
 
 
-<div class="box box-danger">
-    <div class="box-header with-border">
-        <h3 class="box-title">DATA PENJUALAN</h3>
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-        </div>
-    </div>
-    <div class="box-body ">
+      
+  
         <div class="table-responsive">
-            <div id="chartdiv" style="width: 600px; height: 400px;"></div>
+            <div id="chartdiv_penjualan_all" style="width: 600px; height: 300px;"></div>
         </div>
-       
-    </div>
-</div>
+
 
 <script src="./assets/js/amcharts.js" type="text/javascript"></script>
 <script src="./assets/js/serial.js" type="text/javascript"></script>
@@ -33,7 +25,7 @@ $(document).ready(function () {
 			cache	    : false,
 			success	    : function(chartData){
 
-                var chart = AmCharts.makeChart("chartdiv",{
+                var chart = AmCharts.makeChart("chartdiv_penjualan_all",{
                     "type": "serial",
                     "categoryField": "bulan",
                     "startDuration" : 1,

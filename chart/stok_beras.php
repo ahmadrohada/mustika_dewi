@@ -1,15 +1,7 @@
-<div class="box box-danger">
-    <div class="box-header with-border">
-        <h3 class="box-title">DATA STOK BERAS</h3>
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-        </div>
-    </div>
-    <div class="box-body">
-          <div id="chartdiv" style="width: 100%; height: 430px;"></div>
-    </div>
-</div>
 
+    <div class="box-body">
+          <div id="chartdiv_stok" style="width: 100%; height: 330px;"></div>
+    </div>
 
 <script src="./assets/js/amcharts.js" type="text/javascript"></script>
 <script src="./assets/js/pie.js" type="text/javascript"></script>
@@ -22,18 +14,18 @@ $(document).ready(function () {
     $.ajax({
 			url		    : "./kelas/dashboard.php",
 			type      : "GET",
-			data	    : {op:"chart_stok"},
+			data	    : {op:"stok_beras"},
 			dataType  : "json",
 			cache	    : false,
 			success	  : function(chartData){
 			
-					var chart = AmCharts.makeChart("chartdiv",{
+					var chart = AmCharts.makeChart("chartdiv_stok",{
 				
 							   "responsive": {
 								"enabled": true
 							  },
 							  "legend": {
-								  "enabled": true
+								  "enabled": false
 								 
 								},
 								"valueAxes": {
@@ -42,7 +34,7 @@ $(document).ready(function () {
 							  "type"    : "pie",
 							  "titleField"  : "jenis_beras",
 							  "valueField"  : "jumlah",
-							 "dataProvider" : chartData['jenis_beras'],
+							 "dataProvider" : chartData['stok_beras'],
 							 
 							 "balloon": {
 								"adjustBorderColor": true,

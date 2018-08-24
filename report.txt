@@ -42,3 +42,10 @@ jual 20*45 -----pengurangan terhadap stok adalah xx/50 - 20*45
 
 tambahan saat penjualan over zak dan beli karung dan bos supir,
 masuk ke biaya tambahan penjualan 
+
+
+
+
+//
+FONT printout,,harus setting
+otomatis printout belum jalan

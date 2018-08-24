@@ -191,7 +191,7 @@ $(document).ready(function () {
         e.preventDefault();
         penjualan_id   = $(this).val();
 
-		window.open("./print_out/cetak_nota_penjualan.php?penjualan_id="+penjualan_id, "print_nota","width=600,height=800,top=50,left=250" );          
+		window.open("./print_out/cetak_nota_penjualan.php?penjualan_id="+penjualan_id, "print_nota","width=900,height=800,top=50,left=250" );          
 
 	});
 

@@ -130,7 +130,7 @@ $(document).ready(function() {
 
     $(document).on('keydown','.nama_karung',function(e){
         //13 = enter 9 = tab
-        if ( e.which == 13) {
+        if ( (e.which == 13)|(e.which == 9)) {
             $('#jenis_beras').select2('open');
         } 
     });
@@ -141,21 +141,21 @@ $(document).ready(function() {
    
     $(document).on('keydown','.qty',function(e){
         //13 = enter 9 = tab
-        if ( e.which == 13) {
+        if ( (e.which == 13)|(e.which == 9)) {
             $('.tonase').focus();
         } 
     });
 
     $(document).on('keydown','.tonase',function(e){
         //13 = enter 9 = tab
-        if ( e.which == 13) {
+        if ( (e.which == 13)|(e.which == 9)) {
             $('.harga').focus();
         } 
     });
 
     $(document).on('keydown','.harga',function(e){
         //13 = enter 9 = tab
-        if ( e.which == 13) {
+        if ( (e.which == 13)|(e.which == 9)) {
             $('#simpan_item').focus();
         } 
     });

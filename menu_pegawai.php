@@ -37,6 +37,19 @@
 
   <li class="treeview">
     <a href="#">
+      <i class="fa  fa-briefcase"></i>
+      <span>Hutang Piutang</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href="?page=hutang"><i class=" fa fa-share"></i> Hutang</a></li>
+      <li><a href="?page=piutang"><i class=" fa fa-reply"></i> Piutang</a></li>
+    </ul>
+  </li>
+  <li class="treeview">
+    <a href="#">
       <i class="fa  fa-users"></i>
       <span>People</span>
       <span class="pull-right-container">
