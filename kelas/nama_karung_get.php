@@ -21,25 +21,54 @@ case"nama_karung":
 		$query = $koneksi->prepare(" SELECT 	
 								a.id as item_transaksi_id,
 								a.nama_karung,
-								a.tonase
+								a.tonase,
+								a.harga
 								FROM item_transaksi a
 								WHERE 		a.jenis_transaksi = 'pembelian'
 										AND a.nama_karung LIKE '%$nama%'
 
-								GROUP BY a.nama_karung,a.tonase		
+								GROUP BY a.nama_karung,a.tonase,a.harga
 								ORDER by a.nama_karung ASC ");
 
 				
 			$no = 0;
 			$query->execute();
 			while($x = $query->fetch(PDO::FETCH_OBJ)) {
-						$no++;
+				
+				
+				//pembelian 
+		 		$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) AS qty  FROM item_transaksi WHERE jenis_transaksi = 'pembelian' AND nama_karung = '$x->nama_karung' AND tonase = '$x->tonase' AND harga = '$x->harga' ");
+				$stok_in_query->execute();
+				$stok_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
+
+				$in 	  = $stok_in->qty * $x->tonase;
+				
+				$stok_out_query = $koneksi->prepare(" SELECT 	qty,tonase FROM item_transaksi WHERE jenis_transaksi = 'penjualan' AND  pembelian_id = '$x->item_transaksi_id' ");
+				$stok_out_query->execute();
+				//$stok_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
+				//$out       = $stok_out->qty;
+
+				$total_out = 0 ;
+				while($v = $stok_out_query->fetch(PDO::FETCH_OBJ)) {
+					$total_out = $total_out + ( $v->qty*$v->tonase);
+
+				}
+
+				$out = $total_out ;
+				$stok    = floor(($in - $out)/$x->tonase);
+				
+				
+				if ( $stok > 0 ){
+					$no++;
 						$item[] = array(
 									'no'		=> $no,
-									'id'		=> $x->item_transaksi_id.'|'.$x->tonase,
-									'nama'		=> $x->nama_karung.' ['.$x->tonase.' Kg]',
+									'id'		=> $x->item_transaksi_id.'|'.$d->tonase($x->tonase),
+									'nama'		=> $x->nama_karung.' [ Tonase '.$d->tonase($x->tonase).' Kg]  [ Harga Beli Rp. ' .number_format($x->harga,'0',',','.'). ' ] [ Stok ' .$stok. ']',
 						);
 
+					
+				}
+						
 			}	
 				
 			if ($no!=0){
@@ -64,7 +93,7 @@ case"nama_karung_stok_list":
 									WHERE   jenis_transaksi = 'pembelian'
 											AND jenis_beras_id = '$jenis_beras_id'
 
-									GROUP BY a.nama_karung,a.tonase
+									GROUP BY a.nama_karung,a.tonase,a.harga
 									ORDER by a.id DESC ");
 
 				
@@ -77,7 +106,7 @@ case"nama_karung_stok_list":
 
 
 				//pembelian 
-		 		$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) AS qty  FROM item_transaksi WHERE jenis_beras_id = '$jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$x->nama_karung' AND tonase = '$x->tonase' ");
+		 		$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) AS qty  FROM item_transaksi WHERE jenis_beras_id = '$jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$x->nama_karung' AND tonase = '$x->tonase' AND harga = '$x->harga_beli' ");
 				$stok_in_query->execute();
 				$stok_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
 
@@ -98,17 +127,22 @@ case"nama_karung_stok_list":
 				$stok    = floor(($in - $out)/$x->tonase);
 
 
-				$no++;
-				$h['no']			= $no;
-				$h['nama_karung']	= $x->nama_karung;
-				$h['tonase']		= $x->tonase;
-				$h['harga_beli']	= number_format($x->harga_beli,'0',',','.');
-				$h['in']			= $in;
-				$h['out']			= $out;
-				$h['stok']			= $stok;
 					
+				if ( $stok > 0 ){
+					
+					$no++;
+					$h['no']			= $no;
+					$h['nama_karung']	= $x->nama_karung;
+					$h['tonase']		= $x->tonase;
+					$h['harga_beli']	= number_format($x->harga_beli,'0',',','.');
+					$h['in']			= $in;
+					$h['out']			= $out;
+					$h['stok']			= $stok;
+					
+					array_push($response["nama_karung_list"], $h);
+				}
 				
-				array_push($response["nama_karung_list"], $h);
+				
 			}	
 				
 			if ($no!=0){

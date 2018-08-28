@@ -94,7 +94,9 @@ case "pembelian_list":
 
 break;
 case "tmp_pembelian_list":
-		
+	
+
+	$no_nota =  $_GET['no_nota'];
 	$query = $koneksi->prepare(" SELECT 	
 								a.id,
 								a.nama_karung,
@@ -107,7 +109,7 @@ case "tmp_pembelian_list":
 								FROM tmp_transaksi a
 								LEFT JOIN jenis_beras b ON b.id = a.jenis_beras_id
 
-								WHERE jenis_transaksi = 'pembelian'
+								WHERE jenis_transaksi = 'pembelian' AND no_nota = '$no_nota'
 								
 								ORDER by a.id ASC");
 	

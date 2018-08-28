@@ -230,7 +230,7 @@ $(document).ready(function () {
                 $('#tgl_nota').val(data['tgl_nota']);
                 $('#nama_user').val(data['nama_user']);
 
-                
+                load_data_pembelian();
 				
 			},
 			error: function(data){
@@ -539,14 +539,15 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
     });
 
 //====================== TABLE LIST ITEM ===================================//   
-    load_data_pembelian();
+    
     function load_data_pembelian(){
+        no_nota  = $('.no_nota').val();
 		
 		$.ajax({
 			url         : "./kelas/pembelian_get.php",
 			type        : "GET",
 			dataType    : "json",
-			data        : {data:'tmp_pembelian_list'},
+			data        : {data:'tmp_pembelian_list',no_nota:no_nota},
 			success     : function(data) {
 				
 					$('#list_pembelian').bootstrapTable('load',{data: data['tmp_pembelian_list'] });

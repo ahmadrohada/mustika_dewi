@@ -90,7 +90,7 @@ $(document).ready(function () {
 				}, 
 				{
 					field: 'label',
-					title: 'NAMA KARUNG',
+					title: 'NAMA',
 					halign:'center',
 					sortable:true,
                     formatter: function (value, row) {
@@ -189,7 +189,7 @@ $(document).ready(function () {
 					align:'right',
 					width:100,
 					
-				}/* ,
+				},
 				{
 					field: 'harga_beli',
 					title: 'HARGA BELI',
@@ -197,7 +197,7 @@ $(document).ready(function () {
 					align:'right',
 					width:100,
 					
-				},
+				}/*,
 				{
 					field: 'harga_jual',
 					title: 'HARGA JUAL',

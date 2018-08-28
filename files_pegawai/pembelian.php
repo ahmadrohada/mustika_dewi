@@ -127,11 +127,13 @@ $(document).ready(function () {
 					title: '<i class="glyphicon glyphicon-cog"></i>',
 					halign:'center',
 					align:'center',
-					width:90,
+					width:140,
 					formatter: function (value, row) {
 						
-                        return 	[  	'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 
-									+'<button  style="margin:1px; margin-top:-5px;" class="btn btn-info		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
+                        return 	[  	'<button  style="margin:1px; margin-top:-5px;" class="btn btn-warning		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
+									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 
+									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 		btn-xs edit" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fa fa-edit"></span></button>'
+									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-danger 		btn-xs hapus" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus" disabled><span class="fa fa-remove"></span></button>'  
 								];
                       		
 					}
@@ -172,6 +174,14 @@ $(document).ready(function () {
         pembelian_id   = $(this).val();
 
 		window.location.assign("home.php?page=detail_transaksi_pembelian&pembelian_id="+pembelian_id);
+
+	});
+
+	$(document).on('click','.edit',function(e){
+        e.preventDefault();
+        pembelian_id   = $(this).val();
+
+		window.location.assign("home.php?page=edit_transaksi_pembelian&pembelian_id="+pembelian_id);
 
 	});
 

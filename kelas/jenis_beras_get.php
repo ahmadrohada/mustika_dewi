@@ -231,11 +231,11 @@ case "jenis_beras_tbl_list":
 									WHERE   jenis_transaksi = 'pembelian'
 											AND jenis_beras_id = '$x->jenis_beras_id'
 
-									GROUP BY a.nama_karung,a.tonase
+									GROUP BY a.nama_karung,a.tonase,a.harga
 									ORDER by a.id DESC ");
 
 				
-			$no = 0;
+			//$no = 0;
 			$query_2->execute();
 			$stok = 0;
 			while($y = $query_2->fetch(PDO::FETCH_OBJ)) {
@@ -243,13 +243,13 @@ case "jenis_beras_tbl_list":
  
 
 				//pembelian 
-		 		$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) AS qty  FROM item_transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$y->nama_karung' AND tonase = '$y->tonase' ");
+		 		$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) AS qty  FROM item_transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$y->nama_karung' AND tonase = '$y->tonase' AND harga = '$y->harga_beli'  ");
 				$stok_in_query->execute();
 				$stok_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
 
 				$in 	  = $stok_in->qty * $y->tonase;
 				
-				$stok_out_query = $koneksi->prepare(" SELECT 	qty,tonase FROM item_transaksi WHERE jenis_transaksi = 'penjualan' AND  pembelian_id = '$y->id' ");
+				$stok_out_query = $koneksi->prepare(" SELECT 	qty,tonase FROM item_transaksi WHERE jenis_transaksi = 'penjualan' AND  pembelian_id = '$y->id' AND no_nota != '' ");
 				$stok_out_query->execute();
 				//$stok_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
 				//$out       = $stok_out->qty;

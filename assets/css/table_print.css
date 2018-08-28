@@ -100,8 +100,3 @@ table.sign_report td {
 	font-weight: normal;
 }
 
-@font-face {
-	font-family: isi_2;
-	src: url('./fonts/consola.TTF');
-	font-weight: normal;
-}
