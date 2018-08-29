@@ -308,7 +308,7 @@ ob_start();
                 5,    // margin_left
                 6,    // margin right
                 8,     // margin top
-                20,    // margin bottom
+                10,    // margin bottom
                 0,     // margin header
                 23,     // margin footer
                 'P' );  // L - landscape, P - portrait
