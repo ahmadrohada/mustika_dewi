@@ -142,12 +142,12 @@ ob_start();
 			
 		</td>
 	</tr>
-	<tr height="40px;">
+	<tr height="20px;">
 		<td colspan="4" valign="bottom" align="center">
 			
 		</td>
 	</tr>
-	<tr height="40px;">
+	<tr height="20px;">
 		<td colspan="4" valign="bottom" align="center">
 			<font style=" font-size:9pt; font-weight:bold; letter-spacing:1pt; font-family:arial;">
 				NOTA PENJUALAN
