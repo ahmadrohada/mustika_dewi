@@ -216,11 +216,11 @@ ob_start();
 		
 		while($dt = $query_2->fetch(PDO::FETCH_OBJ)) {
 				echo "<tr>
-						<td style='font-family:arial;' align='center'>".$dt->qty."</td>
+						<td align='center'><font style=' font-size:8pt; font-family:arial;'>".$dt->qty."</font></td>
 							
 						<td><font style=' font-size:8pt; font-family:arial;'>".$dt->item_tambahan."</font></td>
-						<td style='font-family:arial;' align='right'>".number_format($dt->harga_satuan,'0',',','.')."</td>
-						<td style='font-family:arial;' align='right'>".number_format(($dt->harga_satuan)*$dt->qty,'0',',','.')."</td>
+						<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format($dt->harga_satuan,'0',',','.')."</font></td>
+						<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format(($dt->harga_satuan)*$dt->qty,'0',',','.')."</font></td>
 						</tr>";	
 					
 
