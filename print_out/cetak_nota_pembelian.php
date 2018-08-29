@@ -186,6 +186,7 @@ ob_start();
 		$query->execute();
 		$jm_karung = 0;
 		$jm_tonase = 0;
+		$no 	   = 0;
 		while($dt = $query->fetch(PDO::FETCH_OBJ)) {
 				echo "<tr>
 						<td align='center'><font style=' font-size:8pt; font-family:arial;'>".$dt->qty."</font></td>
@@ -209,17 +210,21 @@ ob_start();
 
 				$jm_karung = $jm_karung + $dt->qty;
 				$jm_tonase = $jm_tonase + ($dt->qty*$dt->tonase);
+				$no++;
 
 				
 
 		}
 
-					echo "<tr>
-							<td align='center'><font style=' font-size:8pt; font-family:arial;'>".number_format($jm_karung,'0',',','.')."</font></td>
-								
-							<td colspan='3'><font style=' font-size:8pt; font-family:arial;'>Total tonase ".number_format($jm_tonase,'0',',','.')." Kg</font></td>
-							
-					  	 </tr>";	
+		if ( $no > 1 ){
+			echo "<tr>
+					<td align='center'><font style=' font-size:8pt; font-family:arial;'>".number_format($jm_karung,'0',',','.')."</font></td>
+						
+					<td colspan='3'><font style=' font-size:8pt; font-family:arial;'>Total tonase ".number_format($jm_tonase,'0',',','.')." Kg</font></td>
+					
+				 </tr>";
+		}
+						
 	
 	?>
 
