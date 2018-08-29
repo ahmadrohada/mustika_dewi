@@ -156,7 +156,7 @@ ob_start();
 	</tr>
 
 </table>
-<br>
+
 
 			<font style=" font-size:8pt;font-family:arial;  ">Nota No : </font>
 			<font style=" font-size:8pt; font-family:arial;">
@@ -289,7 +289,7 @@ ob_start();
 	</tr>
 	
 </table>
-<br><br>
+<br>
 
  
  <?php
