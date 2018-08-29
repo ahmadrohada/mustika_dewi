@@ -274,23 +274,26 @@ ob_start();
 </table>
 
  
+
 <?php
 		
 		$out = ob_get_contents();
 		ob_end_clean();
 		include("../mpdf/mpdf.php");
-		$mpdf = new mPDF('c','A6', 0, '', 5, 6, 8, 10, 0, 23);
+		$mpdf = new mPDF(   
+				'c',    // mode - default ''
+                'A6',    // format - A6, for example, default ''
+                0,     // font size - default 0
+                '',    // default font family
+                5,    // margin_left
+                6,    // margin right
+                8,     // margin top
+                20,    // margin bottom
+                0,     // margin header
+                23,     // margin footer
+                'P' );  // L - landscape, P - portrait
 
-		$mpdf->SetHTMLFooter('
-		<table width="100%" border="0">
-			<tr>
-				<td width="50%" style="text-align: left; font-size:6px;"></td>
-				<td rowspan="2" width="50%" style="text-align: right; font-size:8pt;font-family:arial; ">( H. ACEP.S )</td>
-			</tr>
-			<tr>
-				<td style="text-align: left; font-size:6pt;font-family:arial;">Tgl cetak: '.$d->balik($tgl).'  / '.$waktu.'</td>
-			</tr>
-		</table>');
+		
 		//$mpdf->SetWatermarkImage('../assets/images/form/watermark.png');
 		$mpdf->showWatermarkImage = true;
 		
@@ -302,10 +305,19 @@ ob_start();
 		$mpdf->WriteHTML($out);
 		$mpdf->SetJS('this.print();');
 		$filename=$x->no_nota.".pdf";//You might be not adding the extension, 
+		$mpdf->SetHTMLFooter('
+		<table width="100%" border="0">
+			<tr>
+				<td width="50%" style="text-align: left; font-size:6px;"></td>
+				<td rowspan="2" width="50%" style="text-align: right; font-size:8pt;font-family:arial; ">( H. ACEP.S )</td>
+			</tr>
+			<tr>
+				<td style="text-align: left; font-size:6pt;font-family:arial;">Tgl cetak: '.$d->balik($tgl).'  / '.$waktu.'</td>
+			</tr>
+		</table>');
 		$mpdf->Output($filename,'I');
 		
 		
 ?>
-		
 		
 		
