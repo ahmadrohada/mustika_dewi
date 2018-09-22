@@ -221,6 +221,120 @@ case "simpan_transaksi_penjualan":
 	
 
 break;
+case "hapus_transaksi_penjualan":
+	
+	$penjualan_id 		= $_POST['penjualan_id'];
+
+	//cari no nota nya
+	$query_1 = $koneksi->prepare(" SELECT 	
+										a.id,
+										a.no_nota 
+										FROM penjualan a 
+										WHERE id = 	'$penjualan_id'	
+										
+										LIMIT 1 ");
+
+
+	$query_1->execute();
+	$x = $query_1->fetch(PDO::FETCH_OBJ);
+	if ($x){
+		//echo $x->id;
+		
+		//hapus item transaksi
+		$query_a = $koneksi->prepare("DELETE FROM item_transaksi  WHERE no_nota = :a AND jenis_transaksi = :b ");
+		$query_a->execute(array(
+							"a" => $x->no_nota,
+							"b" => 'penjualan'
+						));	
+
+		//hapus item tambahan
+		$query_b = $koneksi->prepare("DELETE FROM item_tambahan  WHERE no_nota = :a  ");
+		$query_b->execute(array(
+							"a" => $x->no_nota
+						));	
+
+		//hapus piutang
+		
+		$query_c = $koneksi->prepare("DELETE FROM bayar_piutang  WHERE nota_id = :a  ");
+		$query_c->execute(array(
+							"a" => $x->id
+						));	
+
+		//hapus data penjualan
+		
+		$query_d = $koneksi->prepare("DELETE FROM penjualan  WHERE id = :a  ");
+		$query_d->execute(array(
+							"a" => $penjualan_id
+						));	
+
+						
+		header('HTTP/1.1 200 Sukses'); //if sukses
+
+	}else{
+		header('HTTP/1.1 402 error'); //if error
+	}
+
+	
+break;
+
+case "hapus_transaksi_pembelian":
+	
+	$pembelian_id 		= $_POST['pembelian_id'];
+
+	//cari no nota nya
+	$query_1 = $koneksi->prepare(" SELECT 	
+										a.id,
+										a.no_nota 
+										FROM pembelian a 
+										WHERE id = 	'$pembelian_id'	
+										
+										LIMIT 1 ");
+
+
+	$query_1->execute();
+	$x = $query_1->fetch(PDO::FETCH_OBJ);
+	if ($x){
+		//echo $x->id;
+		
+		//hapus item transaksi
+		$query_a = $koneksi->prepare("DELETE FROM item_transaksi  WHERE no_nota = :a AND jenis_transaksi = :b ");
+		$query_a->execute(array(
+							"a" => $x->no_nota,
+							"b" => 'pembelian'
+						));	
+
+		//hapus item tambahan
+		$query_b = $koneksi->prepare("DELETE FROM item_tambahan  WHERE no_nota = :a  ");
+		$query_b->execute(array(
+							"a" => $x->no_nota
+						));	
+
+		//hapus hutan
+		
+		$query_c = $koneksi->prepare("DELETE FROM bayar_hutang  WHERE nota_id = :a  ");
+		$query_c->execute(array(
+							"a" => $x->id
+						));	
+
+		//hapus data penjualan
+		
+		$query_d = $koneksi->prepare("DELETE FROM pembelian  WHERE id = :a  ");
+		$query_d->execute(array(
+							"a" => $pembelian_id
+						));	
+
+						
+		header('HTTP/1.1 200 Sukses'); //if sukses
+
+	}else{
+		header('HTTP/1.1 402 error'); //if error
+	}
+
+	
+
+break;
+
+
 default;
 header('HTTP/1.1 400 request error');
 break;

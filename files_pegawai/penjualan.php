@@ -138,7 +138,7 @@ $(document).ready(function () {
                         return 	[  	'<button  style="margin:1px; margin-top:-5px;" class="btn btn-warning		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
 									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 
 									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 		btn-xs edit" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fa fa-edit"></span></button>'
-									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-danger 		btn-xs hapus" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus" disabled><span class="fa fa-remove"></span></button>'  
+									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-danger 		btn-xs hapus" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus"><span class="fa fa-remove"></span></button>'  
 								];
                       		
 					}
@@ -200,6 +200,70 @@ $(document).ready(function () {
 
 	});
 
+
+	$(document).on('click','.hapus',function(e){
+        e.preventDefault();
+        penjualan_id   = $(this).val();
+
+		swal({
+				title: "Hapus Data Penjualan",
+				/* html: "Data Absensi anda akan dikirim kepada Pejabat Penilai untuk diverifikasi<br>"
+							  +"Data potongan tanpa diberikan alasan akan dianggap mangkir/alpa", */
+				type: "question",
+				showCancelButton: true,
+				cancelButtonText: "Batal",
+				confirmButtonText: "Hapus",
+				confirmButtonClass: "btn btn-success",
+				cancelButtonClass: "btn btn-danger",
+				closeOnConfirm: false
+			}).then (function(){
+				$.ajax({
+			url         :"./kelas/transaksi_post.php",
+			type        : "POST",
+			data        :{op:"hapus_transaksi_penjualan",penjualan_id:penjualan_id},
+			cache       :false,
+			success:function(data){
+               		swal({
+							title: "",
+							text: "Sukses",
+							type: "success",
+							width: "200px",
+							showConfirmButton: false,
+							allowOutsideClick : false,
+							timer: 900
+							}).then(function () {
+												
+							},
+							function (dismiss) {
+								if (dismiss === 'timer') {
+
+								load_data_penjualan();
+									
+								}
+							}
+						)
+						
+					
+					},
+					error: function(e) {
+							swal({
+								title: "Gagal",
+								text: "",
+								type: "warning"
+							}).then (function(){
+								
+							});
+					}
+				});	
+		 
+			});
+		//alert(penjualan_id);
+		
+
+	});
+
+
+		
 
 });
 </script>		
