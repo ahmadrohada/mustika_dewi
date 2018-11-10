@@ -54,7 +54,7 @@ case "piutang_list":
 	while($x = $query->fetch(PDO::FETCH_OBJ)) {
 
 
-		$jumlah_belanja = (($x->total_belanja - $x->total_komisi)-$x->total_tambahan);
+		$jumlah_belanja = (($x->total_belanja - $x->total_komisi)+$x->total_tambahan);
 
 		
 		
@@ -63,7 +63,7 @@ case "piutang_list":
 		$bayar->execute();
 		$total_bayar  = $bayar->fetch(PDO::FETCH_OBJ);
 
-		$sisa_piutang 	= (($x->total_belanja - $x->total_komisi)-$x->total_tambahan)-( $x->bayar + $total_bayar->jm_bayar );
+		$sisa_piutang 	= (($x->total_belanja - $x->total_komisi)+$x->total_tambahan)-( $x->bayar + $total_bayar->jm_bayar );
 
 		$no++;
 			$h['no']				= $no;
@@ -121,14 +121,15 @@ case"detail_piutang":
 			if ($x){
 		
 
-				$jumlah_belanja = (($x->total_belanja - $x->total_komisi)-$x->total_tambahan);
+				$jumlah_belanja = (($x->total_belanja - $x->total_komisi)+$x->total_tambahan);
+				
 
 				//JUMLAH YANG SUDAH DIBAYAR
 				$bayar = $koneksi->prepare(" SELECT sum(jumlah_bayar) as jm_bayar FROM bayar_piutang WHERE nota_id = '$x->nota_id'  ");
 				$bayar->execute();
 				$total_bayar  = $bayar->fetch(PDO::FETCH_OBJ);
 
-				$sisa_piutang 	= (($x->total_belanja - $x->total_komisi)-$x->total_tambahan)-( $x->bayar + $total_bayar->jm_bayar );
+				$sisa_piutang 	= (($x->total_belanja - $x->total_komisi)+$x->total_tambahan)-( $x->bayar + $total_bayar->jm_bayar );
 
 
 				$detail_piutang = array(

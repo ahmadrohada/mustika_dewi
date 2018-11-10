@@ -62,7 +62,7 @@ case "penjualan_list":
 			}
 	
 		if ( $type == 'Hutang'){
-			$sisa = (($x->total_belanja - $x->total_komisi)-$x->total_tambahan)-$x->bayar;
+			$sisa = (($x->total_belanja - $x->total_komisi)+$x->total_tambahan)-$x->bayar;
 		}else{
 			$sisa = 0;
 		}
