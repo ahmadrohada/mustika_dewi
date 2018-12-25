@@ -107,15 +107,17 @@ case "tmp_penjualan_list":
 
 	$query = $koneksi->prepare(" SELECT 	
 									a.id,
+									a.stok_beras_id,
 									a.nama_karung,
 									a.qty,
 									a.tonase,
 									a.harga,
 									a.komisi,
-									b.label AS jenis_beras
+									c.label AS jenis_beras
 
 									FROM tmp_transaksi a
-									LEFT JOIN jenis_beras b ON b.id = a.jenis_beras_id
+									LEFT JOIN stok_beras b ON b.id = a.stok_beras_id
+									LEFT JOIN jenis_beras c ON c.id = b.jenis_beras_id
 
 									WHERE jenis_transaksi = 'penjualan'
 
@@ -133,6 +135,7 @@ case "tmp_penjualan_list":
 			$no++;
 			$h['no']			= $no;
 			$h['id']			= $x->id;
+			$h['stok_beras_id']	= $x->stok_beras_id;
 			$h['nama_karung']	= $x->nama_karung;
 			$h['jenis_beras']	= $x->jenis_beras;
 			$h['qty']			= $x->qty;

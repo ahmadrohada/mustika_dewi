@@ -107,7 +107,7 @@ $(document).ready(function () {
     function load_data_jenis_beras(){
 		
 		$.ajax({
-			url         : "./kelas/jenis_beras_get.php",
+			url         : "./kelas/stok_beras.php",
 			type        : "GET",
 			dataType    : "json",
 			data        : {op:'jenis_beras_tbl_list'},

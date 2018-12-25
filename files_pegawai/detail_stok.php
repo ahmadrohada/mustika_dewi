@@ -139,10 +139,10 @@ $(document).ready(function () {
     function load_data_jenis_beras(){
 		
 		$.ajax({
-			url         : "./kelas/jenis_beras_get.php",
+			url         : "./kelas/stok_beras.php",
 			type        : "GET",
 			dataType    : "json",
-			data        : {op:'jenis_beras_tbl_list'},
+			data        : {op:'stok_jenis_beras'},
 			success     : function(data) {
 				
                 $('.total').html(data['total'][0].total);
@@ -224,10 +224,10 @@ $(document).ready(function () {
     function load_data_nama_karung(){
 		
 		$.ajax({
-			url         : "./kelas/nama_karung_get.php",
+			url         : "./kelas/stok_beras.php",
 			type        : "GET",
 			dataType    : "json",
-			data        : {op:'nama_karung_stok_list',jenis_beras_id:jenis_beras_id},
+			data        : {op:'stok_karung',jenis_beras_id:jenis_beras_id},
 			success     : function(data) {
 				
              

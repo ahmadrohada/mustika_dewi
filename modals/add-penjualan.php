@@ -16,19 +16,14 @@
 							
 						
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <div class="form-group nama ">
                                     <label class="control-label">Nama Karung :</label>
                                     <select  class="form-control nama_karung" name="nama_karung" id="nama_karung" style="width:100%;"></select>
                                 </div>
                             </div>
                            
-                            <div class="col-md-4">
-                                <div class="form-group nama ">
-                                    <label>Jenis Beras</label>
-                                    <select  class="form-control jenis_beras" name="jenis_beras" id="jenis_beras" style="width:100%;"></select>
-                                </div>
-                            </div>
+                            
                         </div>
 						
 
@@ -82,7 +77,7 @@ $(document).ready(function() {
 
 
     $('.add-item_penjualan').on('hidden.bs.modal', function(){
-        $('#jenis_beras').select2("val", "");
+        
         $('.nama_karung').val("");
         $('.qty').val("");
         $('.tonase').val("");
@@ -91,20 +86,18 @@ $(document).ready(function() {
 
 
 //========================= NAMA KARUNG  =============================//
-    $('#jenis_beras').select2();
-    $('#jenis_beras').attr('disabled', true);
-    
+   
 
     $('#nama_karung').select2({
         
         allowClear          : true,
         ajax: {
-            url: './kelas/nama_karung_get.php',
+            url: './kelas/stok_beras.php',
             dataType: 'json',
             quietMillis: 250,
             data: function (params) {
                 var queryParameters = {
-                    op: 'nama_karung',
+                    op: 'stok_beras_list',
                     nama: params.term
                 }
                 return queryParameters;
@@ -132,47 +125,19 @@ $(document).ready(function() {
 
     $('#nama_karung').on('select2:select', function (e) {
 
-    var nama_karung = $("#nama_karung option:selected").val();
- 
-    $('#jenis_beras').attr('disabled', false);
-    $('#tonase').val(nama_karung.split('|')[1]);
+        var stok = $("#nama_karung option:selected").val();
+    
+        
+        $('#tonase').val(stok.split('|')[1]);
+        $('#harga').val(stok.split('|')[2]);
 
-    $('#jenis_beras').select2({
-            allowClear  : true,
-            ajax        : {
-                            url: './kelas/jenis_beras_get.php',
-                            dataType: 'json',
-                            quietMillis: 250,
-                            data: function (params) {
-                                var queryParameters = {
-                                    op: 'jenis_beras',
-                                    nama_karung : nama_karung,
-                                    label: params.term
-                                }
-                                return queryParameters;
-                            },
-                            processResults: function (data) {
-                                return {
-                                    results: $.map(data, function (item) {
-                                                
-                                        return {
-                                            text: item.label,
-                                            id: item.id,
-                                        }
-                                                
-                                    })
-                                };
-                            }
-                          }
-            });
-    $('#jenis_beras').select2('open');
+        $('#qty').focus();
+    
 
     });
 
 
-     $('#jenis_beras').on('select2:select', function (e) {
-        $('.f_harga').focus();
-    });
+    
 
     $(document).on('keydown','.f_harga',function(e){
         //13 = enter 9 = tab
@@ -197,28 +162,6 @@ $(document).ready(function() {
 //=========================================================================// 
 
     
-
-    /* $("#jenis_beras").change(function(){
-        var jenis_beras_id = $("#jenis_beras option:selected").val();
-        
-        //alert(jenis_beras_id);
-        $.ajax({
-            url     : "./kelas/jenis_beras_get.php",
-            type    : "GET",
-            dataType: "json",
-            data    : { op  : "harga_beras", jenis_beras_id : jenis_beras_id },
-            success: function (data) {
-                $(".f_harga").val(data['harga_jual']);
-                
-                $('.f_qty').focus();
-            },
-            error: function (data) {
-                
-            }
-
-        }); 
-    }); */
-
 
 
 //================= SIMPAN ITEM PEMBELIAN =============================//

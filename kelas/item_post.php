@@ -67,45 +67,43 @@ case "add_item_penjualan":
 	$no_nota 			= $_POST['no_nota'];
 	$data_k 			= $_POST['nama_karung'];
 	
-	//==cari nama karung nya
+	//==cari stok_beras_id
 	if ( $data_k != null ){
 		$dt 	 	  = explode("|",$data_k);
-		$pembelian_id = $dt[0];
+		$stok_beras_id = $dt[0];
 		//$tonase 	 = $dt[1];
 	}else{
-		$pembelian_id = "";
+		$stok_beras_id = "";
 	}
 
 
 	//cari nama karung nya
 	$query = $koneksi->prepare(" SELECT nama_karung
-											FROM item_transaksi
+											FROM stok_beras
 											
-											WHERE id = '$pembelian_id'
+											WHERE id = '$stok_beras_id'
 											 ");
 	$query->execute();
 	$x = $query->fetch(PDO::FETCH_OBJ);
 	$nama_karung = $x->nama_karung;
 
-	$jenis_beras_id 	= preg_replace('/[^0-9]/', '', $_POST['jenis_beras']);	
 	$harga 				= preg_replace('/[^0-9]/', '', $_POST['harga']);	
 	$tonase 			= $_POST['tonase'];	
 	$qty 				= preg_replace('/[^0-9]/', '', $_POST['qty']);	
 	
 
-	if ( ($nama_karung != "")&( $jenis_beras_id != "") ){
+	if ( ($nama_karung != "")&( $stok_beras_id != "") ){
 		try{
-			$query = $koneksi->prepare("INSERT INTO tmp_transaksi  (no_nota, jenis_transaksi, jenis_beras_id,nama_karung,qty,tonase,harga,pembelian_id)
-													VALUES(:a,:b,:c,:d,:e,:f,:g,:h)");
+			$query = $koneksi->prepare("INSERT INTO tmp_transaksi  (no_nota, jenis_transaksi, stok_beras_id,nama_karung,qty,tonase,harga)
+													VALUES(:a,:b,:c,:d,:e,:f,:g)");
 			$query->execute(array(
 								"a" => $no_nota,
 								"b" => 'penjualan',
-								"c" => $jenis_beras_id,
+								"c" => $stok_beras_id,
 								"d" => $nama_karung,
 								"e" => $qty,
 								"f" => $tonase,
-								"g" => $harga,
-								"h" => $pembelian_id
+								"g" => $harga
 							));	
 			  
 						}

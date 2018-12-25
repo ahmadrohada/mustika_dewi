@@ -56,7 +56,57 @@ case "simpan_transaksi_pembelian":
 							"g" => $x->harga,
 							"h" => $x->upah_kuli,
 							"i" => $x->komisi
-						));	
+						));	 
+
+
+		//INSERT INTO STOK table 
+		$cek_data = $koneksi->prepare(" SELECT * FROM stok_beras 	
+															WHERE jenis_beras_id 	= '$x->jenis_beras_id' 
+															AND nama_karung			= '$x->nama_karung'
+															AND tonase				= '$x->tonase'
+															AND harga_beli			= '$x->harga'
+															
+															ORDER by id ASC");
+		$cek_data->execute();
+		$ck = $cek_data->fetch(PDO::FETCH_OBJ);
+
+		//jika ada update,,jika null insert
+		if ( $ck->id == 0 ){
+			//iNSERT NEW RECORD
+			$query_2 = $koneksi->prepare("INSERT INTO stok_beras  (jenis_beras_id,nama_karung,tonase,harga_beli,qty_stok,supplier_id,tgl_beli)
+			VALUES(:a,:b,:c,:d,:e,:f,:g)");
+			$query_2->execute(array(
+										"a" => $x->jenis_beras_id,
+										"b" => $x->nama_karung,
+										"c" => $x->tonase,
+										"d" => $x->harga,
+										"e" => $x->qty,
+										"f" => $supplier_id,
+										"g" => date('Y'."-".'m'."-".'d'." ".'H'.":".'i'.":".'s')
+										));	
+
+
+		}else{
+			//UPDATE RECORD
+			$update_stok = $koneksi->prepare("UPDATE stok_beras
+												SET 	qty_stok		= :a,
+														tgl_beli		= :b
+
+												WHERE   id			= :id ");
+			$update_stok->execute(array(
+									"a" 		=> $ck->qty_stok + $x->qty,
+									"b" 		=> date('Y'."-".'m'."-".'d'." ".'H'.":".'i'.":".'s'),
+									"id" 		=> $ck->id
+			));	
+
+
+
+
+
+		} 
+
+
+			
 		$no++;
 	}	
 	//=================================================================================================//
@@ -85,7 +135,7 @@ case "simpan_transaksi_pembelian":
 							"h" => $jumlah_dp,
 							"i" => $keterangan
 
-							));	
+							));	 
 
 		if (mysql_errno() == 0){
 
@@ -93,8 +143,8 @@ case "simpan_transaksi_pembelian":
 			$query = $koneksi->prepare("DELETE FROM tmp_transaksi  WHERE no_nota = :a ");
 			$query->execute(array(
 								"a" => $no_nota
-							));	
-
+							));	 
+			
 			header('HTTP/1.1 200 Sukses'); //if sukses
 		}else{
 			header('HTTP/1.1 401 error'); //if error
@@ -132,20 +182,31 @@ case "simpan_transaksi_penjualan":
 	$query->execute();
 	while($x = $query->fetch(PDO::FETCH_OBJ)) {
 		//INSERT KE TABLE REAL ITEM TRANSAKSI
-		$query_2 = $koneksi->prepare("INSERT INTO item_transaksi  (no_nota, jenis_transaksi ,jenis_beras_id,pembelian_id,nama_karung,qty,tonase,harga,upah_kuli,komisi)
-											VALUES(:a,:b,:c,:d,:e,:f,:g,:h,:i,:j)");
+		$query_2 = $koneksi->prepare("INSERT INTO item_transaksi  (no_nota, jenis_transaksi ,nama_karung,qty,tonase,harga,upah_kuli,komisi)
+											VALUES(:a,:b,:c,:d,:e,:f,:g,:h)");
 		$query_2->execute(array(
 							"a" => $x->no_nota,
 							"b" => $x->jenis_transaksi,
-							"c" => $x->jenis_beras_id,
-							"d" => $x->pembelian_id,
-							"e" => $x->nama_karung,
-							"f" => $x->qty,
-							"g" => $x->tonase,
-							"h" => $x->harga,
-							"i" => $x->upah_kuli,
-							"j" => $x->komisi
+							"c" => $x->nama_karung,
+							"d" => $x->qty,
+							"e" => $x->tonase,
+							"f" => $x->harga,
+							"g" => $x->upah_kuli,
+							"h" => $x->komisi
 						));	
+
+
+
+		//KURANGI DATA STOK
+		$update = $koneksi->prepare("UPDATE stok_beras
+					SET 	qty_stok	= stok_beras.qty_stok - :qty
+					WHERE   id			= :id ");
+		$update->execute(array(
+				"qty" 		=> $x->qty,
+				"id" 		=> $x->stok_beras_id
+		));
+
+		
 		$no++;
 	}	
 

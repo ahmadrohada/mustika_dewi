@@ -5,7 +5,7 @@ require_once('../config/conn_pdo.php');
 
 if ( isset($_POST['nip'])){
 
-$username   = trim($_POST['nip']);
+$username   = trim(addslashes($_POST['nip']));
 $password 	= MD5(strtolower(trim($_POST['password'])));
 
 

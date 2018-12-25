@@ -93,79 +93,39 @@ case"dashboard_detail":
 break;
 case"stok_beras":
 
-			$query = $koneksi->prepare(" SELECT 	
-											a.id as jenis_beras_id,
-											a.label
+	$query = $koneksi->prepare(" SELECT 	
+							a.id as jenis_beras_id,
+							a.label
 
-											FROM jenis_beras a
-											ORDER by a.id DESC");
+							FROM jenis_beras a
+							ORDER by a.id DESC");
 
-			$no = 0;
-			$response = array();
-			$response["stok_beras"] = array();
-			$total = 0;
-			$query->execute();
+							$no = 0;
+							$response = array();
+							$response["stok_beras"] = array();
+							$total = 0;
+							$query->execute();
 
 			while($x = $query->fetch(PDO::FETCH_OBJ)) {
 
+					$stok_beras = $koneksi->prepare(" SELECT * , SUM(qty_stok) AS stok FROM stok_beras WHERE jenis_beras_id = '$x->jenis_beras_id'   ");
+					$stok_beras->execute();
+					$z  = $stok_beras->fetch(PDO::FETCH_OBJ);
 
-			$query_2 = $koneksi->prepare(" SELECT 	
-				a.id,
-				a.nama_karung,
-				a.tonase,
-				a.harga AS harga_beli
-				FROM item_transaksi a
-				WHERE   jenis_transaksi = 'pembelian'
-						AND jenis_beras_id = '$x->jenis_beras_id'
+					$stok_beras = ( $z ? $z->stok : 0 );
 
-				GROUP BY a.nama_karung,a.tonase
-				ORDER by a.id DESC ");
+					$no++;
+					$h['no']				= $no;
+					$h['jenis_beras']	= $x->label;
+					$h['jumlah']	    = $stok_beras;
+						
+					array_push($response["stok_beras"], $h);
 
+			}	
 
-			$no = 0;
-			$query_2->execute();
-			$stok = 0;
-			while($y = $query_2->fetch(PDO::FETCH_OBJ)) {
+			
 
-
-
-			//pembelian 
-			$stok_in_query = $koneksi->prepare(" SELECT 	sum(qty) AS qty  FROM item_transaksi WHERE jenis_beras_id = '$x->jenis_beras_id' AND jenis_transaksi = 'pembelian' AND nama_karung = '$y->nama_karung' AND tonase = '$y->tonase' ");
-			$stok_in_query->execute();
-			$stok_in  = $stok_in_query->fetch(PDO::FETCH_OBJ);
-
-			$in 	  = $stok_in->qty * $y->tonase;
-
-			$stok_out_query = $koneksi->prepare(" SELECT 	qty,tonase FROM item_transaksi WHERE jenis_transaksi = 'penjualan' AND  pembelian_id = '$y->id' ");
-			$stok_out_query->execute();
-			//$stok_out  = $stok_out_query->fetch(PDO::FETCH_OBJ);
-			//$out       = $stok_out->qty;
-
-			$total_out = 0 ;
-			while($v = $stok_out_query->fetch(PDO::FETCH_OBJ)) {
-			$total_out = $total_out + ( $v->qty*$v->tonase);
-
-			}
-
-			$out = $total_out ;
-			$stok    = $stok + floor(($in - $out)/$y->tonase);
-
-
-			} 
-
-		/* 	$no++;
-			$h['no']				= $no;
-			$h['jenis_beras_id']	= $x->jenis_beras_id;
-			$h['label']				= $x->label;
-			$h['stok']				= $stok;
-
-		 */
-			$h['jenis_beras']	= $x->label;
-            $h['jumlah']	    = $stok;
-				
-			array_push($response["stok_beras"], $h);
-
-			}
+			
                 
          
 

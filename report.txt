@@ -32,6 +32,12 @@ halaman piutang
 halaman hutang 
 bayar hutang dan pituang
 
+
+
+
+
+
+
 transaksi jual beli default "Cash"
 
 kekurangan tonase hampir mirip konsepnya dengan komisi, ada kemungkinan di tulis pas tapi isi tidak pas
@@ -49,3 +55,11 @@ masuk ke biaya tambahan penjualan
 //
 FONT printout,,harus setting
 otomatis printout belum jalan
+
+
+10 Nov 2018
+pembuatan item tambahan pada form transaksi pembelian
+
+
+
+
