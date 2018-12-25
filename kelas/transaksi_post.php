@@ -77,7 +77,7 @@ case "simpan_transaksi_pembelian":
 			VALUES(:a,:b,:c,:d,:e,:f,:g)");
 			$query_2->execute(array(
 										"a" => $x->jenis_beras_id,
-										"b" => $x->nama_karung,
+										"b" => strtoupper($x->nama_karung),
 										"c" => $x->tonase,
 										"d" => $x->harga,
 										"e" => $x->qty,

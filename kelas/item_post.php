@@ -52,7 +52,7 @@ case "add_item_pembelian":
 						}
 		catch ( PDOException $e)
 		{
-			header('HTTP/1.1 400 error'); //if error
+			header('HTTP/1.1 401 error'); //if error
 		}
 	}else{
 		header('HTTP/1.1 400 error'); //if error
