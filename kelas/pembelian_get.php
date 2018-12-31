@@ -31,7 +31,9 @@ case "pembelian_list":
 								a.tgl_nota,
 								a.user_id,
 								a.supplier_id,
-								a.total_harga,
+								a.total_pembelian,
+								a.total_tambahan,
+								a.total_pengurangan,
 								a.total_upah_kuli,
 								a.type_bayar,
 								a.jumlah_dp,
@@ -51,7 +53,7 @@ case "pembelian_list":
 	while($x = $query->fetch(PDO::FETCH_OBJ)) {
 
 		
-		$jumlah_bayar  = $x->total_harga - $x->total_upah_kuli;
+		$jumlah_bayar  = ( $x->total_pembelian + $x->total_tambahan - $x->total_pengurangan) - $x->total_upah_kuli ;
 
 		switch($x->type_bayar)
 			{
@@ -75,7 +77,9 @@ case "pembelian_list":
 			$h['nama_supplier']		= $x->nama;
 
 
-			$h['total_harga']		= number_format($x->total_harga,'0',',','.');
+			$h['total_pembelian']	= number_format($x->total_pembelian,'0',',','.');
+			$h['total_tambahan']	= number_format($x->total_tambahan,'0',',','.');
+			$h['total_pengurangan']	= number_format($x->total_pengurangan,'0',',','.');
 			$h['total_upah_kuli']	= number_format($x->total_upah_kuli,'0',',','.');
 			$h['jumlah_bayar']		= number_format($jumlah_bayar,'0',',','.');
 			$h['type_bayar']		= $type;
@@ -192,7 +196,6 @@ case "transaksi_pembelian_list_item":
 	$no = 0;
 	$response = array();
 	$response["tmp_pembelian_list"] = array();
-	$response["detail_pembelian_list"] = array();
 	$total					= 0;
 	$total_upah_kuli		= 0;
 	$total_bayar			= 0;
@@ -224,20 +227,9 @@ case "transaksi_pembelian_list_item":
 
 			array_push($response["tmp_pembelian_list"], $h);
 
-			$total				= $total + $jumlah;
-			$total_upah_kuli	= $total_upah_kuli + $upah;
-
+		
 	}	
 
-
-
-	$gt['total']				= number_format($total,'0',',','.');
-
-	$gt['total_upah_kuli']		= number_format($total_upah_kuli,'0',',','.');
-	$gt['total_bayar']			= number_format($total-$total_upah_kuli,'0',',','.');
-
-
-	array_push($response["detail_pembelian_list"], $gt);
 
 	if (mysql_errno() == 0){
 		echo json_encode($response);
@@ -275,14 +267,29 @@ case"detail_transaksi_pembelian":
 
 	if ($x){
 		
-		
+		$total_bayar  = ( $x->total_pembelian + $x->total_tambahan - $x->total_pengurangan) - $x->total_upah_kuli ;
+
+		if ( $x->type_bayar == 1 ){
+			$sisa = 0 ;
+		}else{
+			$sisa = $total_bayar - $x->jumlah_dp;
+		}
+
 		$detail_pembelian = array(
-					'no_nota'		=> $x->no_nota,
-					'tgl_nota'		=> $d->tgl($x->tgl_nota),
-					'jam'			=> $d->jam($x->tgl_nota),
-					'nama_supplier' => $x->nama_supplier,
-					'no_tlp'		=> $x->no_tlp,
-					'nama_user'		=> $x->nama_user,
+					'no_nota'			=> $x->no_nota,
+					'tgl_nota'			=> $d->tgl($x->tgl_nota),
+					'jam'				=> $d->jam($x->tgl_nota),
+					'nama_supplier' 	=> $x->nama_supplier,
+					'no_tlp'			=> $x->no_tlp,
+					'nama_user'			=> $x->nama_user,
+					'type_bayar'		=> $x->type_bayar,
+					'total_pembelian'	=> number_format($x->total_pembelian,'0',',','.'),
+					'total_upah_kuli'	=> number_format($x->total_upah_kuli,'0',',','.'),
+					'total_tambahan'	=> number_format($x->total_tambahan,'0',',','.'),
+					'total_pengurangan'	=> number_format($x->total_pengurangan,'0',',','.'),
+					'total_bayar'	    => number_format($total_bayar,'0',',','.'),
+					'jumlah_dp'			=> number_format($x->jumlah_dp,'0',',','.'),
+					'jumlah_sisa'	   	=> number_format($sisa,'0',',','.')
 					
 
 		);

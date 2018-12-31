@@ -100,44 +100,83 @@
                         </table>
                     </div>
 
-                    <div class="col-md-12" style="margin-top:10px; text-align:right;">
-                        <div class="col-md-8" style="margin-top:6px;">
-                            <span class="grand_total_text" >Total</span>
-                        </div>
-                        <div class="col-md-4">
-                            <span class="grand_total total_harga"></span>
-                            <input type="hidden" class="total_harga">
-                        </div>
-                        
-                    </div>
-
-                    <div class="col-md-12 no-padding" style="margin-top:10px; ">
+                    <div class="col-md-12 no-padding" style="margin-top:30px; ">
                         <div class="col-md-7">
                            
-                        <div class="form-group">
-                            <label>Keterangan</label>
-                            <textarea class="form-control keterangan" rows="2" placeholder="Keterangan tambahan" style="width:70%;"></textarea>
-                        </div>
-
-
-
+                            <span  class="pull-left" style="" data-toggle="tooltip" title="Tambahan"><a class="btn btn-warning btn-xs add_item_tambahan" data-toggle="modal" data-target=".add-item_tambahan"><i class="fa fa-plus" ></i> TAMBAHAN</a></span>
                             
+                            <table 
+                            
+                                id="list_tambahan"
+                                class="table-striped" 
+                                >
+                            
+                            </table>
+                            <br>
+                            
+                            <span  class="pull-left" style="" data-toggle="tooltip" title="Pengurangan"><a class="btn btn-warning btn-xs add_item_pengurangan" data-toggle="modal" data-target=".add-item_pengurangan"><i class="fa fa-minus" ></i> PENGURANGAN</a></span>
+                            <table 
+                            
+                                id="list_pengurangan"
+                                class="table-striped" 
+                                >
+                            
+                            </table>
+                            <br><br>
+
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <textarea class="form-control keterangan" rows="2" placeholder="Keterangan tambahan" style="width:70%;"></textarea>
+                            </div>
                         </div>
+
                         <div class="col-md-5">
                             <form class="form-horizontal">
+
+
+
                                 <div class="form-group" style="margin-top:20px;">
+                                    <label class="col-sm-6 control-label">Total Pembelian</label>
+                                    <div class="col-sm-6">
+                                        <input type="text"  class="form-control input-sm total_pembelian" value="0" style="text-align:right;" disabled> 
+                                    </div>
+                                </div> 
+
+
+
+
+
+
+
+                                <div class="form-group" style="margin-top:-10px;">
                                     <label class="col-sm-6 control-label">Total Upah Kuli</label>
                                     <div class="col-sm-6">
                                         <input type="text"  class="form-control input-sm total_upah_kuli" value="0" style="text-align:right; margin-top:5px;" disabled>
                                     </div>
                                 </div> 
 
-                                <div class="form-group"  style="margin-top:-10px;">
-                                    <label class="col-sm-6 control-label">Total Bayar</label>
+                                <div class="form-group" style="margin-top:-10px;">
+                                    <label class="col-sm-6 control-label">Total Tambahan</label>
                                     <div class="col-sm-6">
-                                        <input type="text"  class="form-control input-sm total_bayar" value="0" style="text-align:right; margin-top:2px;" disabled>
+                                        <input type="text"  class="form-control input-sm total_tambahan" value="0" style="text-align:right;" disabled> 
                                     </div>
-                                </div>
+                                </div> 
+                                <div class="form-group" style="margin-top:-10px;">
+                                    <label class="col-sm-6 control-label">Total Pengurangan</label>
+                                    <div class="col-sm-6">
+                                        <input type="text"  class="form-control input-sm total_pengurangan" value="0" style="text-align:right;" disabled> 
+                                    </div>
+                                </div> 
+
+
+                                <hr>
+                                <div class="form-group" style="margin-top:-10px;">
+                                    <span class="col-sm-6 grand_total_text" style="margin-top:4px;">Total Bayar</span>
+                                    <div class="col-sm-6 ">
+                                        <span class="grand_total total_bayar pull-right"></span>
+                                        <input type="hidden" class="total_bayar">
+                                    </div>
+                                </div> 
 
                                 <div class="form-group"  style="margin-top:-10px;">
                                     <label class="col-sm-6 control-label">Type Bayar</label>
@@ -166,7 +205,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-block btn-warning simpan_transaksi" style="margin-top:24px;">SIMPAN</button>
+                        <button type="button" class="btn btn-block btn-warning simpan_transaksi_pembelian" style="margin-top:24px;">SIMPAN</button>
                     </div>
 
 
@@ -181,6 +220,10 @@
 <?php
     include "modals/add-pembelian.php";
     include "modals/add-supplier.php";
+
+    include "modals/add-tambahan_pembelian.php";
+    include "modals/add-pengurangan_pembelian.php";
+
 ?>
 
 
@@ -217,6 +260,14 @@ $(document).ready(function () {
     
     $('.add-item_pembelian').on('hidden.bs.modal', function(){
 		load_data_pembelian();
+	});
+
+    $('.add-item_tambahan').on('hidden.bs.modal', function(){
+		load_data_tambahan();
+	});
+
+    $('.add-item_pengurangan').on('hidden.bs.modal', function(){
+		load_data_pengurangan();
 	});
 
     $.ajax({
@@ -285,10 +336,10 @@ $(document).ready(function () {
 
                 $('.detail_supplier').show(); 
 
-                //$('.simpan_transaksi').prop('disabled',false); 
+                
             },
             error: function (data) {
-               // $('.simpan_transaksi').prop('disabled',true);
+              
                 $('.detail_supplier').hide(); 
             }
         }); 
@@ -555,12 +606,13 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 					$('.fixed-table-loading').fadeOut(100);
 
 
-                    $('.total_harga').html(data['detail_pembelian_list'][0]['total']);
-                    $('.grand_total').val(data['detail_pembelian_list'][0]['total']);
-
+    
+                    $('.total_pembelian').val(data['detail_pembelian_list'][0]['total']);
                     $('.total_upah_kuli').val(data['detail_pembelian_list'][0]['total_upah_kuli']);
+
                     $('.total_bayar').val(data['detail_pembelian_list'][0]['total_bayar']);
                    
+                    hitung_total_bayar();
 				
 			},
 			error: function(data){
@@ -572,6 +624,412 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 			}
 		});
     }
+
+
+//====================================================================================================//
+//=========================================== TAMBAHAN PENJUALAN =====================================//
+//====================================================================================================//
+
+
+$('#list_tambahan').bootstrapTable({
+		columns:[	
+				{
+					field: 'no',
+					title: 'NO',
+					halign:'center',
+					align:'center',
+                    width:30,
+				}, 
+				
+                {
+					field: 'item_tambahan',
+					title: 'ITEM TAMBAHAN',
+					halign:'center',
+					
+				}, 
+                {
+					field: '',
+					title: 'QTY',
+					halign:'center',
+                    align:'center',
+                    width  : 80,
+                    formatter: function (value, row) {
+					    return 	[  	'<input type="text" id="'+row.id+'"  value="'+row.qty+'"  class="form-control input-sm tbl_qty_tambahan" style="width:80px; text-align:center; margin-top:-4px;">' 
+								];
+					}
+					
+				}, 
+                {
+					field: '',
+					title: 'HRG SATUAN',
+					halign:'center',
+                    align:'right',
+                    width  : 80,
+                    formatter: function (value, row) {
+					    return 	[  	'<input type="text" id="'+row.id+'"  value="'+row.harga_satuan+'"  class="form-control input-sm tbl_harga_satuan" style="width:80px; text-align:center; margin-top:-4px;">' 
+								];
+					}
+					
+				}, 
+                {
+					field: 'jumlah',
+					title: 'JUMLAH',
+					halign:'center',
+                    align:'right'
+				}, 
+				{
+					field: 'Status',
+					title: '<i class="glyphicon glyphicon-cog"></i>',
+					halign:'center',
+					align:'center',
+					width:60,
+					formatter: function (value, row) {
+					    return 	[  	'<button  style="margin-top:-4px;" class="btn btn-danger btn-xs tbl_hapus_tambahan" value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus"><span class="fa fa-remove"></span></button>' 
+									
+								];
+					}
+				}
+				]
+	});
+
+//==================== UPDATE QTY PADA TABLE TAMABAHAN  ====================================//
+
+    $(document).on('keydown','.tbl_qty_tambahan',function(e){
+        if ( (e.which == 13)|(e.which == 9)) {
+            
+            qty = $(this).val();
+            id = $(this).attr('id');
+            update_qty_table_tambahan(id,qty);
+            
+
+        } 
+    });
+
+
+    $(document).on('blur','.tbl_qty_tambahan',function(e){
+            qty = $(this).val();
+            id = $(this).attr('id');
+            update_qty_table_tambahan(id,qty);
+    });
+
+    function update_qty_table_tambahan(id,qty){
+        $.ajax({
+                url         :"./kelas/item_post.php",
+                type        : "POST",
+                data        :{op:"update_qty_tmp_tambahan_beli",qty:qty,id:id},
+                cache       :false,
+                success:function(data){
+                    load_data_tambahan();
+                },
+        }); 
+
+    }
+//=============================================================================//
+
+//==================== UPDATE HARGA SATUAN  PADA TABLE TAMABAHAN  ====================================//
+
+    $(document).on('keydown','.tbl_harga_satuan',function(e){
+        if ( (e.which == 13)|(e.which == 9)) {
+            
+            harga_satuan = $(this).val();
+            id = $(this).attr('id');
+            update_harga_satuan_table_tambahan(id,harga_satuan);
+            
+
+        } 
+    });
+
+
+    $(document).on('blur','.tbl_harga_satuan',function(e){
+            harga_satuan = $(this).val();
+            id = $(this).attr('id');
+            update_harga_satuan_table_tambahan(id,harga_satuan);
+    });
+
+    function update_harga_satuan_table_tambahan(id,qty){
+        $.ajax({
+                url         :"./kelas/item_post.php",
+                type        : "POST",
+                data        :{op:"update_harga_satuan_tmp_tambahan_beli",harga_satuan:harga_satuan,id:id},
+                cache       :false,
+                success:function(data){
+                    load_data_tambahan();
+                },
+        }); 
+
+    }
+//=============================================================================//
+//==============================================================================//
+//==================== HAPUS ITEM TAMBAHAN  ====================================//
+$(document).on('click','.tbl_hapus_tambahan',function(e){
+        //e.preventDefault();
+		tmp_transaksi_tambahan_id = $(this).val();
+		$.ajax({
+			url         :"./kelas/item_post.php",
+			type        : "POST",
+			data        :{op:"delete_from_tmp_tambahan_beli",tmp_transaksi_tambahan_id:tmp_transaksi_tambahan_id},
+			cache       :false,
+			success:function(data){
+                load_data_tambahan();
+			},
+		});
+		
+    });
+
+    load_data_tambahan();
+    function load_data_tambahan(){
+        $('#list_tambahan').hide();
+		
+		$.ajax({
+			url         : "./kelas/penjualan_get.php",
+			type        : "GET",
+			dataType    : "json",
+			data        : {data:'tmp_tambahan_list_beli'},
+			success     : function(data) {
+				
+                    if ( data['detail_tambahan_list'][0]['total_tambahan'] != 0 ){
+                        $('#list_tambahan').show();
+                        $('.total_tambahan').val(data['detail_tambahan_list'][0]['total_tambahan']);
+                    }else{
+                        $('.total_tambahan').val(0);
+                    }
+                    
+
+					$('#list_tambahan').bootstrapTable('load',{data: data['tmp_tambahan_list'] });
+					$('[data-toggle="tooltip"]').tooltip();
+					$('.fixed-table-loading').fadeOut(100);
+
+                   // hitung_total_bayar();
+
+                    $('.bayar').val("");
+                    $('.kembali').val("0");
+				
+			},
+			error: function(data){
+                    $('#list_tambahan').hide();
+					$('#list_tambahan').bootstrapTable('removeAll');
+                   
+					$('.fixed-table-loading').fadeOut(100);
+					$('[data-toggle="tooltip"]').tooltip();
+				
+			}
+		});
+    }
+
+
+//====================================================================================================//
+//=========================================== PENGURANGAN PEMBELIAN =====================================//
+//====================================================================================================//
+
+
+$('#list_pengurangan').bootstrapTable({
+		columns:[	
+				{
+					field: 'no',
+					title: 'NO',
+					halign:'center',
+					align:'center',
+                    width:30,
+				}, 
+				
+                {
+					field: 'item_pengurangan',
+					title: 'ITEM PENGURANGAN',
+					halign:'center',
+					
+				}, 
+                {
+					field: '',
+					title: 'QTY',
+					halign:'center',
+                    align:'center',
+                    width  : 80,
+                    formatter: function (value, row) {
+					    return 	[  	'<input type="text" id="'+row.id+'"  value="'+row.qty+'"  class="form-control input-sm tbl_qty_pengurangan" style="width:80px; text-align:center; margin-top:-4px;">' 
+								];
+					}
+					
+				}, 
+                {
+					field: '',
+					title: 'HRG SATUAN',
+					halign:'center',
+                    align:'right',
+                    width  : 80,
+                    formatter: function (value, row) {
+					    return 	[  	'<input type="text" id="'+row.id+'"  value="'+row.harga_satuan+'"  class="form-control input-sm tbl_harga_satuan_pengurangan" style="width:80px; text-align:center; margin-top:-4px;">' 
+								];
+					}
+					
+				}, 
+                {
+					field: 'jumlah',
+					title: 'JUMLAH',
+					halign:'center',
+                    align:'right'
+				}, 
+				{
+					field: 'Status',
+					title: '<i class="glyphicon glyphicon-cog"></i>',
+					halign:'center',
+					align:'center',
+					width:60,
+					formatter: function (value, row) {
+					    return 	[  	'<button  style="margin-top:-4px;" class="btn btn-danger btn-xs tbl_hapus_pengurangan" value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus"><span class="fa fa-remove"></span></button>' 
+									
+								];
+					}
+				}
+				]
+	});
+
+//==================== UPDATE QTY PADA TABLE PENGURANGAN  ====================================//
+
+$(document).on('keydown','.tbl_qty_pengurangan',function(e){
+        if ( (e.which == 13)|(e.which == 9)) {
+            
+            qty = $(this).val();
+            id = $(this).attr('id');
+            update_qty_table_pengurangan(id,qty);
+            
+
+        } 
+    });
+
+
+    $(document).on('blur','.tbl_qty_pengurangan',function(e){
+            qty = $(this).val();
+            id = $(this).attr('id');
+            update_qty_table_pengurangan(id,qty);
+    });
+
+    function update_qty_table_pengurangan(id,qty){
+        $.ajax({
+                url         :"./kelas/item_post.php",
+                type        : "POST",
+                data        :{op:"update_qty_tmp_pengurangan_beli",qty:qty,id:id},
+                cache       :false,
+                success:function(data){
+                    load_data_pengurangan();
+                },
+        }); 
+
+    }
+//=============================================================================//
+
+//==================== UPDATE HARGA SATUAN  PADA TABLE PENGURANGAN  ====================================//
+
+    $(document).on('keydown','.tbl_harga_satuan_pengurangan',function(e){
+        if ( (e.which == 13)|(e.which == 9)) {
+            
+            harga_satuan = $(this).val();
+            id = $(this).attr('id');
+            update_harga_satuan_table_pengurangan(id,harga_satuan);
+            
+
+        } 
+    });
+
+
+    $(document).on('blur','.tbl_harga_satuan_pengurangan',function(e){
+            harga_satuan = $(this).val();
+            id = $(this).attr('id');
+            update_harga_satuan_table_pengurangan(id,harga_satuan);
+    });
+
+    function update_harga_satuan_table_pengurangan(id,qty){
+        $.ajax({
+                url         :"./kelas/item_post.php",
+                type        : "POST",
+                data        :{op:"update_harga_satuan_tmp_pengurangan_beli",harga_satuan:harga_satuan,id:id},
+                cache       :false,
+                success:function(data){
+                    load_data_pengurangan();
+                },
+        }); 
+
+    }
+//=============================================================================//
+//==============================================================================//
+//==================== HAPUS ITEM PENGURANGAN  ====================================//
+$(document).on('click','.tbl_hapus_pengurangan',function(e){
+        //e.preventDefault();
+		tmp_transaksi_pengurangan_id = $(this).val();
+		$.ajax({
+			url         :"./kelas/item_post.php",
+			type        : "POST",
+			data        :{op:"delete_from_tmp_pengurangan_beli",tmp_transaksi_pengurangan_id:tmp_transaksi_pengurangan_id},
+			cache       :false,
+			success:function(data){
+                load_data_pengurangan();
+			},
+		});
+		
+    });
+
+
+    load_data_pengurangan();
+    function load_data_pengurangan(){
+        $('#list_pengurangan').hide();
+		
+		$.ajax({
+			url         : "./kelas/penjualan_get.php",
+			type        : "GET",
+			dataType    : "json",
+			data        : {data:'tmp_pengurangan_list_beli'},
+			success     : function(data) {
+				
+                    if ( data['detail_pengurangan_list'][0]['total_pengurangan'] != 0 ){
+                        $('#list_pengurangan').show();
+                        $('.total_pengurangan').val(data['detail_pengurangan_list'][0]['total_pengurangan']);
+                    }else{
+                        $('.total_pengurangan').val(0);
+                    }
+                    
+
+					$('#list_pengurangan').bootstrapTable('load',{data: data['tmp_pengurangan_list'] });
+					$('[data-toggle="tooltip"]').tooltip();
+					$('.fixed-table-loading').fadeOut(100);
+
+                    //hitung_total_bayar();
+
+                    $('.bayar').val("");
+                    $('.kembali').val("0");
+				
+			},
+			error: function(data){
+                    //$('#list_pengurangan').hide();
+					$('#list_pengurangan').bootstrapTable('removeAll');
+                   
+					$('.fixed-table-loading').fadeOut(100);
+					$('[data-toggle="tooltip"]').tooltip();
+				
+			}
+		});
+    }
+
+
+
+
+//================================== hitung ==========================================//
+function hitung_total_bayar(){
+
+total_pembelian      = parseInt($(".total_pembelian").val().replace(/[^,\d]/g, '').toString());
+total_upah_kuli      = parseInt($(".total_upah_kuli").val().replace(/[^,\d]/g, '').toString());
+total_tambahan       = parseInt($(".total_tambahan").val().replace(/[^,\d]/g, '').toString());
+total_pengurangan    = parseInt($(".total_pengurangan").val().replace(/[^,\d]/g, '').toString());
+
+
+total_bayar          = Intl.NumberFormat().format((total_pembelian-total_upah_kuli+total_tambahan ) - total_pengurangan );   
+$(".total_bayar").html(total_bayar);
+$(".total_bayar").val(total_bayar);
+
+
+
+}
+
+
+
 
 
 //=========================== T Y P E   B A Y A R =================================================//
@@ -600,24 +1058,26 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 
 
 //======================= SIMPAN TRANSAKSI PEMBELIAN ===============================================//
-    $(document).on('click','.simpan_transaksi',function(e){
+    $(document).on('click','.simpan_transaksi_pembelian',function(e){
         e.preventDefault();
-
-        
-
         user_id             = $(".user_id").val();
         supplier_id         = $(".supplier_id").val();
         no_nota             = $(".no_nota").val();
 
-        total_harga         = parseInt($(".total_harga").val().replace(/[^,\d]/g, '').toString());
+        total_pembelian     = parseInt($(".total_pembelian").val().replace(/[^,\d]/g, '').toString());
         total_upah_kuli     = parseInt($(".total_upah_kuli").val().replace(/[^,\d]/g, '').toString());
-     
+        total_tambahan      = parseInt($(".total_tambahan").val().replace(/[^,\d]/g, '').toString());
+        total_pengurangan   = parseInt($(".total_pengurangan").val().replace(/[^,\d]/g, '').toString());
+        
+        
+        keterangan          = $(".keterangan").val();
+
         type_bayar          = $(".type_bayar").val();
         jumlah_dp           = parseInt($(".txt_jm_dp").val().replace(/[^,\d]/g, '').toString());
       
-        //alert(user_id+supplier_id+no_nota+total_harga+total_upah_kuli);
+        
        
-        if ( total_harga == 0 ){
+        if ( total_pembelian == 0 ){
            
             swal({
 				
@@ -636,23 +1096,25 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 			});
             
         }else{
-            simpan_transaksi();
+            simpan_transaksi_pembelian();
         }
     });
 
 
-    function simpan_transaksi(){
-        user_id             = $(".user_id").val();
+    function simpan_transaksi_pembelian(){
+        /* user_id             = $(".user_id").val();
         supplier_id         = $(".supplier_id").val();
         no_nota             = $(".no_nota").val();
 
-        total_harga         = parseInt($(".total_harga").val().replace(/[^,\d]/g, '').toString());
+        total_pembelian     = parseInt($(".total_pembelian").val().replace(/[^,\d]/g, '').toString());
+        total_tambahan      = parseInt($(".total_pembelian").val().replace(/[^,\d]/g, '').toString());
+        total_pengurangan   = parseInt($(".total_pengurangan").val().replace(/[^,\d]/g, '').toString());
         total_upah_kuli     = parseInt($(".total_upah_kuli").val().replace(/[^,\d]/g, '').toString());
         
         keterangan          = $(".keterangan").val();
 
         type_bayar          = $(".type_bayar").val();
-        jumlah_dp           = parseInt($(".txt_jm_dp").val().replace(/[^,\d]/g, '').toString());
+        jumlah_dp           = parseInt($(".txt_jm_dp").val().replace(/[^,\d]/g, '').toString()); */
 
           $.ajax({
 			url         : "./kelas/transaksi_post.php",
@@ -661,7 +1123,9 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
                             user_id         : user_id,
                             supplier_id     : supplier_id, 
                             no_nota         : no_nota,
-                            total_harga     : total_harga,
+                            total_pembelian : total_pembelian,
+                            total_pengurangan : total_pengurangan,
+                            total_tambahan  : total_tambahan,
                             total_upah_kuli : total_upah_kuli,
                             type_bayar      : type_bayar,
                             jumlah_dp       : jumlah_dp,
@@ -685,7 +1149,7 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 
                             window.open("./print_out/cetak_nota_pembelian.php", "print_nota","width=900,height=800,top=50,left=250" );
 						
-                            window.location.reload();
+                            //window.location.reload();
                             
 						}
 					}

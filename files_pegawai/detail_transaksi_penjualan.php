@@ -3,7 +3,7 @@
 ?>
 <input type="hidden" value="<?php echo $penjualan_id ?>" class="penjualan_id" id="penjualan_id" name="penjualan_id" >
 
-
+ 
 
 <!-- Main content -->
 <section class="content">
@@ -86,7 +86,7 @@
                 </div>
                 <div class="col-md-12 no-padding" style="margin-top:20px; ">
                     <div class="col-md-7">
-
+                        
                         <div class="list_tambahan">
                             <table 
                                 id="list_tambahan"
@@ -95,8 +95,18 @@
                                 
                             </table>
                         </div>
-                        
 
+                        <br>
+                        <div class="list_pengurangan">
+                            <table 
+                                id="list_pengurangan"
+                                class="table-striped" 
+                            >
+                                
+                            </table>
+                        </div>
+                        
+                        <br>
                            
                     <div class="form-group">
                         <label>Keterangan</label>
@@ -127,6 +137,13 @@
                                 </div>
                         </div> 
 
+                        <div class="form-group" style="margin-top:-10px;">
+                            <label class="col-sm-6 control-label">Total Pengurangan</label>
+                                <div class="col-sm-6">
+                                    <input type="text"  class="form-control input-sm total_pengurangan" value="0" style="text-align:right;" disabled> 
+                                </div>
+                        </div> 
+
                         <hr>
                         <div class="form-group" style="margin-top:-10px;">
                             <span class="col-sm-6 grand_total_text" style="margin-top:4px;">Total Bayar</span>
@@ -140,7 +157,7 @@
                         <div class="form-group" >
                             <label class="col-sm-6 control-label" >Bayar</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form_bayar form-control input-sm bayar"  value="" id="bayar" style="text-align:right;">
+                                    <input type="text" class="form_bayar form-control input-sm bayar"  value="" id="bayar" style="text-align:right;" disabled>
                                 </div>
                             </div>
                         <div class="form-group"  style="margin-top:-10px;">
@@ -190,6 +207,7 @@ $(document).ready(function () {
                 $('.total_belanja').val(data['total_belanja']);
                 $('.total_komisi').val(data['total_komisi']);
                 $('.total_tambahan').val(data['total_tambahan']);
+                $('.total_pengurangan').val(data['total_pengurangan']);
 
                 $('.total_bayar').html(data['total_bayar']);
 
@@ -216,6 +234,7 @@ $(document).ready(function () {
 
                 load_data_penjualan(data['no_nota']);
                 load_data_tambahan(data['no_nota']);
+                load_data_pengurangan(data['no_nota']);
 				
 			},
 			error: function(data){
@@ -306,10 +325,10 @@ $(document).ready(function () {
 					$('.fixed-table-loading').fadeOut(100);
 
 
-                    $('.total_harga').html(data['detail_penjualan_list'][0]['total']);
-                    $('.grand_total').val(data['detail_penjualan_list'][0]['total']);
+                    //$('.total_harga').html(data['detail_penjualan_list'][0]['total']);
+                    //$('.grand_total').val(data['detail_penjualan_list'][0]['total']);
 
-                    $('.total_komisi').val(data['detail_penjualan_list'][0]['total_komisi']);
+                    //$('.total_komisi').val(data['detail_penjualan_list'][0]['total_komisi']);
 
 
                     //$('.total_harga').html(data['detail_penjualan_list'][0]['total']);
@@ -395,6 +414,84 @@ $('#list_tambahan').bootstrapTable({
 			},
 			error: function(data){
 					$('#list_tambahan').bootstrapTable('removeAll');
+					$('.fixed-table-loading').fadeOut(100);
+					$('[data-toggle="tooltip"]').tooltip();
+				
+			}
+		});
+    }
+
+
+//====================================================================================================//
+//=========================================== PENGURANGAN PEMBELIAN =====================================//
+//====================================================================================================//
+
+
+$('#list_pengurangan').bootstrapTable({
+		columns:[	
+				{
+					field: 'no',
+					title: 'NO',
+					halign:'center',
+					align:'center',
+                    width:30,
+				}, 
+				
+                {
+					field: 'item_pengurangan',
+					title: 'ITEM PENGURANGAN',
+					halign:'center',
+					
+				}, 
+                {
+					field: 'qty',
+					title: 'QTY',
+					halign:'center',
+                    align:'center',
+                    width  : 80
+					
+				}, 
+                {
+					field: 'harga_satuan',
+					title: 'HRG SATUAN',
+					halign:'center',
+                    align:'right',
+                    width  : 80,
+					
+				}, 
+                {
+					field: 'jumlah',
+					title: 'JUMLAH',
+					halign:'center',
+                    align:'right'
+				}
+				]
+	});
+
+    function load_data_pengurangan(no_nota){
+		$.ajax({
+			url         : "./kelas/penjualan_get.php",
+			type        : "GET",
+			dataType    : "json",
+			data        : {data:'transaksi_pengurangan_list_item',no_nota:no_nota},
+			success     : function(data) {
+				
+                    if ( data['tmp_pengurangan_detail'][0]['data_table'] == 'show' ){
+                        $('.list_pengurangan').show();
+                    }else{
+                        $('.list_pengurangan').hide();
+                    }
+
+                    $('#list_pengurangan').bootstrapTable('load',{data: data['tmp_pengurangan_list'] });
+					$('[data-toggle="tooltip"]').tooltip();
+					$('.fixed-table-loading').fadeOut(100);
+
+
+
+				
+			},
+			error: function(data){
+					$('#list_pengurangan').bootstrapTable('removeAll');
 					$('.fixed-table-loading').fadeOut(100);
 					$('[data-toggle="tooltip"]').tooltip();
 				

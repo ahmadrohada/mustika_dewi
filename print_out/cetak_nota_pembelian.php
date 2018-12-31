@@ -19,7 +19,7 @@ ob_start();
 						a.id as pembelian_id,
 						a.no_nota,
 						a.tgl_nota,
-						a.total_harga,
+						a.total_pembelian,
 						a.total_upah_kuli,
 						a.keterangan,
 						b.nama as nama_supplier,
@@ -42,7 +42,9 @@ ob_start();
 						a.id as pembelian_id,
 						a.no_nota,
 						a.tgl_nota,
-						a.total_harga,
+						a.total_pembelian,
+						a.total_tambahan,
+						a.total_pengurangan,
 						a.total_upah_kuli,
 						a.keterangan,
 						b.nama as nama_supplier,
@@ -201,7 +203,7 @@ ob_start();
 					echo "<tr>
 						<td align='center'></td>
 							
-						<td><font style=' font-size:8pt; font-family:arial;'>Upah Kuli</font></td>
+						<td><font style=' font-size:8pt; font-family:arial;'>- Upah Kuli</font></td>
 						<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format($dt->upah_kuli,'0',',','.')."</font></td>
 						<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format(($dt->upah_kuli*$dt->tonase)*$dt->qty,'0',',','.')."</font></td>
 					</tr>";	
@@ -215,6 +217,58 @@ ob_start();
 				
 
 		}
+
+		
+//================================ TAMBAHAN ===========================================================//
+$query_2 = $koneksi->prepare(" SELECT 	
+									a.*
+
+									FROM item_tambahan_beli a
+									WHERE no_nota = '$x->no_nota'
+
+									ORDER by a.id ASC");
+
+
+$query_2->execute();
+
+while($dt = $query_2->fetch(PDO::FETCH_OBJ)) {
+
+		echo "<tr>
+		<td align='center'><font style=' font-size:8pt; font-family:arial;'>".$dt->qty."</font></td>
+
+		<td><font style=' font-size:8pt; font-family:arial;'> + ".$dt->item_tambahan."</font></td>
+		<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format($dt->harga_satuan,'0',',','.')."</font></td>
+		<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format(($dt->harga_satuan)*$dt->qty,'0',',','.')."</font></td>
+		</tr>";	
+
+
+}
+
+//================================ PENGURANGAN ===========================================================//
+$query_3 = $koneksi->prepare(" SELECT 	
+								a.*
+
+								FROM item_pengurangan_beli a
+								WHERE no_nota = '$x->no_nota'
+
+								ORDER by a.id ASC");
+
+
+$query_3->execute();
+
+while($ds = $query_3->fetch(PDO::FETCH_OBJ)) {
+
+		echo "<tr>
+		<td align='center'><font style=' font-size:8pt; font-family:arial;'>".$ds->qty."</font></td>
+
+		<td><font style=' font-size:8pt; font-family:arial;'> - ".$ds->item_pengurangan."</font></td>
+		<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format($ds->harga_satuan,'0',',','.')."</font></td>
+		<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format(($ds->harga_satuan)*$ds->qty,'0',',','.')."</font></td>
+		</tr>";	
+
+
+}
+
 
 		if ( $no > 1 ){
 			echo "<tr>
@@ -245,7 +299,7 @@ ob_start();
 		<td width="3%"> </td>
 		<td align="right" width="19%">
 			<font style=" font-size:9pt; font-family:arial;">
-				<?php  echo number_format($x->total_harga-$x->total_upah_kuli,'0',',','.'); ?>
+				<?php  echo number_format(($x->total_pembelian-$x->total_upah_kuli+$x->total_tambahan) - $x->total_pengurangan,'0',',','.'); ?>
 			</font>
 		</td>
 	</tr>

@@ -273,6 +273,38 @@ case "add_item_tambahan":
 	
 
 break;
+case "add_item_tambahan_beli":
+		
+
+	$no_nota 			= $_POST['no_nota'];	
+	$item_tambahan 		= $_POST['item_tambahan'];	
+	$qty 				= preg_replace('/[^0-9]/', '', $_POST['qty']);	
+	$harga_satuan		= preg_replace('/[^0-9]/', '', $_POST['harga_satuan']);	
+	
+
+	if ( $item_tambahan != ""){
+		try{
+			$query = $koneksi->prepare("INSERT INTO tmp_tambahan_beli  (no_nota,item_tambahan,qty,harga_satuan)
+													VALUES(:a,:b,:c,:d)");
+			$query->execute(array(
+								"a" => $no_nota,
+								"b" => $item_tambahan,
+								"c" => $qty,
+								"d" => $harga_satuan
+							));	
+			  
+						}
+		catch ( PDOException $e)
+		{
+			header('HTTP/1.1 401 error'); //if error
+		}
+	}else{
+		header('HTTP/1.1 402 error'); //if error
+	}
+
+	
+
+break;
 case "update_qty_tmp_tambahan":
 		
 	$qty  	= preg_replace('/[^0-9]/', '', $_POST['qty']);
@@ -281,6 +313,27 @@ case "update_qty_tmp_tambahan":
 
 	try{
 		$update = $koneksi->prepare("UPDATE tmp_tambahan
+										SET 	qty		= :qty
+										WHERE   id		= :id ");
+		$update->execute(array(
+								"qty" 			=> $qty,
+								"id" 			=> $id
+							));	
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "update_qty_tmp_tambahan_beli":
+		
+	$qty  	= preg_replace('/[^0-9]/', '', $_POST['qty']);
+	$id 			= preg_replace('/[^0-9]/', '', $_POST['id']);		
+	
+
+	try{
+		$update = $koneksi->prepare("UPDATE tmp_tambahan_beli
 										SET 	qty		= :qty
 										WHERE   id		= :id ");
 		$update->execute(array(
@@ -315,6 +368,27 @@ case "update_harga_satuan_tmp_tambahan":
 	}
 
 break;
+case "update_harga_satuan_tmp_tambahan_beli":
+		
+	$harga_satuan  	= preg_replace('/[^0-9]/', '', $_POST['harga_satuan']);
+	$id 			= preg_replace('/[^0-9]/', '', $_POST['id']);		
+	
+
+	try{
+		$update = $koneksi->prepare("UPDATE tmp_tambahan_beli
+										SET 	harga_satuan		= :harga_satuan
+										WHERE   id					= :id ");
+		$update->execute(array(
+								"harga_satuan" 	=> $harga_satuan,
+								"id" 			=> $id
+							));	
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
 case "delete_from_tmp_tambahan":
 		
 
@@ -322,6 +396,211 @@ case "delete_from_tmp_tambahan":
 	
 	try{
 	$query = $koneksi->prepare("DELETE FROM tmp_tambahan  WHERE id = :a ");
+	$query->execute(array(
+						"a" => $id
+					));	
+		  
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "delete_from_tmp_tambahan_beli":
+		
+
+	$id = preg_replace('/[^0-9]/', '', $_POST['tmp_transaksi_tambahan_id']);		
+	
+	try{
+	$query = $koneksi->prepare("DELETE FROM tmp_tambahan_beli  WHERE id = :a ");
+	$query->execute(array(
+						"a" => $id
+					));	
+		  
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+
+
+
+case "add_item_pengurangan":
+		
+
+	$no_nota 			= $_POST['no_nota'];	
+	$item_pengurangan 		= $_POST['item_pengurangan'];	
+	$qty 				= preg_replace('/[^0-9]/', '', $_POST['qty']);	
+	$harga_satuan		= preg_replace('/[^0-9]/', '', $_POST['harga_satuan']);	
+	
+
+	if ( $item_pengurangan != ""){
+		try{
+			$query = $koneksi->prepare("INSERT INTO tmp_pengurangan  (no_nota,item_pengurangan,qty,harga_satuan)
+													VALUES(:a,:b,:c,:d)");
+			$query->execute(array(
+								"a" => $no_nota,
+								"b" => $item_pengurangan,
+								"c" => $qty,
+								"d" => $harga_satuan
+							));	
+			  
+						}
+		catch ( PDOException $e)
+		{
+			header('HTTP/1.1 401 error'); //if error
+		}
+	}else{
+		header('HTTP/1.1 402 error'); //if error
+	}
+
+	
+
+break;
+case "add_item_pengurangan_beli":
+		
+
+	$no_nota 			= $_POST['no_nota'];	
+	$item_pengurangan 		= $_POST['item_pengurangan'];	
+	$qty 				= preg_replace('/[^0-9]/', '', $_POST['qty']);	
+	$harga_satuan		= preg_replace('/[^0-9]/', '', $_POST['harga_satuan']);	
+	
+
+	if ( $item_pengurangan != ""){
+		try{
+			$query = $koneksi->prepare("INSERT INTO tmp_pengurangan_beli  (no_nota,item_pengurangan,qty,harga_satuan)
+													VALUES(:a,:b,:c,:d)");
+			$query->execute(array(
+								"a" => $no_nota,
+								"b" => $item_pengurangan,
+								"c" => $qty,
+								"d" => $harga_satuan
+							));	
+			  
+						}
+		catch ( PDOException $e)
+		{
+			header('HTTP/1.1 401 error'); //if error
+		}
+	}else{
+		header('HTTP/1.1 402 error'); //if error
+	}
+
+	
+
+break;
+case "update_qty_tmp_pengurangan":
+		
+	$qty  	= preg_replace('/[^0-9]/', '', $_POST['qty']);
+	$id 			= preg_replace('/[^0-9]/', '', $_POST['id']);		
+	
+
+	try{
+		$update = $koneksi->prepare("UPDATE tmp_pengurangan
+										SET 	qty		= :qty
+										WHERE   id		= :id ");
+		$update->execute(array(
+								"qty" 			=> $qty,
+								"id" 			=> $id
+							));	
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "update_qty_tmp_pengurangan_beli":
+		
+	$qty  	= preg_replace('/[^0-9]/', '', $_POST['qty']);
+	$id 			= preg_replace('/[^0-9]/', '', $_POST['id']);		
+	
+
+	try{
+		$update = $koneksi->prepare("UPDATE tmp_pengurangan_beli
+										SET 	qty		= :qty
+										WHERE   id		= :id ");
+		$update->execute(array(
+								"qty" 			=> $qty,
+								"id" 			=> $id
+							));	
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "update_harga_satuan_tmp_pengurangan":
+		
+	$harga_satuan  	= preg_replace('/[^0-9]/', '', $_POST['harga_satuan']);
+	$id 			= preg_replace('/[^0-9]/', '', $_POST['id']);		
+	
+
+	try{
+		$update = $koneksi->prepare("UPDATE tmp_pengurangan
+										SET 	harga_satuan		= :harga_satuan
+										WHERE   id					= :id ");
+		$update->execute(array(
+								"harga_satuan" 	=> $harga_satuan,
+								"id" 			=> $id
+							));	
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "update_harga_satuan_tmp_pengurangan_beli":
+		
+	$harga_satuan  	= preg_replace('/[^0-9]/', '', $_POST['harga_satuan']);
+	$id 			= preg_replace('/[^0-9]/', '', $_POST['id']);		
+	
+
+	try{
+		$update = $koneksi->prepare("UPDATE tmp_pengurangan_beli
+										SET 	harga_satuan		= :harga_satuan
+										WHERE   id					= :id ");
+		$update->execute(array(
+								"harga_satuan" 	=> $harga_satuan,
+								"id" 			=> $id
+							));	
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "delete_from_tmp_pengurangan":
+		
+
+	$id = preg_replace('/[^0-9]/', '', $_POST['tmp_transaksi_pengurangan_id']);		
+	
+	try{
+	$query = $koneksi->prepare("DELETE FROM tmp_pengurangan  WHERE id = :a ");
+	$query->execute(array(
+						"a" => $id
+					));	
+		  
+	}	  
+	catch ( PDOException $e)
+	{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "delete_from_tmp_pengurangan_beli":
+		
+
+	$id = preg_replace('/[^0-9]/', '', $_POST['tmp_transaksi_pengurangan_id']);		
+	
+	try{
+	$query = $koneksi->prepare("DELETE FROM tmp_pengurangan_beli  WHERE id = :a ");
 	$query->execute(array(
 						"a" => $id
 					));	

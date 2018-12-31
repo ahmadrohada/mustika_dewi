@@ -82,8 +82,22 @@ $(document).ready(function () {
 					width:130,
 				}, 
                 {
-					field: 'total_harga',
-					title: 'TOTAL',
+					field: 'total_pembelian',
+					title: 'PEMBELIAN',
+					halign:'center',
+                    align:'right',
+					width:110,
+				}, 
+				{
+					field: 'total_tambahan',
+					title: '+',
+					halign:'center',
+                    align:'right',
+					width:110,
+				}, 
+				{
+					field: 'total_pengurangan',
+					title: '-',
 					halign:'center',
                     align:'right',
 					width:110,
@@ -116,12 +130,12 @@ $(document).ready(function () {
 					sortable:true,
 					width:110,
 				},
-                {
+                /* {
 					field: 'keterangan',
 					title: 'KETERANGAN',
 					halign:'center',
                     align:'right'
-				},
+				}, */
 				{
 					field: 'Status',
 					title: '<i class="glyphicon glyphicon-cog"></i>',
@@ -132,8 +146,8 @@ $(document).ready(function () {
 						
                         return 	[  	'<button  style="margin:1px; margin-top:-5px;" class="btn btn-warning		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
 									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 
-									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 		btn-xs edit" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fa fa-edit"></span></button>'
-									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-danger 		btn-xs hapus" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus"><span class="fa fa-remove"></span></button>' 
+								/* 	+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 		btn-xs edit" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fa fa-edit"></span></button>'
+									 */+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-danger 		btn-xs hapus" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus"><span class="fa fa-remove"></span></button>' 
 								];
                       		
 					}

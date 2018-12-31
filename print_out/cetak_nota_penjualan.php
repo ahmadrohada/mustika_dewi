@@ -48,6 +48,7 @@ ob_start();
 				a.total_belanja,
 				a.total_komisi,
 				a.total_tambahan,
+				a.total_pengurangan,
 				a.keterangan,
 				b.nama as nama_pelanggan,
 				b.alamat,
@@ -205,6 +206,7 @@ ob_start();
 	
 		}
 
+//================================ TAMBAHAN ===========================================================//
 		$query_2 = $koneksi->prepare(" SELECT 	
 									a.*
 
@@ -221,13 +223,39 @@ ob_start();
 				echo "<tr>
 						<td align='center'><font style=' font-size:8pt; font-family:arial;'>".$dt->qty."</font></td>
 							
-						<td><font style=' font-size:8pt; font-family:arial;'>".$dt->item_tambahan."</font></td>
+						<td><font style=' font-size:8pt; font-family:arial;'> + ".$dt->item_tambahan."</font></td>
 						<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format($dt->harga_satuan,'0',',','.')."</font></td>
 						<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format(($dt->harga_satuan)*$dt->qty,'0',',','.')."</font></td>
 						</tr>";	
 					
 
 		}
+
+//================================ PENGURANGAN ===========================================================//
+		$query_3 = $koneksi->prepare(" SELECT 	
+													a.*
+
+													FROM item_pengurangan a
+													WHERE no_nota = '$x->no_nota'
+
+													ORDER by a.id ASC");
+
+
+		$query_3->execute();
+
+		while($ds = $query_3->fetch(PDO::FETCH_OBJ)) {
+
+			echo "<tr>
+				<td align='center'><font style=' font-size:8pt; font-family:arial;'>".$ds->qty."</font></td>
+
+				<td><font style=' font-size:8pt; font-family:arial;'> - ".$ds->item_pengurangan."</font></td>
+				<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format($ds->harga_satuan,'0',',','.')."</font></td>
+				<td align='right'><font style=' font-size:8pt; font-family:arial;'>".number_format(($ds->harga_satuan)*$ds->qty,'0',',','.')."</font></td>
+			</tr>";	
+
+
+		}
+
 
 		
 		if ( $no > 1 ){
@@ -260,7 +288,7 @@ ob_start();
 		<td width="3%"> </td>
 		<td align="right" width="19%">
 			<font style=" font-size:9pt;  font-family:arial;">
-				<?php  echo number_format(($x->total_belanja)+$x->total_tambahan,'0',',','.'); ?>
+				<?php  echo number_format(($x->total_belanja)+$x->total_tambahan - $x->total_pengurangan,'0',',','.'); ?>
 			</font>
 		</td>
 	</tr>

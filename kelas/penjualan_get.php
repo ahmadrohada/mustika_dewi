@@ -34,6 +34,7 @@ case "penjualan_list":
 								a.total_belanja,
 								a.total_komisi,
 								a.total_tambahan,
+								a.total_pengurangan,
 								a.bayar,
 								a.type_bayar,
 								b.nama,
@@ -62,7 +63,7 @@ case "penjualan_list":
 			}
 	
 		if ( $type == 'Hutang'){
-			$sisa = (($x->total_belanja - $x->total_komisi)+$x->total_tambahan)-$x->bayar;
+			$sisa = (($x->total_belanja - $x->total_komisi)+$x->total_tambahan - $x->total_pengurangan )-$x->bayar;
 		}else{
 			$sisa = 0;
 		}
@@ -79,6 +80,7 @@ case "penjualan_list":
 			$h['total_belanja']		= number_format($x->total_belanja,'0',',','.');
 			$h['total_komisi']		= number_format($x->total_komisi,'0',',','.');
 			$h['total_tambahan']	= number_format($x->total_tambahan,'0',',','.');
+			$h['total_pengurangan']	= number_format($x->total_pengurangan,'0',',','.');
 			$h['bayar']				= number_format($x->bayar,'0',',','.');
 			$h['type_bayar']		= $type;
 			$h['sisa']				= number_format($sisa,'0',',','.');
@@ -233,6 +235,198 @@ case "tmp_tambahan_list":
 	}
 
 break;
+case "tmp_tambahan_list_beli":
+		
+
+	$no = 0;
+	$response = array();
+	$response["tmp_tambahan_list"] = array();
+	$response["detail_tambahan_list"] = array();
+	$total_tambahan	= 0;
+
+	$query = $koneksi->prepare(" SELECT 	
+									a.id,
+									a.no_nota,
+									a.item_tambahan,
+									a.qty,
+									a.harga_satuan
+
+									FROM tmp_tambahan_beli a
+									ORDER by a.id ASC");
+
+	
+
+	$query->execute();
+
+	while($x = $query->fetch(PDO::FETCH_OBJ)) {
+
+			/* if ( $x->discount > 0 ){
+				$potongan   = ($x->discount/100)*$x->harga;
+				$jumlah		= ($x->harga-$potongan)*$x->qty;
+			}else{
+				$jumlah		= $x->harga*$x->qty;
+			} */
+			
+			$jumlah	 		= $x->qty*$x->harga_satuan  ;
+
+			$no++;
+			$h['no']			= $no;
+			$h['id']			= $x->id;
+			$h['item_tambahan']	= $x->item_tambahan;
+			$h['qty']			= $x->qty;
+			$h['harga_satuan']	= number_format($x->harga_satuan,'0',',','.');
+			$h['jumlah']		= number_format($jumlah,'0',',','.');
+			
+
+			array_push($response["tmp_tambahan_list"], $h);
+
+			$total_tambahan	= $total_tambahan + $jumlah;
+			
+	}	
+
+
+
+	$gt['total_tambahan']				= number_format($total_tambahan,'0',',','.');
+
+
+	array_push($response["detail_tambahan_list"], $gt);
+		  
+	if (mysql_errno() == 0){
+		echo json_encode($response);
+		//header('HTTP/1.1 200 Sukses'); //if sukses
+	}else{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "tmp_pengurangan_list":
+		
+
+	$no = 0;
+	$response = array();
+	$response["tmp_pengurangan_list"] = array();
+	$response["detail_pengurangan_list"] = array();
+	$total_pengurangan	= 0;
+
+	$query = $koneksi->prepare(" SELECT 	
+									a.id,
+									a.no_nota,
+									a.item_pengurangan,
+									a.qty,
+									a.harga_satuan
+
+									FROM tmp_pengurangan a
+									ORDER by a.id ASC");
+
+	
+
+	$query->execute();
+
+	while($x = $query->fetch(PDO::FETCH_OBJ)) {
+
+			/* if ( $x->discount > 0 ){
+				$potongan   = ($x->discount/100)*$x->harga;
+				$jumlah		= ($x->harga-$potongan)*$x->qty;
+			}else{
+				$jumlah		= $x->harga*$x->qty;
+			} */
+			
+			$jumlah	 		= $x->qty*$x->harga_satuan  ;
+
+			$no++;
+			$h['no']			= $no;
+			$h['id']			= $x->id;
+			$h['item_pengurangan']	= $x->item_pengurangan;
+			$h['qty']			= $x->qty;
+			$h['harga_satuan']	= number_format($x->harga_satuan,'0',',','.');
+			$h['jumlah']		= number_format($jumlah,'0',',','.');
+			
+
+			array_push($response["tmp_pengurangan_list"], $h);
+
+			$total_pengurangan	= $total_pengurangan + $jumlah;
+			
+	}	
+
+
+
+	$gt['total_pengurangan']				= number_format($total_pengurangan,'0',',','.');
+
+
+	array_push($response["detail_pengurangan_list"], $gt);
+		  
+	if (mysql_errno() == 0){
+		echo json_encode($response);
+		//header('HTTP/1.1 200 Sukses'); //if sukses
+	}else{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "tmp_pengurangan_list_beli":
+		
+
+	$no = 0;
+	$response = array();
+	$response["tmp_pengurangan_list"] = array();
+	$response["detail_pengurangan_list"] = array();
+	$total_pengurangan	= 0;
+
+	$query = $koneksi->prepare(" SELECT 	
+									a.id,
+									a.no_nota,
+									a.item_pengurangan,
+									a.qty,
+									a.harga_satuan
+
+									FROM tmp_pengurangan_beli a
+									ORDER by a.id ASC");
+
+	
+
+	$query->execute();
+
+	while($x = $query->fetch(PDO::FETCH_OBJ)) {
+
+			/* if ( $x->discount > 0 ){
+				$potongan   = ($x->discount/100)*$x->harga;
+				$jumlah		= ($x->harga-$potongan)*$x->qty;
+			}else{
+				$jumlah		= $x->harga*$x->qty;
+			} */
+			
+			$jumlah	 		= $x->qty*$x->harga_satuan  ;
+
+			$no++;
+			$h['no']			= $no;
+			$h['id']			= $x->id;
+			$h['item_pengurangan']	= $x->item_pengurangan;
+			$h['qty']			= $x->qty;
+			$h['harga_satuan']	= number_format($x->harga_satuan,'0',',','.');
+			$h['jumlah']		= number_format($jumlah,'0',',','.');
+			
+
+			array_push($response["tmp_pengurangan_list"], $h);
+
+			$total_pengurangan	= $total_pengurangan + $jumlah;
+			
+	}	
+
+
+
+	$gt['total_pengurangan']				= number_format($total_pengurangan,'0',',','.');
+
+
+	array_push($response["detail_pengurangan_list"], $gt);
+		  
+	if (mysql_errno() == 0){
+		echo json_encode($response);
+		//header('HTTP/1.1 200 Sukses'); //if sukses
+	}else{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
 case "transaksi_penjualan_list_item":
 
 
@@ -314,6 +508,7 @@ case"detail_transaksi_penjualan":
 								a.total_belanja,
 								a.total_komisi,
 								a.total_tambahan,
+								a.total_pengurangan,
 								a.bayar,
 								a.keterangan,
 								b.nama as nama_pelanggan,
@@ -347,7 +542,7 @@ case"detail_transaksi_penjualan":
 			$besar_komisi = 0;
 		}
 		 */
-		$total_bayar = ($x->total_belanja-$x->total_komisi)+$x->total_tambahan;
+		$total_bayar = ($x->total_belanja-$x->total_komisi)+$x->total_tambahan - $x->total_pengurangan;
 		$kembali 	 = $x->bayar - $total_bayar;
 
 		$detail_penjualan = array(
@@ -361,12 +556,12 @@ case"detail_transaksi_penjualan":
 					'total_belanja'	=> number_format($x->total_belanja,'0',',','.'),
 					'total_komisi'	=> number_format($x->total_komisi,'0',',','.'),
 					'total_tambahan'=> number_format($x->total_tambahan,'0',',','.'),
+					'total_pengurangan'=> number_format($x->total_pengurangan,'0',',','.'),
 					'total_bayar'   => number_format($total_bayar,'0',',','.'),
 					'bayar'			=> number_format($x->bayar,'0',',','.'),
 					'kembali'		=> number_format($kembali,'0',',','.'),
 					'sisa'		    => number_format(str_replace('-','',$kembali),'0',',','.'),
 					
-					'keterangan'	=> $x->keterangan,
 					'keterangan'	=> $x->keterangan
 
 		);
@@ -387,8 +582,7 @@ case"detail_transaksi_penjualan":
 			'keterangan'	=> "",
 			'sisa'			=> "",
 			'kembali'		=> "",
-			'besar_komisi'	=> "",
-			"keterangan"	=> ""
+			'besar_komisi'	=> ""
 		);
 
 	}
@@ -441,6 +635,147 @@ case "transaksi_tambahan_list_item":
 				$x['data_table'] = 'hide';
 			}
 			array_push($response["tmp_tambahan_detail"], $x);
+		  
+	if (mysql_errno() == 0){
+		echo json_encode($response);
+		//header('HTTP/1.1 200 Sukses'); //if sukses
+	}else{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "transaksi_tambahan_list_item_beli":
+
+
+	$no_nota =  $_GET['no_nota'];
+	$query = $koneksi->prepare(" SELECT 	
+								a.*
+								FROM item_tambahan_beli a
+								
+								WHERE a.no_nota = '$no_nota'
+								ORDER by a.id ASC");
+	
+	$no = 0;
+	$response = array();
+	$response["tmp_tambahan_list"] = array();
+	$response["tmp_tambahan_detail"] = array();
+	$query->execute();
+	
+	while($x = $query->fetch(PDO::FETCH_OBJ)) {
+
+			
+			$no++;
+			$h['no']			= $no;
+			$h['item_tambahan']	= $x->item_tambahan;
+			$h['qty']			= $x->qty;
+			$h['harga_satuan']	= number_format($x->harga_satuan,'0',',','.');
+			$h['qty']			= $x->qty;
+			$h['jumlah']		= number_format($x->harga_satuan*$x->qty,'0',',','.');
+							
+							
+			array_push($response["tmp_tambahan_list"], $h);
+	}	
+
+			if ( $no > 0){
+				$x['data_table'] = 'show';
+			}else{
+				$x['data_table'] = 'hide';
+			}
+			array_push($response["tmp_tambahan_detail"], $x);
+		  
+	if (mysql_errno() == 0){
+		echo json_encode($response);
+		//header('HTTP/1.1 200 Sukses'); //if sukses
+	}else{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "transaksi_pengurangan_list_item":
+
+
+	$no_nota =  $_GET['no_nota'];
+	$query = $koneksi->prepare(" SELECT 	
+								a.*
+								FROM item_pengurangan a
+								
+								WHERE a.no_nota = '$no_nota'
+								ORDER by a.id ASC");
+	
+	$no = 0;
+	$response = array();
+	$response["tmp_pengurangan_list"] = array();
+	$response["tmp_pengurangan_detail"] = array();
+	$query->execute();
+	
+	while($x = $query->fetch(PDO::FETCH_OBJ)) {
+
+			
+			$no++;
+			$h['no']			= $no;
+			$h['item_pengurangan']	= $x->item_pengurangan;
+			$h['qty']			= $x->qty;
+			$h['harga_satuan']	= number_format($x->harga_satuan,'0',',','.');
+			$h['qty']			= $x->qty;
+			$h['jumlah']		= number_format($x->harga_satuan*$x->qty,'0',',','.');
+							
+							
+			array_push($response["tmp_pengurangan_list"], $h);
+	}	
+
+			if ( $no > 0){
+				$x['data_table'] = 'show';
+			}else{
+				$x['data_table'] = 'hide';
+			}
+			array_push($response["tmp_pengurangan_detail"], $x);
+		  
+	if (mysql_errno() == 0){
+		echo json_encode($response);
+		//header('HTTP/1.1 200 Sukses'); //if sukses
+	}else{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "transaksi_pengurangan_list_item_beli":
+
+
+	$no_nota =  $_GET['no_nota'];
+	$query = $koneksi->prepare(" SELECT 	
+								a.*
+								FROM item_pengurangan_beli a
+								
+								WHERE a.no_nota = '$no_nota'
+								ORDER by a.id ASC");
+	
+	$no = 0;
+	$response = array();
+	$response["tmp_pengurangan_list"] = array();
+	$response["tmp_pengurangan_detail"] = array();
+	$query->execute();
+	
+	while($x = $query->fetch(PDO::FETCH_OBJ)) {
+
+			
+			$no++;
+			$h['no']			= $no;
+			$h['item_pengurangan']	= $x->item_pengurangan;
+			$h['qty']			= $x->qty;
+			$h['harga_satuan']	= number_format($x->harga_satuan,'0',',','.');
+			$h['qty']			= $x->qty;
+			$h['jumlah']		= number_format($x->harga_satuan*$x->qty,'0',',','.');
+							
+							
+			array_push($response["tmp_pengurangan_list"], $h);
+	}	
+
+			if ( $no > 0){
+				$x['data_table'] = 'show';
+			}else{
+				$x['data_table'] = 'hide';
+			}
+			array_push($response["tmp_pengurangan_detail"], $x);
 		  
 	if (mysql_errno() == 0){
 		echo json_encode($response);
