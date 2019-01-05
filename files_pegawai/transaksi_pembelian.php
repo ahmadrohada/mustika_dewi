@@ -281,6 +281,7 @@ $(document).ready(function () {
                 $('#tgl_nota').val(data['tgl_nota']);
                 $('#nama_user').val(data['nama_user']);
 
+                
                 load_data_pembelian();
 				
 			},
@@ -292,64 +293,64 @@ $(document).ready(function () {
 
 //=========================  S U P P L I E R  =============================// 
 
-    $('#supplier').select2({
+$('#supplier').select2({
        
-        allowClear          : true,
-        ajax: {
-            url: './kelas/supplier_get.php',
-            dataType: 'json',
-            quietMillis: 250,
-            data: function (params) {
-                var queryParameters = {
-                    op: 'supplier_list',
-                    nama: params.term
-                }
-                return queryParameters;
-            },
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        
-                        return {
-                            text: item.nama,
-						    id: item.id,
-                        }
-                        
-                    })
-                };
-            }
-        }
-    });
+       allowClear          : true,
+       ajax: {
+           url: './kelas/supplier_get.php',
+           dataType: 'json',
+           quietMillis: 250,
+           data: function (params) {
+               var queryParameters = {
+                   op: 'supplier_list',
+                   nama: params.term
+               }
+               return queryParameters;
+           },
+           processResults: function (data) {
+               return {
+                   results: $.map(data, function (item) {
+                       
+                       return {
+                           text: item.nama,
+                           id: item.id,
+                       }
+                       
+                   })
+               };
+           }
+       }
+   });
 
-    $("#supplier").change(function(){
-        var supplier_id = $("#supplier option:selected").val();
-        $.ajax({
-            url     : "./kelas/supplier_get.php",
-            type    : "GET",
-            dataType: "json",
-            data    : { op  : "detail_supplier", supplier_id : supplier_id },
-            success: function (data) {
-                
+   $("#supplier").change(function(){
+       var supplier_id = $("#supplier option:selected").val();
+       $.ajax({
+           url     : "./kelas/supplier_get.php",
+           type    : "GET",
+           dataType: "json",
+           data    : { op  : "detail_supplier", supplier_id : supplier_id },
+           success: function (data) {
+               
 
-                $(".no_tlp").html(data['no_tlp']);
-                $(".alamat").html(data['alamat']);
+               $(".no_tlp").html(data['no_tlp']);
+               $(".alamat").html(data['alamat']);
 
-                $('.detail_supplier').show(); 
+               $('.detail_supplier').show(); 
 
-                
-            },
-            error: function (data) {
-              
-                $('.detail_supplier').hide(); 
-            }
-        }); 
-    });
+               
+           },
+           error: function (data) {
+             
+               $('.detail_supplier').hide(); 
+           }
+       }); 
+   });
 
 
 
 
 //======================== TABLE   ===================================//
-    $('#list_pembelian').bootstrapTable({
+$('#list_pembelian').bootstrapTable({
 		columns:[	
 				{
 					field: 'no',
@@ -448,7 +449,7 @@ $(document).ready(function () {
 
 //==================== UPDATE QTY PADA TABLE ====================================//
 
-    $(document).on('keydown','.tbl_qty',function(e){
+$(document).on('keydown','.tbl_qty',function(e){
         if ( (e.which == 13)|(e.which == 9)) {
             
             qty = $(this).val();
@@ -542,6 +543,9 @@ $(document).on('keydown','.tbl_harga',function(e){
 
     }
 
+
+    
+
 //=======================================================================//
 //==================== UPDATE UPAH KULI  PADA TABLE ====================================//
 $(document).on('keydown','.tbl_upah_kuli',function(e){
@@ -589,9 +593,10 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 		
     });
 
+
 //====================== TABLE LIST ITEM ===================================//   
     
-    function load_data_pembelian(){
+function load_data_pembelian(){
         no_nota  = $('.no_nota').val();
 		
 		$.ajax({
@@ -624,6 +629,7 @@ $(document).on('keydown','.tbl_upah_kuli',function(e){
 			}
 		});
     }
+
 
 
 //====================================================================================================//
@@ -692,9 +698,10 @@ $('#list_tambahan').bootstrapTable({
 				]
 	});
 
+
 //==================== UPDATE QTY PADA TABLE TAMABAHAN  ====================================//
 
-    $(document).on('keydown','.tbl_qty_tambahan',function(e){
+$(document).on('keydown','.tbl_qty_tambahan',function(e){
         if ( (e.which == 13)|(e.which == 9)) {
             
             qty = $(this).val();
@@ -758,6 +765,8 @@ $('#list_tambahan').bootstrapTable({
         }); 
 
     }
+
+
 //=============================================================================//
 //==============================================================================//
 //==================== HAPUS ITEM TAMBAHAN  ====================================//
@@ -815,6 +824,7 @@ $(document).on('click','.tbl_hapus_tambahan',function(e){
 			}
 		});
     }
+
 
 
 //====================================================================================================//
@@ -883,6 +893,8 @@ $('#list_pengurangan').bootstrapTable({
 				]
 	});
 
+
+
 //==================== UPDATE QTY PADA TABLE PENGURANGAN  ====================================//
 
 $(document).on('keydown','.tbl_qty_pengurangan',function(e){
@@ -949,6 +961,8 @@ $(document).on('keydown','.tbl_qty_pengurangan',function(e){
         }); 
 
     }
+
+
 //=============================================================================//
 //==============================================================================//
 //==================== HAPUS ITEM PENGURANGAN  ====================================//
@@ -1032,8 +1046,10 @@ $(".total_bayar").val(total_bayar);
 
 
 
+
+
 //=========================== T Y P E   B A Y A R =================================================//
-    $('.type_bayar').select2();
+$('.type_bayar').select2();
     $(".type_bayar").change(function(){
         var type = $(".type_bayar option:selected").val();
 
@@ -1101,20 +1117,23 @@ $(".total_bayar").val(total_bayar);
     });
 
 
+
+
     function simpan_transaksi_pembelian(){
-        /* user_id             = $(".user_id").val();
+        user_id             = $(".user_id").val();
         supplier_id         = $(".supplier_id").val();
         no_nota             = $(".no_nota").val();
 
         total_pembelian     = parseInt($(".total_pembelian").val().replace(/[^,\d]/g, '').toString());
-        total_tambahan      = parseInt($(".total_pembelian").val().replace(/[^,\d]/g, '').toString());
-        total_pengurangan   = parseInt($(".total_pengurangan").val().replace(/[^,\d]/g, '').toString());
         total_upah_kuli     = parseInt($(".total_upah_kuli").val().replace(/[^,\d]/g, '').toString());
+        total_tambahan      = parseInt($(".total_tambahan").val().replace(/[^,\d]/g, '').toString());
+        total_pengurangan   = parseInt($(".total_pengurangan").val().replace(/[^,\d]/g, '').toString());
+        
         
         keterangan          = $(".keterangan").val();
 
         type_bayar          = $(".type_bayar").val();
-        jumlah_dp           = parseInt($(".txt_jm_dp").val().replace(/[^,\d]/g, '').toString()); */
+        jumlah_dp           = parseInt($(".txt_jm_dp").val().replace(/[^,\d]/g, '').toString());
 
           $.ajax({
 			url         : "./kelas/transaksi_post.php",
@@ -1150,7 +1169,7 @@ $(".total_bayar").val(total_bayar);
                             window.location.assign("home.php?page=pembelian");
 
 
-                            window.open("./print_out/cetak_nota_pembelian.php?pembelian_id="+data+, "print_nota","width=900,height=800,top=50,left=250" );
+                            window.open("./print_out/cetak_nota_pembelian.php?pembelian_id="+data, "print_nota","width=900,height=800,top=50,left=250" );
 						
                             window.location.reload();
                             
@@ -1171,9 +1190,6 @@ $(".total_bayar").val(total_bayar);
 				}
 		}); 
     }
-
-
-
    
 });
 </script>		
