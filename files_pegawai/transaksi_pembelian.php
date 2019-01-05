@@ -1147,9 +1147,12 @@ $(".total_bayar").val(total_bayar);
 					function (dismiss) {
 						if (dismiss === 'timer') {
 
-                            window.open("./print_out/cetak_nota_pembelian.php", "print_nota","width=900,height=800,top=50,left=250" );
+                            window.location.assign("home.php?page=pembelian");
+
+
+                            window.open("./print_out/cetak_nota_pembelian.php?pembelian_id="+data+, "print_nota","width=900,height=800,top=50,left=250" );
 						
-                            //window.location.reload();
+                            window.location.reload();
                             
 						}
 					}

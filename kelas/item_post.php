@@ -612,6 +612,228 @@ case "delete_from_tmp_pengurangan_beli":
 	}
 
 break;
+
+case "update_qty_retur_penjualan":
+		
+	$qty_retur  	= preg_replace('/[^0-9]/', '', $_POST['qty']);
+	$keterangan  	= $_POST['keterangan'];
+	$no_nota 		= preg_replace('/[^0-9]/', '', $_POST['no_nota']);		
+	$status_retur   = $_POST['status_retur'];
+
+	
+		$update = $koneksi->prepare("UPDATE item_transaksi
+										SET 	retur			= :qty_retur
+										WHERE 	no_nota			= :no_nota  AND item_transaksi.qty >= :qty_retur ");
+		$update->execute(array(
+								"qty_retur"		=> $qty_retur,
+								"no_nota" 		=> $no_nota
+							));	
+
+
+		//======================== UPDATE ======================//
+		$total_retur = 0 ;
+		$query_4 = $koneksi->prepare(" SELECT 	retur,harga,tonase FROM item_transaksi WHERE no_nota = '$no_nota' ");
+		$query_4->execute();
+		while($x = $query_4->fetch(PDO::FETCH_OBJ)) {
+			$jumlah	 		= $x->retur * $x->tonase * $x->harga  ;
+
+			$total_retur    = $total_retur + $jumlah ;
+		}
+
+		if ( $total_retur > 0 ){
+			if ( $status_retur === '1' ){
+				$update_2 = $koneksi->prepare("UPDATE retur_penjualan
+								SET 	total_retur		= :total_retur,
+										keterangan		= :keterangan,
+										created_at      = :tgl_skarang
+								WHERE 	no_nota			= :no_nota  ");
+				$update_2->execute(array(
+						"total_retur"	=> $total_retur,
+						"keterangan"	=> $keterangan,
+						"no_nota" 		=> $no_nota,
+						"tgl_skarang"	=> date('Y'."-".'m'."-".'d'." ".'H'.":".'i'.":".'s'),
+					));	
+			}else{
+				$query = $koneksi->prepare("INSERT INTO retur_penjualan  (no_nota, total_retur, user_id , keterangan )
+													VALUES(:no_nota,:total_retur,:user_id,:keterangan)");
+				$query->execute(array(
+									"no_nota"	 	=> $no_nota,
+									"total_retur"	=> $total_retur,
+									"user_id" 		=> 1,
+									"keterangan" 	=> $keterangan,
+								));	
+
+			}
+
+
+		}else{
+
+		}
+
+break;
+case "update_keterangan_retur_penjualan":
+		
+	$keterangan  	= $_POST['keterangan'];
+	$no_nota 		= preg_replace('/[^0-9]/', '', $_POST['no_nota']);		
+	$status_retur   = $_POST['status_retur'];
+
+	
+	
+
+		//======================== UPDATE ======================//
+		$total_retur = 0 ;
+		$query_4 = $koneksi->prepare(" SELECT 	retur,harga,tonase FROM item_transaksi WHERE no_nota = '$no_nota' ");
+		$query_4->execute();
+		while($x = $query_4->fetch(PDO::FETCH_OBJ)) {
+			$jumlah	 		= $x->retur * $x->tonase * $x->harga  ;
+
+			$total_retur    = $total_retur + $jumlah ;
+		}
+
+		if ( $total_retur > 0 ){
+			if ( $status_retur === '1' ){
+				$update_2 = $koneksi->prepare("UPDATE retur_penjualan
+								SET 	total_retur		= :total_retur,
+										keterangan		= :keterangan,
+										created_at      = :tgl_skarang
+								WHERE 	no_nota			= :no_nota  ");
+				$update_2->execute(array(
+						"total_retur"	=> $total_retur,
+						"keterangan"	=> $keterangan,
+						"no_nota" 		=> $no_nota,
+						"tgl_skarang"	=> date('Y'."-".'m'."-".'d'." ".'H'.":".'i'.":".'s'),
+					));	
+			}else{
+				echo "status_retur 0";
+
+				$query = $koneksi->prepare("INSERT INTO retur_penjualan  (no_nota, total_retur, user_id , keterangan )
+													VALUES(:no_nota,:total_retur,:user_id,:keterangan)");
+				$query->execute(array(
+									"no_nota"	 	=> $no_nota,
+									"total_retur"	=> $total_retur,
+									"user_id" 		=> 1,
+									"keterangan" 	=> $keterangan,
+								));	
+
+			}
+
+
+		}else{
+			echo "total_nol".$total_retur;
+		}
+
+break;
+
+case "update_qty_retur_pembelian":
+		
+	$qty_retur  	= preg_replace('/[^0-9]/', '', $_POST['qty']);
+	$keterangan  	= $_POST['keterangan'];
+	$no_nota 		= preg_replace('/[^0-9]/', '', $_POST['no_nota']);		
+	$status_retur   = $_POST['status_retur'];
+
+	
+		$update = $koneksi->prepare("UPDATE item_transaksi
+										SET 	retur			= :qty_retur
+										WHERE 	no_nota			= :no_nota  AND item_transaksi.qty >= :qty_retur ");
+		$update->execute(array(
+								"qty_retur"		=> $qty_retur,
+								"no_nota" 		=> $no_nota
+							));	
+
+
+		//======================== UPDATE ======================//
+		$total_retur = 0 ;
+		$query_4 = $koneksi->prepare(" SELECT 	retur,harga,tonase FROM item_transaksi WHERE no_nota = '$no_nota' ");
+		$query_4->execute();
+		while($x = $query_4->fetch(PDO::FETCH_OBJ)) {
+			$jumlah	 		= $x->retur * $x->tonase * $x->harga  ;
+
+			$total_retur    = $total_retur + $jumlah ;
+		}
+
+		if ( $total_retur > 0 ){
+			if ( $status_retur === '1' ){
+				$update_2 = $koneksi->prepare("UPDATE retur_pembelian
+								SET 	total_retur		= :total_retur,
+										keterangan		= :keterangan,
+										created_at      = :tgl_skarang
+								WHERE 	no_nota			= :no_nota  ");
+				$update_2->execute(array(
+						"total_retur"	=> $total_retur,
+						"keterangan"	=> $keterangan,
+						"no_nota" 		=> $no_nota,
+						"tgl_skarang"	=> date('Y'."-".'m'."-".'d'." ".'H'.":".'i'.":".'s'),
+					));	
+			}else{
+				$query = $koneksi->prepare("INSERT INTO retur_pembelian  (no_nota, total_retur, user_id , keterangan )
+													VALUES(:no_nota,:total_retur,:user_id,:keterangan)");
+				$query->execute(array(
+									"no_nota"	 	=> $no_nota,
+									"total_retur"	=> $total_retur,
+									"user_id" 		=> 1,
+									"keterangan" 	=> $keterangan,
+								));	
+
+			}
+
+
+		}else{
+
+		}
+
+break;
+case "update_keterangan_retur_pembelian":
+		
+	$keterangan  	= $_POST['keterangan'];
+	$no_nota 		= preg_replace('/[^0-9]/', '', $_POST['no_nota']);		
+	$status_retur   = $_POST['status_retur'];
+
+	
+	
+
+		//======================== UPDATE ======================//
+		$total_retur = 0 ;
+		$query_4 = $koneksi->prepare(" SELECT 	retur,harga,tonase FROM item_transaksi WHERE no_nota = '$no_nota' ");
+		$query_4->execute();
+		while($x = $query_4->fetch(PDO::FETCH_OBJ)) {
+			$jumlah	 		= $x->retur * $x->tonase * $x->harga  ;
+
+			$total_retur    = $total_retur + $jumlah ;
+		}
+
+		if ( $total_retur > 0 ){
+			if ( $status_retur === '1' ){
+				$update_2 = $koneksi->prepare("UPDATE retur_pembelian
+								SET 	total_retur		= :total_retur,
+										keterangan		= :keterangan,
+										created_at      = :tgl_skarang
+								WHERE 	no_nota			= :no_nota  ");
+				$update_2->execute(array(
+						"total_retur"	=> $total_retur,
+						"keterangan"	=> $keterangan,
+						"no_nota" 		=> $no_nota,
+						"tgl_skarang"	=> date('Y'."-".'m'."-".'d'." ".'H'.":".'i'.":".'s'),
+					));	
+			}else{
+				echo "status_retur 0";
+
+				$query = $koneksi->prepare("INSERT INTO retur_pembelian  (no_nota, total_retur, user_id , keterangan )
+													VALUES(:no_nota,:total_retur,:user_id,:keterangan)");
+				$query->execute(array(
+									"no_nota"	 	=> $no_nota,
+									"total_retur"	=> $total_retur,
+									"user_id" 		=> 1,
+									"keterangan" 	=> $keterangan,
+								));	
+
+			}
+
+
+		}else{
+			echo "total_nol".$total_retur;
+		}
+
+break;
 default;
 header('HTTP/1.1 400 request error');
 break;

@@ -1138,7 +1138,7 @@ $(document).on('click','.tbl_hapus_pengurangan',function(e){
 
 
     function simpan_transaksi(type_bayar){
-       /*  user_id             = $(".user_id").val();
+        user_id             = $(".user_id").val();
         pelanggan_id        = $("#pelanggan").val();
         no_nota             = $(".no_nota").val();
 
@@ -1149,7 +1149,7 @@ $(document).on('click','.tbl_hapus_pengurangan',function(e){
         bayar               = $(".bayar").val();
         kembali             = $(".kembali").val().replace('-', '');
 
-        keterangan          = $(".keterangan").val(); */
+        keterangan          = $(".keterangan").val(); 
 
 
           $.ajax({
@@ -1171,6 +1171,7 @@ $(document).on('click','.tbl_hapus_pengurangan',function(e){
                           },
 			cache       :false,
 			success:function(data){
+                
                 swal({
 					title: "",
 					text: "Sukses",
@@ -1185,9 +1186,10 @@ $(document).on('click','.tbl_hapus_pengurangan',function(e){
 					function (dismiss) {
 						if (dismiss === 'timer') {
 
+                            
                             window.location.assign("home.php?page=penjualan");
 
-                            window.open("./print_out/cetak_nota_penjualan.php", "print_nota","width=600,height=800,top=50,left=250" );
+                            window.open("./print_out/cetak_nota_penjualan.php?penjualan_id="+data, "print_nota","width=600,height=800,top=50,left=250" );
 						
                             window.location.reload();
                         }

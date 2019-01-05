@@ -178,6 +178,10 @@ $query_b->execute(array(
 							"k" => $keterangan
 
 							));	 
+		
+							
+		$pembelian_id = $koneksi->lastInsertId();
+		
 
 		if (mysql_errno() == 0){
 
@@ -196,7 +200,8 @@ $query_b->execute(array(
 			$query_c->execute(array(
 								"a" => $no_nota
 							));	
-			
+							
+			echo $pembelian_id;
 			header('HTTP/1.1 200 Sukses'); //if sukses
 		}else{
 			header('HTTP/1.1 401 error'); //if error
@@ -326,6 +331,9 @@ while($a = $query_a->fetch(PDO::FETCH_OBJ)) {
 							"j" => $keterangan
 
 							));	
+		$penjualan_id = $koneksi->lastInsertId();
+
+	
 
 		if (mysql_errno() == 0){
 
@@ -346,7 +354,7 @@ while($a = $query_a->fetch(PDO::FETCH_OBJ)) {
 							));	
 
 
-			
+			echo $penjualan_id;
 			header('HTTP/1.1 200 Sukses'); //if sukses
 		}else{
 			header('HTTP/1.1 401 error'); //if error

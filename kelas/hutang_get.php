@@ -31,8 +31,10 @@ case "hutang_list":
 								a.tgl_nota,
 								a.user_id,
 								a.supplier_id,
-								a.total_harga,
+								a.total_pembelian,
 								a.total_upah_kuli,
+								a.total_tambahan,
+								a.total_pengurangan,
 								a.jumlah_dp,
 								b.nama,
 								a.keterangan
@@ -53,7 +55,7 @@ case "hutang_list":
 	while($x = $query->fetch(PDO::FETCH_OBJ)) {
 
 
-		$jumlah_pembelian = ($x->total_harga - $x->total_upah_kuli);
+		$jumlah_pembelian = ($x->total_pembelian - $x->total_upah_kuli - $x->total_pengurangan) +  $x->total_tambahan;
 
 		
 		
@@ -62,7 +64,7 @@ case "hutang_list":
 		$bayar->execute();
 		$total_bayar  = $bayar->fetch(PDO::FETCH_OBJ);
 
-		$sisa_hutang 	= ($x->total_harga - $x->total_upah_kuli)-( $x->jumlah_dp + $total_bayar->jm_bayar );
+		$sisa_hutang 	= $jumlah_pembelian -( $x->jumlah_dp + $total_bayar->jm_bayar );
 
 		$no++;
 			$h['no']				= $no;
@@ -98,7 +100,10 @@ case"detail_hutang":
 								a.tgl_nota,
 								a.user_id,
 								a.supplier_id,
-								a.total_harga,
+								a.total_pembelian,
+								a.total_upah_kuli,
+								a.total_tambahan,
+								a.total_pengurangan,
 								a.total_upah_kuli,
 								a.jumlah_dp,
 								b.nama,
@@ -124,14 +129,16 @@ case"detail_hutang":
 				$bayar->execute();
 				$total_bayar  = $bayar->fetch(PDO::FETCH_OBJ);
 
-				$sisa_hutang 	= ($x->total_harga - $x->total_upah_kuli)-( $x->jumlah_dp + $total_bayar->jm_bayar );
+				$jumlah_pembelian = ($x->total_pembelian - $x->total_upah_kuli - $x->total_pengurangan) +  $x->total_tambahan;
+
+				$sisa_hutang 	= $jumlah_pembelian -( $x->jumlah_dp + $total_bayar->jm_bayar );
 
 
 				$detail_hutang = array(
 							'id'				=> $x->nota_id,
 							'nama'				=> $x->nama,
 							'tgl_transaksi' 	=> $d->tgl($x->tgl_nota),
-							'total_pembelian'	=> number_format($x->total_harga - $x->total_upah_kuli,'0',',','.'),
+							'total_pembelian'	=> number_format($jumlah_pembelian,'0',',','.'),
 							'sisa_hutang'		=> number_format($sisa_hutang,'0',',','.'),
 				);
 		

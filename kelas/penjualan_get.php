@@ -438,12 +438,81 @@ case "transaksi_penjualan_list_item":
 								FROM item_transaksi a
 								LEFT JOIN jenis_beras b ON b.id = a.jenis_beras_id
 								
-								WHERE a.no_nota = '$no_nota'
+								WHERE a.no_nota = '$no_nota' AND a.jenis_transaksi = 'penjualan'
 								ORDER by a.id ASC");
 	
 	$no = 0;
 	$response = array();
 	$response["tmp_penjualan_list"] = array();
+	$response["detail_penjualan_list"] = array();
+	$total					= 0;
+	$total_komisi			= 0;
+	$total_retur			= 0;
+	$query->execute();
+	
+	while($x = $query->fetch(PDO::FETCH_OBJ)) {
+
+			
+
+			$jumlah	 		= $x->qty*$x->tonase*$x->harga  ;
+			$komisi 		= $x->qty*$x->tonase*$x->komisi ;
+			$jumlah_retur 	= $x->retur*$x->tonase*$x->harga ;
+
+			$no++;
+			$h['no']			= $no;
+			$h['id']			= $x->id;
+			$h['nama_karung']	= $x->nama_karung;
+			$h['jenis_beras']	= $x->jenis_beras;
+			$h['qty']			= $x->qty;
+			$h['tonase']		= $d->tonase($x->tonase);
+			$h['harga']			= number_format($x->harga,'0',',','.');
+			$h['retur']			= $x->retur;
+			$h['jumlah']		= number_format($jumlah,'0',',','.');
+			$h['jumlah_retur']	= number_format($jumlah_retur,'0',',','.');
+							
+							
+			array_push($response["tmp_penjualan_list"], $h);
+
+			$total				= $total + $jumlah;
+			$total_komisi		= $total_komisi + $komisi;
+			$total_retur		= $total_retur + $jumlah_retur;
+	}	
+
+
+
+	$gt['total']				= number_format($total,'0',',','.');
+
+	$gt['total_komisi']			= number_format($total_komisi,'0',',','.');
+	$gt['total_retur']			= number_format($total_retur,'0',',','.');
+
+
+	array_push($response["detail_penjualan_list"], $gt);
+		  
+	if (mysql_errno() == 0){
+		echo json_encode($response);
+		//header('HTTP/1.1 200 Sukses'); //if sukses
+	}else{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "transaksi_retur_penjualan_list_item":
+
+
+	$no_nota =  $_GET['no_nota'];
+	$query = $koneksi->prepare(" SELECT 	
+								a.*,
+								b.label AS jenis_beras
+
+								FROM item_transaksi a
+								LEFT JOIN jenis_beras b ON b.id = a.jenis_beras_id
+								
+								WHERE a.no_nota = '$no_nota' AND a.retur > 0
+								ORDER by a.id ASC");
+	
+	$no = 0;
+	$response = array();
+	$response["retur_penjualan_list"] = array();
 	$response["detail_penjualan_list"] = array();
 	$total					= 0;
 	$total_komisi			= 0;
@@ -458,36 +527,24 @@ case "transaksi_penjualan_list_item":
 				$jumlah		= $x->harga*$x->outcome;
 			} */
 
-			$jumlah	 		= $x->qty*$x->tonase*$x->harga  ;
-			$komisi 		= $x->qty*$x->tonase*$x->komisi ;
-
+			$jumlah	 		= $x->retur*$x->tonase*$x->harga  ;
+		
 			$no++;
 			$h['no']			= $no;
 			$h['id']			= $x->id;
 			$h['nama_karung']	= $x->nama_karung;
 			$h['jenis_beras']	= $x->jenis_beras;
-			$h['qty']			= $x->qty;
+			$h['qty']			= $x->retur;
 			$h['tonase']		= $d->tonase($x->tonase);
-			$h['komisi']		= $x->komisi;
 			$h['harga']			= number_format($x->harga,'0',',','.');
 			
 			$h['jumlah']		= number_format($jumlah,'0',',','.');
 							
 							
-			array_push($response["tmp_penjualan_list"], $h);
-
-			$total				= $total + $jumlah;
-			$total_komisi		= $total_komisi + $komisi;
+			array_push($response["retur_penjualan_list"], $h);
 	}	
 
 
-
-	$gt['total']				= number_format($total,'0',',','.');
-
-	$gt['total_komisi']			= number_format($total_komisi,'0',',','.');
-
-
-	array_push($response["detail_penjualan_list"], $gt);
 		  
 	if (mysql_errno() == 0){
 		echo json_encode($response);
@@ -514,12 +571,15 @@ case"detail_transaksi_penjualan":
 								b.nama as nama_pelanggan,
 								b.no_tlp,
 								b.alamat,
-								c.nama as nama_user
+								c.nama as nama_user,
+								d.id AS retur_id,
+								d.keterangan AS keterangan_retur
 
 								
 								FROM penjualan a 
 								LEFT JOIN pelanggan b ON b.id = a.pelanggan_id
 								LEFT JOIN users c ON c.id = a.user_id
+								LEFT JOIN retur_penjualan d ON d.no_nota = a.no_nota
 
 
 								WHERE a.id = 	'$penjualan_id'	
@@ -534,14 +594,12 @@ case"detail_transaksi_penjualan":
 
 	if ($x){
 		
-		/* if ( $x->komisi > 0 ){
-			$besar_komisi = ($x->komisi/100)*$x->grand_total;
-			$kembali 	  = number_format(($x->bayar-$x->grand_total)+$besar_komisi,'0',',','.');
+		if ( $x->retur_id != null ){
+			$status_retur = 1 ;
 		}else{
-			$kembali 	  = number_format($x->bayar-$x->grand_total,'0',',','.');
-			$besar_komisi = 0;
+			$status_retur = 0 ;
 		}
-		 */
+
 		$total_bayar = ($x->total_belanja-$x->total_komisi)+$x->total_tambahan - $x->total_pengurangan;
 		$kembali 	 = $x->bayar - $total_bayar;
 
@@ -562,7 +620,11 @@ case"detail_transaksi_penjualan":
 					'kembali'		=> number_format($kembali,'0',',','.'),
 					'sisa'		    => number_format(str_replace('-','',$kembali),'0',',','.'),
 					
-					'keterangan'	=> $x->keterangan
+					'keterangan'	=> $x->keterangan,
+					'keterangan_retur'	=> $x->keterangan_retur,
+
+
+					'status_retur'	=> $status_retur,
 
 		);
 
@@ -782,6 +844,112 @@ case "transaksi_pengurangan_list_item_beli":
 		//header('HTTP/1.1 200 Sukses'); //if sukses
 	}else{
 		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case "retur_penjualan_list":
+		
+	$query = $koneksi->prepare(" SELECT 	
+								a.id as retur_penjualan_id,
+								a.no_nota,
+								a.total_retur,
+								a.created_at AS tgl_retur,
+								a.keterangan,
+								b.tgl_nota,
+								b.user_id,
+								b.pelanggan_id,
+								b.total_belanja,
+								c.nama
+
+								FROM retur_penjualan a
+								LEFT JOIN penjualan b ON b.no_nota = a.no_nota
+								LEFT JOIN pelanggan c ON c.id = b.pelanggan_id
+								
+								ORDER by a.created_at DESC");
+	
+	$no = 0;
+	$response = array();
+	$response["retur_penjualan_list"] = array();
+
+	$query->execute();
+	
+	while($x = $query->fetch(PDO::FETCH_OBJ)) {
+
+		
+
+			$no++;
+			$h['no']				= $no;
+			$h['id']				= $x->retur_penjualan_id;
+			$h['tgl_transaksi']		= $d->tgl_jam($x->tgl_nota);
+			$h['tgl_retur']			= $d->tgl_jam($x->tgl_retur);
+			$h['no_nota']			= $x->no_nota;
+			$h['pelanggan']			= $x->nama;
+
+
+			$h['total_belanja']		= number_format($x->total_belanja,'0',',','.');
+			$h['total_retur']		= number_format($x->total_retur,'0',',','.');
+			$h['keterangan']		= $x->keterangan;
+							
+			array_push($response["retur_penjualan_list"], $h);
+	}	
+		  
+	if (mysql_errno() == 0){
+		echo json_encode($response);
+		//header('HTTP/1.1 200 Sukses'); //if sukses
+	}else{
+		header('HTTP/1.1 400 error'); //if error
+	}
+
+break;
+case"detail_retur_transaksi_penjualan":
+
+	$retur_penjualan_id = $_GET['retur_penjualan_id'];
+	$query = $koneksi->prepare(" SELECT 	
+								a.id as retur_penjualan_id,
+								a.no_nota,
+								a.created_at AS tgl_retur,
+								a.total_retur,
+								a.keterangan,
+								b.id AS penjualan_id,
+								c.nama AS nama_user_retur
+
+								
+								FROM retur_penjualan a 
+								LEFT JOIN penjualan b ON b.no_nota = a.no_nota
+								LEFT JOIN users c ON c.id = a.user_id
+
+								WHERE a.id = 	'$retur_penjualan_id'	
+								
+								
+								LIMIT 1 ");
+
+
+		
+	$query->execute();
+	$x = $query->fetch(PDO::FETCH_OBJ);
+
+
+		$detail_retur_penjualan = array(
+					'no_nota'			=> $x->no_nota,
+					'penjualan_id'		=> $x->penjualan_id,
+					'tgl_retur'			=> $d->tgl($x->tgl_retur),
+					'jam_retur'			=> $d->jam($x->tgl_retur),
+					'total_retur'		=> number_format($x->total_retur,'0',',','.'),
+					'keterangan_retur'	=> $x->keterangan,
+					'nama_user_retur'	=> $x->nama_user_retur
+
+		);
+
+
+	
+	
+				
+	if (mysql_errno() == 0){
+		header('HTTP/1.1 200 Sukses'); //if sukses
+		echo json_encode($detail_retur_penjualan);
+				
+	}else{
+				header('HTTP/1.1 400 error'); //if error
 	}
 
 break;

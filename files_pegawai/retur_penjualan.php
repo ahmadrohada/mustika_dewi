@@ -3,19 +3,13 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Data Penjualan</h3>
+                    <h3 class="box-title">Data Retur Penjualan</h3>
                 </div>
                 <div class="box-body">
 
-                    <div id="toolbar">
-						<div class="form-inline" role="form">
-							<button class="btn btn-warning btn-sm transaksi_penjualan"><span class="fa fa-plus"></span>&nbsp;&nbsp; Transaksi</button>
-						</div>
-					</div>
-				
-
+                    
                     <table
-						id="table_penjualan"
+						id="table_retur_penjualan"
                         data-class="table-striped" 
 						data-pagination="true"
 						data-search="true"
@@ -46,11 +40,11 @@ $(document).ready(function () {
 
 	
 
-    $(document).on('click','.transaksi_penjualan',function(e){
-		window.location.assign("home.php?page=transaksi_penjualan");
+    $(document).on('click','.transaksi_retur_penjualan',function(e){
+		//window.location.assign("home.php?page=transaksi_retur_penjualan");
 	});
 
-	$('#table_penjualan').bootstrapTable({
+	$('#table_retur_penjualan').bootstrapTable({
 		columns:[	
 				{
 					field: 'no',
@@ -61,8 +55,18 @@ $(document).ready(function () {
 				}, 
 				{
 					/** class: 'hidden-xs', **/
-					field: 'tgl_nota',
+					field: 'tgl_transaksi',
 					title: 'TGL TRANSAKSI',
+					halign:'center',
+					align:'center',
+					sortable:true,
+					width:180,
+					
+				}, 
+				{
+					/** class: 'hidden-xs', **/
+					field: 'tgl_retur',
+					title: 'TGL RETUR',
 					halign:'center',
 					align:'center',
 					sortable:true,
@@ -94,39 +98,10 @@ $(document).ready(function () {
 					width:110,
 				}, 
 				{
-					field: 'total_komisi',
-					title: 'KOMISI',
+					field: 'total_retur',
+					title: 'TOTAL RETUR',
 					halign:'center',
                     align:'right',
-					width:80,
-				},
-				{
-					field: 'total_tambahan',
-					title: '+',
-					halign:'center',
-                    align:'right',
-					width:80,
-				},
-				{
-					field: 'total_pengurangan',
-					title: '-',
-					halign:'center',
-                    align:'right',
-					width:80,
-				},
-				{
-					field: 'type_bayar',
-					title: 'STATUS',
-					halign:'center',
-					width:100,
-					sortable:true,
-				},
-				{
-					field: 'sisa',
-					title: 'SISA',
-					halign:'center',
-                    align:'right',
-					sortable:true,
 					width:110,
 				},
 				{
@@ -142,12 +117,11 @@ $(document).ready(function () {
 					width:140,
 					formatter: function (value, row) {
 						
-                        return 	[  	'<button  style="margin:1px; margin-top:-5px;" class="btn btn-warning		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
-									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 
-									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 	btn-xs retur" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Retur"><span class="fa  fa-reply"></span></button>' 
+                        return 	[  /* 	'<button  style="margin:1px; margin-top:-5px;" class="btn btn-warning		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
+									+ */'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 
 									/* +'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 		btn-xs edit" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fa fa-edit"></span></button>'
-									 */+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-danger 		btn-xs hapus" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus"><span class="fa fa-remove"></span></button>'  
-								];
+									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-danger 		btn-xs hapus" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus"><span class="fa fa-remove"></span></button>'  
+								 */];
                       		
 					}
 				}
@@ -157,23 +131,23 @@ $(document).ready(function () {
 
 
 
-    load_data_penjualan();
-    function load_data_penjualan(){
+    load_data_retur_penjualan();
+    function load_data_retur_penjualan(){
 		
 		$.ajax({
 			url         : "./kelas/penjualan_get.php",
 			type        : "GET",
 			dataType    : "json",
-			data        : {data:'penjualan_list'},
+			data        : {data:'retur_penjualan_list'},
 			success     : function(data) {
 				
-					$('#table_penjualan').bootstrapTable('load',{data: data['penjualan_list'] });
+					$('#table_retur_penjualan').bootstrapTable('load',{data: data['retur_penjualan_list'] });
 					$('[data-toggle="tooltip"]').tooltip();
 					$('.fixed-table-loading').fadeOut(100);
 				
 			},
 			error: function(data){
-					$('#table_penjualan').bootstrapTable('removeAll');
+					$('#table_retur_penjualan').bootstrapTable('removeAll');
 					$('.fixed-table-loading').fadeOut(100);
 					$('[data-toggle="tooltip"]').tooltip();
 				
@@ -185,17 +159,9 @@ $(document).ready(function () {
 
 	$(document).on('click','.lihat',function(e){
         e.preventDefault();
-        penjualan_id   = $(this).val();
+        id   = $(this).val();
 
-		window.location.assign("home.php?page=detail_transaksi_penjualan&penjualan_id="+penjualan_id);
-
-	});
-
-	$(document).on('click','.retur',function(e){
-        e.preventDefault();
-        penjualan_id   = $(this).val();
-
-		window.location.assign("home.php?page=retur_transaksi_penjualan&penjualan_id="+penjualan_id);
+		window.location.assign("home.php?page=detail_transaksi_retur_penjualan&retur_penjualan_id="+id);
 
 	});
 

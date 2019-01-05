@@ -11,35 +11,10 @@ ob_start();
 	$tgl = date('Y'."-".'m'."-".'d');
 	$waktu = date('H'.":".'i'.":".'s');
 
-	$penjualan_id 			= isset($_GET['penjualan_id'])?$_GET['penjualan_id']: 0;
+	$penjualan_id 			= isset($_GET['penjualan_id'])?$_GET['penjualan_id']: 1;
 	
 
-	if ( $penjualan_id == 0 ){
-		$query = $koneksi->prepare(" SELECT 	
-						a.id as penjualan_id,
-						a.no_nota,
-						a.tgl_nota,
-						a.type_bayar,
-						a.total_belanja,
-						a.total_komisi,
-						a.total_tambahan,
-						a.keterangan,
-						b.nama as nama_pelanggan,
-						b.alamat,
-						b.no_tlp,
-						c.nama as nama_user
-
-						
-						FROM penjualan a 
-						LEFT JOIN pelanggan b ON b.id = a.pelanggan_id
-						LEFT JOIN users c ON c.id = a.user_id
-
-
-						ORDER BY a.id DESC	
-						
-						
-						LIMIT 1 ");
-	}else{
+	
 		$query = $koneksi->prepare(" SELECT 	
 				a.id as penjualan_id,
 				a.no_nota,
@@ -65,8 +40,7 @@ ob_start();
 				
 				
 				LIMIT 1 ");
-	}
-	
+
 
 
 		
@@ -288,7 +262,7 @@ ob_start();
 		<td width="3%"> </td>
 		<td align="right" width="19%">
 			<font style=" font-size:9pt;  font-family:arial;">
-				<?php  echo number_format(($x->total_belanja)+$x->total_tambahan - $x->total_pengurangan,'0',',','.'); ?>
+				<?php  echo number_format( ($x->total_belanja +$x->total_tambahan )- $x->total_pengurangan ,'0',',','.'); ?>
 			</font>
 		</td>
 	</tr>

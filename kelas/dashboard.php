@@ -187,13 +187,13 @@ case"chart_penjualan_setahun":
 
 
 	$warna = [ "white","#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74"];
-	
+	$thn = date('Y');
 
 	for ( $i=1 ; $i <= 12 ; $i++) {
 
 		$bulan = $i;
 
-		$total_penjualan = $koneksi->prepare(" SELECT sum(id) AS jm FROM penjualan WHERE MONTH(created_at) = '$bulan' ");
+		$total_penjualan = $koneksi->prepare(" SELECT sum(id) AS jm FROM penjualan WHERE MONTH(created_at) = '$bulan' AND YEAR(created_at) = '$thn' ");
 		$total_penjualan->execute();
 		$total_out  = $total_penjualan->fetch(PDO::FETCH_OBJ);
 

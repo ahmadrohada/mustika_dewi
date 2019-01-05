@@ -91,7 +91,7 @@
           </div>
         </div>
   </div>  
-    <div class="row">
+  <div class="row">
           <div class="col-lg-6 col-xs-6 stok" style="cursor:pointer;">
             <!-- small box -->
             <div class="small-box bg-red">
@@ -106,7 +106,42 @@
               <a href="./home.php?page=dashboard&chart=6" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
-    </div>
+
+          <div class="col-lg-6 col-xs-6 retur_penjualan" style="cursor:pointer;">
+            <!-- small box -->
+            <div class="small-box bg-purple">
+              <div class="inner">
+                <h3><span class="">*</span></h3>
+
+                <p>RETUR PENJUALAN</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-arrow-return-left"></i>
+              </div>
+              <a href="" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+  </div>
+
+  
+  <div class="row">
+          <div class="col-lg-6 col-xs-6 retur_pembelian" style="cursor:pointer;">
+            <!-- small box -->
+            <div class="small-box bg-red">
+              <div class="inner">
+                <h3><span class="">*</span></h3>
+
+                <p>RETUR PEMBELIAN</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-archive"></i>
+              </div>
+              <a href="" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+
+         
+  </div>
   
   </div>
 
@@ -229,6 +264,16 @@ $(document).ready(function () {
 
   $(document).on('click','.stok',function(e){
 		window.location.assign("home.php?page=stok");
+	});
+
+
+  $(document).on('click','.retur_penjualan',function(e){
+		window.location.assign("home.php?page=retur_penjualan");
+	});
+
+  
+  $(document).on('click','.retur_pembelian',function(e){
+		window.location.assign("home.php?page=retur_pembelian");
 	});
 
 
