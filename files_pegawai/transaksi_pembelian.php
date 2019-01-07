@@ -727,6 +727,7 @@ $(document).on('keydown','.tbl_qty_tambahan',function(e){
                 cache       :false,
                 success:function(data){
                     load_data_tambahan();
+                    
                 },
         }); 
 
@@ -808,7 +809,7 @@ $(document).on('click','.tbl_hapus_tambahan',function(e){
 					$('[data-toggle="tooltip"]').tooltip();
 					$('.fixed-table-loading').fadeOut(100);
 
-                   // hitung_total_bayar();
+                    hitung_total_bayar();
 
                     $('.bayar').val("");
                     $('.kembali').val("0");
@@ -1005,7 +1006,7 @@ $(document).on('click','.tbl_hapus_pengurangan',function(e){
 					$('[data-toggle="tooltip"]').tooltip();
 					$('.fixed-table-loading').fadeOut(100);
 
-                    //hitung_total_bayar();
+                    hitung_total_bayar();
 
                     $('.bayar').val("");
                     $('.kembali').val("0");
