@@ -118,6 +118,36 @@ case "add_item_penjualan":
 	
 
 break;
+case "add_item_penjualan_2":
+		
+
+	$no_nota 			= $_POST['no_nota'];
+	$nama_karung 		= $_POST['nama_karung'];
+	$harga 				= preg_replace('/[^0-9]/', '', $_POST['harga']);	
+	$tonase 			= $_POST['tonase'];	
+	$qty 				= preg_replace('/[^0-9]/', '', $_POST['qty']);	
+	
+
+	try{
+			$query = $koneksi->prepare("INSERT INTO tmp_transaksi  (no_nota, jenis_transaksi, stok_beras_id,nama_karung,qty,tonase,harga)
+													VALUES(:a,:b,:c,:d,:e,:f,:g)");
+			$query->execute(array(
+								"a" => $no_nota,
+								"b" => 'penjualan',
+								"c" => '',
+								"d" => $nama_karung,
+								"e" => $qty,
+								"f" => $tonase,
+								"g" => $harga
+							));	
+			  
+						}
+	catch ( PDOException $e)
+	{
+			header('HTTP/1.1 400 error'); //if error
+	}
+	
+break;
 case "update_qty_tmp":
 		
 	$qty  	= preg_replace('/[^0-9]/', '', $_POST['qty']);

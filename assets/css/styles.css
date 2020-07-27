@@ -186,3 +186,17 @@ h5.modal-title,.header-title,.box-title{
   overflow-x: visible;
   overflow-y: visible;
 }
+
+
+.input_ket{
+	border:none !important;
+	pointer-events: none;
+
+
+}
+
+
+.input_bayar{
+	padding:10px 10px !important;
+	border: 1px solid blue;
+}

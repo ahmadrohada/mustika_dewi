@@ -1,7 +1,5 @@
 <?php
-
 $username  = 'root';
-
 $pass  = '';
 
 try {
@@ -18,7 +16,5 @@ try {
     die();
 
 }
-
 //$koneksi = null;
-
 ?>

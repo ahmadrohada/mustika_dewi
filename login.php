@@ -1,17 +1,4 @@
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<link href="./assets/css/bootstrap.min.css" rel="stylesheet">
-<link href="./assets/css/styles.css" rel="stylesheet">
-<link href="./assets/css/font-awesome.css"  rel="stylesheet" />
-<link href="./assets/css/font-awesome-animation.css"  rel="stylesheet" />
-<link href="./assets/css/sweetalert2.css"rel="stylesheet" >
-
-<style>
-
-</style> 
-
-
-
-	<div class="row tes">
+<div class="row tes">
 		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 text-center">
 		<img src="./assets/images/form/logo.png" class="img-responsive center-block">
 		
@@ -58,8 +45,8 @@
 			
 			
 			<div class="  col-xs-12 text-center " >
-			<p class="visible-lg visible-md text-muted login-footer" style="font-size:13px; color:#077821;">PD. Mustika Dewi @2018</p>
-			<p class="visible-sm visible-xs text-muted login-footer" style="font-size:10px; margin-top:30px; color:#077821;">PD. Mustika Dewi @2018</p>
+			<p class="visible-lg visible-md text-muted login-footer" style="font-size:13px; color:#077821;">PD. Mustika Dewi @2020</p>
+			<p class="visible-sm visible-xs text-muted login-footer" style="font-size:10px; margin-top:30px; color:#077821;">PD. Mustika Dewi @2020</p>
 			</div>
 		</div><!-- /.col-->
 	</div><!-- /.row -->	

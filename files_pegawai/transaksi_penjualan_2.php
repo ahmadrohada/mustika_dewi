@@ -16,14 +16,14 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">No Nota</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm no_nota" id="no_nota" style="margin-top:3px;" readonly>
+                            <input type="text" class="form-control input-sm no_nota input_ket" id="no_nota" style="margin-top:3px;">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Tanggal</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm tgl_nota" id="tgl_nota"  style="margin-top:3px;"  readonly>
+                            <input type="text" class="form-control input-sm tgl_nota input_ket" id="tgl_nota"  style="margin-top:3px;">
                         </div>
                     </div>
 
@@ -34,9 +34,6 @@
                 </form>
                 </div>
             </div>
-
-
-
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa  fa-users"></i> Informasi Pelanggan</h3>
@@ -67,22 +64,10 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-9">
-            
-        
             <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa  fa-th-list"></i> Transaksi Penjualan</h3>
-                </div>
                 <div class="box-body">
-                    
-                       
-                 
-                    <div class="col-md-12" style="margin-top:10px;">
-
-
-
+                    <div class="col-md-12" style="margin-top:-5px;">
                          <div id="toolbar">
                             <span  data-toggle="tooltip" title="Tambah Item Penjualan"><a class="btn btn-warning btn-sm add_item_penjualan" data-toggle="modal" data-target=".add-item_penjualan"><i class="fa fa-plus" ></i> TAMBAH ITEM</a></span>
 					    </div>
@@ -95,8 +80,6 @@
                         
                         </table>
                     </div>
-
-                    
                     <div class="col-md-12 no-padding" style="margin-top:20px; ">
                         <div class="col-md-7">
 
@@ -119,20 +102,8 @@
                                 >
                             
                             </table>
-
-
                             <br> <br>
-
-                           
                             <textarea class="form-control keterangan" rows="2" placeholder="Keterangan tambahan" style="width:100%;"></textarea>
-                            
-
-
-
-
-
-
-
                             
                         </div>
                         <div class="col-md-5">
@@ -143,25 +114,25 @@
                                 <div class="form-group" style="margin-top:20px;">
                                     <label class="col-sm-6 control-label">Total Belanja</label>
                                     <div class="col-sm-6">
-                                        <input type="text"  class="form-control input-sm total_belanja" value="0" style="text-align:right;" disabled> 
+                                        <input type="text"  class="form-control input-sm total_belanja input_ket" value="0" style="text-align:right;" disabled> 
                                     </div>
                                 </div> 
-                                <div class="form-group" style="margin-top:-10px;">
+                                <div class="form-group" style="margin-top:-10px;" hidden>
                                     <label class="col-sm-6 control-label">Total Komisi</label>
                                     <div class="col-sm-6">
-                                        <input type="text"  class="form-control input-sm total_komisi" value="0" style="text-align:right;" disabled> 
+                                        <input type="text"  class="form-control input-sm total_komisi input_ket" value="0" style="text-align:right;" disabled> 
                                     </div>
                                 </div> 
                                 <div class="form-group" style="margin-top:-10px;">
                                     <label class="col-sm-6 control-label">Total Tambahan</label>
                                     <div class="col-sm-6">
-                                        <input type="text"  class="form-control input-sm total_tambahan" value="0" style="text-align:right;" disabled> 
+                                        <input type="text"  class="form-control input-sm total_tambahan input_ket" value="0" style="text-align:right;" disabled> 
                                     </div>
                                 </div> 
                                 <div class="form-group" style="margin-top:-10px;">
                                     <label class="col-sm-6 control-label">Total Pengurangan</label>
                                     <div class="col-sm-6">
-                                        <input type="text"  class="form-control input-sm total_pengurangan" value="0" style="text-align:right;" disabled> 
+                                        <input type="text"  class="form-control input-sm total_pengurangan input_ket" value="0" style="text-align:right;" disabled> 
                                     </div>
                                 </div> 
 
@@ -173,32 +144,24 @@
                                         <input type="hidden" class="total_bayar">
                                     </div>
                                 </div> 
-
-
                                 <div class="form-group" >
                                     <label class="col-sm-6 control-label" >Bayar</label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form_bayar form-control input-sm bayar"  value="" id="bayar" style="text-align:right;">
+                                        <input type="text" class="form_bayar form-control input bayar input_bayar"  value="" id="bayar" style="text-align:right;">
                                     </div>
                                 </div>
                                 <div class="form-group"  style="margin-top:-10px;">
                                     <label class="col-sm-6 control-label">Kembali</label>
                                     <div class="col-sm-6">
-                                        <input type="text"  class="form-control input-sm kembali" value="0" style="text-align:right;" disabled>
+                                        <input type="text"  class="form-control input-sm kembali input_ket" value="0" style="text-align:right;" disabled>
                                     </div>
                                 </div>
                             </form>
-                           
                         </div>
-
-                        
                     </div>
-
                     <div class="col-md-12">
                         <button type="button" class="btn btn-block btn-warning simpan_transaksi" style="margin-top:24px;">SIMPAN</button>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -209,7 +172,7 @@
 
 <?php
     include "modals/add-pelanggan.php";
-    include "modals/add-penjualan.php";
+    include "modals/add-penjualan_2.php";
     include "modals/add-tambahan.php";
     include "modals/add-pengurangan.php";
 ?>
@@ -243,6 +206,22 @@
     
 $(document).ready(function () {
 	
+
+
+    $(window).bind('keydown', function(e) {
+        if (e.which == 113)
+        $('.add-item_penjualan').modal('show');
+    });
+
+
+
+
+
+
+
+
+
+
     user_id = $('.user_id').val();
    
     $('.add-item_penjualan').on('hidden.bs.modal', function(){
@@ -347,15 +326,9 @@ $(document).ready(function () {
 				
                 {
 					field: 'nama_karung',
-					title: 'NM KARUNG',
+					title: 'NAMA KARUNG',
 					halign:'center',
-                    align:'center',
-					
-				}, 
-                {
-					field: 'jenis_beras',
-					title: 'JENIS BERAS',
-					halign:'center'
+                    align:'left',
 					
 				}, 
                 {
@@ -396,19 +369,6 @@ $(document).ready(function () {
 					
                 }, 
                 {
-					field: '',
-					title: 'KOMISI @Kg',
-					halign:'center',
-                    align:'center',
-                    width:100,
-                    formatter: function (value, row) {
-					    return 	[  	'<input type="text" id="'+row.id+'" value="'+row.komisi+'" class="form-control input-sm tbl_komisi" style="width:100px; text-align:right; margin-top:-4px;">' 
-								];
-					}
-
-					
-                }, 
-                {
 					field: 'jumlah',
 					title: 'JUMLAH HARGA',
 					halign:'center',
@@ -435,13 +395,11 @@ $(document).ready(function () {
 //==================== UPDATE QTY PADA TABLE ====================================//
 
     $(document).on('keydown','.tbl_qty',function(e){
-        if ( (e.which == 13)|(e.which == 9)) {
-            
+        if ( (e.which == 13)|(e.which == 9) ) {
             qty = $(this).val();
             id = $(this).attr('id');
             update_qty_table(id,qty);
             
-
         } 
     });
 
@@ -597,7 +555,7 @@ $(document).on('keydown','.tbl_komisi',function(e){
                     //$('.total_tambahan').val(data['detail_penjualan_list'][0]['total_tambahan']);
 
                     hitung_total_bayar();
-
+                    $('.bayar').focus();
                     
 
                     $('.bayar').val("");

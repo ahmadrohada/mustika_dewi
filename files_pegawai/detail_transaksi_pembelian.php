@@ -187,6 +187,18 @@
 <script>
 $(document).ready(function () {
 	
+    
+
+
+
+
+
+
+
+
+
+
+
     pembelian_id = $('.pembelian_id').val();
    
     

@@ -10,6 +10,7 @@ if(isset($_SESSION['md_user_id'])){
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>PD Mustika Dewi</title>
+  <link rel="icon" type="image/png" href="favicon_png.png" />
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="./assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="./assets/bower_components/font-awesome/css/font-awesome.min.css">
@@ -157,9 +158,9 @@ if(isset($_SESSION['md_user_id'])){
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0 <i>beta</i>
+      <b>Version</b> 2.0 <i></i>
     </div>
-    <strong>Copyright &copy; PD. Mustika Dewi 2018 
+    <strong>Copyright &copy; PD. Mustika Dewi 2020 
   </footer>
 
   <!-- Control Sidebar -->
