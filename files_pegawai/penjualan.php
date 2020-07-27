@@ -47,7 +47,7 @@ $(document).ready(function () {
 	
 
     $(document).on('click','.transaksi_penjualan',function(e){
-		window.location.assign("home.php?page=transaksi_penjualan");
+		window.location.assign("home.php?page=transaksi_penjualan_2");
 	});
 
 	$('#table_penjualan').bootstrapTable({
