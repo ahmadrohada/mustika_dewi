@@ -95,9 +95,10 @@
         $('.add-item_penjualan').on('hidden.bs.modal', function() {
 
             $('.jenis_beras').val("");
-            $('.qty').val("");
+            $('.nama_karung').val("");
+            $('.f_qty').val("");
             $('.tonase').val("");
-            $('.harga').val("");
+            $('.f_harga').val("");
             $('.bayar').focus();
         });
 

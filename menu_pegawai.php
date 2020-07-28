@@ -16,7 +16,7 @@
         </a>
         <ul class="treeview-menu">
             <li><a href="?page=transaksi_pembelian"><i class=" fa fa-calendar-o"></i> Pembelian</a></li>
-            <li><a href="?page=transaksi_penjualan"><i class=" fa fa-shopping-cart"></i> Penjualan</a></li>
+            <li><a href="?page=transaksi_penjualan_2"><i class=" fa fa-shopping-cart"></i> Penjualan</a></li>
         </ul>
     </li>
 
