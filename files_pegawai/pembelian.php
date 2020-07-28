@@ -8,9 +8,9 @@
                 <div class="box-body">
 
                     <div id="toolbar">
-						<div class="form-inline" role="form">
+						<!-- <div class="form-inline" role="form">
 							<button class="btn btn-warning btn-sm transaksi_pembelian"><span class="fa fa-plus"></span>&nbsp;&nbsp; Transaksi</button>
-						</div>
+						</div> -->
 					</div>
 				
 
@@ -146,9 +146,9 @@ $(document).ready(function () {
 						
                         return 	[  	'<button  style="margin:1px; margin-top:-5px;" class="btn btn-warning		btn-xs cetak" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Cetak" ><span class="fa fa-print"></span></button>'
 									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-success 	btn-xs lihat" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Lihat"><span class="fa fa-eye"></span></button>' 
-									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 	btn-xs retur" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Retur"><span class="fa  fa-reply"></span></button>' 
+									/**+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 	btn-xs retur" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Retur"><span class="fa  fa-reply"></span></button>' 
 									
-									/* 	+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 		btn-xs edit" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fa fa-edit"></span></button>'
+									+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-info 		btn-xs edit" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fa fa-edit"></span></button>'
 									 */+'<button  style="margin:1px;  margin-top:-5px;" class="btn btn-danger 		btn-xs hapus" 		value="'+row.id+'" data-toggle="tooltip" data-placement="top" title="Hapus"><span class="fa fa-remove"></span></button>' 
 								];
                       		

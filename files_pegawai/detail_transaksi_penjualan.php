@@ -124,12 +124,7 @@
                                     <input type="text"  class="form-control input-sm total_belanja" value="0" style="text-align:right;" disabled> 
                                 </div>
                             </div> 
-                        <div class="form-group" style="margin-top:-10px;">
-                            <label class="col-sm-6 control-label">Total Komisi</label>
-                                <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm total_komisi" value="0" style="text-align:right;" disabled> 
-                                </div>
-                            </div> 
+                       
                         <div class="form-group" style="margin-top:-10px;">
                             <label class="col-sm-6 control-label">Total Tambahan</label>
                                 <div class="col-sm-6">
@@ -257,13 +252,7 @@ $(document).ready(function () {
 					field: 'nama_karung',
 					title: 'NM KARUNG',
 					halign:'center',
-                    align:'center',
-					
-				}, 
-                {
-					field: 'jenis_beras',
-					title: 'JENIS BERAS',
-					halign:'center'
+                    align:'left',
 					
 				}, 
                 {
@@ -285,15 +274,6 @@ $(document).ready(function () {
 				{
 					field: 'harga',
 					title: 'HARGA @Kg',
-					halign:'center',
-                    align:'center',
-                    width:100,
-
-					
-                }, 
-                {
-					field: 'komisi',
-					title: 'KOMISI @Kg',
 					halign:'center',
                     align:'center',
                     width:100,

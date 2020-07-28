@@ -3,13 +3,13 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Dashboard User Pegawai</h3>
+                    <h3 class="box-title">TRANSAKSI</h3>
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-lg-6 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-xs-12">
                             <!-- small box -->
-                            <div class="small-box bg-aqua transaksi_penjualan" style="cursor:pointer;">
+                            <div class="small-box bg-purple transaksi_penjualan" style="cursor:pointer;">
                                 <div class="inner">
                                     <h3><span class="total_transaksi_penjualan">*</span></h3>
                                     <p>TRANSAKSI PENJUALAN</p>
@@ -21,7 +21,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-xs-12">
                             <!-- small box -->
                             <div class="small-box bg-yellow transaksi_pembelian" style="cursor:pointer;">
                                 <div class="inner">
@@ -35,11 +35,12 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
+
+
             </div>
         </div>
+    </div>
     </div>
 </section>
 
@@ -53,4 +54,5 @@
     $(document).on('click', '.transaksi_penjualan', function(e) {
         window.location.assign("home.php?page=transaksi_penjualan_2");
     });
+
 </script>

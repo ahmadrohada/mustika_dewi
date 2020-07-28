@@ -52,7 +52,16 @@ case "penjualan_list":
 	
 	while($x = $query->fetch(PDO::FETCH_OBJ)) {
 
-		
+		//cari data pembayaran
+		$query_bayar = $koneksi->prepare(" SELECT SUM(jumlah_bayar) as bayar FROM bayar_piutang WHERE nota_id = '$x->nota_id' ");
+		$query_bayar->execute();
+		$byr = $query_bayar->fetch(PDO::FETCH_OBJ);
+
+		if ( $byr ){
+			$bayar_x = $byr->bayar;
+		}else{
+			$bayar_x = 0;
+		}
 
 		switch($x->type_bayar)
 			{
@@ -63,7 +72,10 @@ case "penjualan_list":
 			}
 	
 		if ( $type == 'Hutang'){
-			$sisa = (($x->total_belanja - $x->total_komisi)+$x->total_tambahan - $x->total_pengurangan )-$x->bayar;
+			$sisa = (($x->total_belanja - $x->total_komisi)+$x->total_tambahan - $x->total_pengurangan )- ($x->bayar+$bayar_x);
+
+			if ( $sisa == 0 ) $type = "Lunas";
+
 		}else{
 			$sisa = 0;
 		}
@@ -600,8 +612,19 @@ case"detail_transaksi_penjualan":
 			$status_retur = 0 ;
 		}
 
+		//cari data pembayaran
+		$query_bayar = $koneksi->prepare(" SELECT SUM(jumlah_bayar) as bayar FROM bayar_piutang WHERE nota_id = '$x->penjualan_id' ");
+		$query_bayar->execute();
+		$byr = $query_bayar->fetch(PDO::FETCH_OBJ);
+
+		if ( $byr ){
+			$bayar_x = $byr->bayar +  $x->bayar;
+		}else{
+			$bayar_x = $x->bayar;
+		}
+
 		$total_bayar = ($x->total_belanja-$x->total_komisi)+$x->total_tambahan - $x->total_pengurangan;
-		$kembali 	 = $x->bayar - $total_bayar;
+		$kembali 	 = $bayar_x - $total_bayar;
 
 		$detail_penjualan = array(
 					'no_nota'		=> $x->no_nota,
@@ -616,7 +639,7 @@ case"detail_transaksi_penjualan":
 					'total_tambahan'=> number_format($x->total_tambahan,'0',',','.'),
 					'total_pengurangan'=> number_format($x->total_pengurangan,'0',',','.'),
 					'total_bayar'   => number_format($total_bayar,'0',',','.'),
-					'bayar'			=> number_format($x->bayar,'0',',','.'),
+					'bayar'			=> number_format($bayar_x,'0',',','.'),
 					'kembali'		=> number_format($kembali,'0',',','.'),
 					'sisa'		    => number_format(str_replace('-','',$kembali),'0',',','.'),
 					
