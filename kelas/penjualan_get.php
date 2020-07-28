@@ -71,10 +71,14 @@ case "penjualan_list":
 				break;
 			}
 	
+		$keterangan = $x->keterangan;
 		if ( $type == 'Hutang'){
 			$sisa = (($x->total_belanja - $x->total_komisi)+$x->total_tambahan - $x->total_pengurangan )- ($x->bayar+$bayar_x);
 
-			if ( $sisa == 0 ) $type = "Lunas";
+			if ( $sisa == 0 ) {
+				$type = "Lunas";
+				$keterangan = "-";
+			}
 
 		}else{
 			$sisa = 0;
@@ -96,7 +100,7 @@ case "penjualan_list":
 			$h['bayar']				= number_format($x->bayar,'0',',','.');
 			$h['type_bayar']		= $type;
 			$h['sisa']				= number_format($sisa,'0',',','.');
-			$h['keterangan']		= $x->keterangan;
+			$h['keterangan']		= $keterangan;
 							
 			array_push($response["penjualan_list"], $h);
 	}	
