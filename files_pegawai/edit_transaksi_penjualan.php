@@ -79,7 +79,7 @@
                         id="list_penjualan"
                         class="table-striped" 
                         data-toolbar="#toolbar"
-                        data-toolbar-align="right"  
+                        data-toolbar-align="right"   
                     >
 
                     </table>
@@ -111,19 +111,19 @@
                         <div class="form-group" style="margin-top:20px;">
                             <label class="col-sm-6 control-label">Total Belanja</label>
                                 <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm total_belanja" value="0" style="text-align:right;" disabled> 
+                                    <input type="text"  class="form-control input-sm total_belanja input_ket" value="0" style="text-align:right;" disabled> 
                                 </div>
                             </div> 
-                        <div class="form-group" style="margin-top:-10px;">
+                        <div class="form-group" style="margin-top:-10px;" hidden>
                             <label class="col-sm-6 control-label">Total Komisi</label>
                                 <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm total_komisi" value="0" style="text-align:right;" disabled> 
+                                    <input type="text"  class="form-control input-sm total_komisi input_ket" value="0" style="text-align:right;" disabled> 
                                 </div>
                             </div> 
                         <div class="form-group" style="margin-top:-10px;">
                             <label class="col-sm-6 control-label">Total Tambahan</label>
                                 <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm total_tambahan" value="0" style="text-align:right;" disabled> 
+                                    <input type="text"  class="form-control input-sm total_tambahan input_ket" value="0" style="text-align:right;" disabled> 
                                 </div>
                         </div> 
 
@@ -146,7 +146,7 @@
                         <div class="form-group"  style="margin-top:-10px;">
                             <label class="col-sm-6 control-label"><span class="txt-kembali">Kembali</span></label>
                                 <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm kembali" value="0" style="text-align:right;" disabled>
+                                    <input type="text"  class="form-control input-sm kembali input_ket" value="0" style="text-align:right;" disabled>
                                 </div>
                             </div>
                         </form>
@@ -155,7 +155,9 @@
 
                         
                 </div>
-
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-block btn-warning update_transaksi" style="margin-top:24px;">UPDATE DATA</button>
+                </div>
 
 
                       
@@ -167,6 +169,23 @@
 
 
 <script>
+    /* Fungsi */
+	function formatRupiah(angka, prefix)
+	{
+		var number_string = angka.replace(/[^,\d]/g, '').toString(),
+			split	= number_string.split(','),
+			sisa 	= split[0].length % 3,
+			rupiah 	= split[0].substr(0, sisa),
+			ribuan 	= split[0].substr(sisa).match(/\d{3}/gi);
+			
+		if (ribuan) {
+			separator = sisa ? '.' : '';
+			rupiah += separator + ribuan.join('.');
+		}
+		
+		rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+		return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+	}
 $(document).ready(function () {
 	
     penjualan_id = $('.penjualan_id').val();
@@ -238,65 +257,47 @@ $(document).ready(function () {
 					field: 'nama_karung',
 					title: 'NM KARUNG',
 					halign:'center',
-                    align:'center',
+                    align:'left',
 					
 				}, 
                 {
-					field: 'jenis_beras',
-					title: 'JENIS BERAS',
-					halign:'center'
-					
-				}, 
-                {
-					field: '',
+					field: 'qty',
 					title: 'QTY KARUNG',
 					halign:'center',
                     align:'center',
                     width  : 80,
-                    formatter: function (value, row) {
+                    /* formatter: function (value, row) {
 					    return 	[  	'<input type="text" id="'+row.id+'"  value="'+row.qty+'"  class="form-control input-sm tbl_qty" style="width:80px; text-align:center; margin-top:-4px;">' 
 								];
-					}
+					} */
 					
 				}, 
                 {
-					field: '',
+					field: 'tonase',
 					title: '@TONASE',
 					halign:'center',
                     align:'center',
                     width  : 80,
-                    formatter: function (value, row) {
+                    /* formatter: function (value, row) {
 					    return 	[  	'<input type="text" id="'+row.id+'"  value="'+row.tonase+'"  class="form-control input-sm tbl_tonase" style="width:80px; text-align:center; margin-top:-4px;">' 
 								];
-					}
+					} */
 					
 				}, 
 				{
-					field: '',
+					field: 'harga',
 					title: 'HARGA @Kg',
 					halign:'center',
                     align:'center',
                     width:100,
-                    formatter: function (value, row) {
+                  /*   formatter: function (value, row) {
 					    return 	[  	'<input type="text" id="'+row.id+'" value="'+row.harga+'" class="form-control input-sm tbl_harga" style="width:100px; text-align:right; margin-top:-4px;">' 
 								];
-					}
+					} */
 
 					
                 }, 
-                {
-					field: '',
-					title: 'KOMISI @Kg',
-					halign:'center',
-                    align:'center',
-                    width:100,
-                    formatter: function (value, row) {
-					    return 	[  	'<input type="text" id="'+row.id+'" value="'+row.komisi+'" class="form-control input-sm tbl_komisi" style="width:100px; text-align:right; margin-top:-4px;">' 
-								];
-					}
-
-					
-                }, 
+                
                 {
 					field: 'jumlah',
 					title: 'JUMLAH HARGA',
@@ -304,7 +305,7 @@ $(document).ready(function () {
                     align:'right',
                     width:140,
 				}, 
-				{
+				/* {
 					field: 'Status',
 					title: '<i class="glyphicon glyphicon-cog"></i>',
 					halign:'center',
@@ -315,7 +316,7 @@ $(document).ready(function () {
 									
 								];
 					}
-				}
+				} */
 				]
 	});
 
@@ -429,6 +430,141 @@ $('#list_tambahan').bootstrapTable({
 				
 			}
 		});
+    }
+
+
+    //=============================== B   A   Y   A   R ========================================//
+    document.addEventListener('keydown', function(event) {
+        if (event.code == 'F2') {
+            $('.bayar').focus();
+            //$('.jenis_beras').select2('close');
+        }
+    });
+
+
+    /* Tanpa Rupiah */
+    var tanpa_rupiah = document.getElementById('bayar');
+	tanpa_rupiah.addEventListener('keyup', function(e)
+	{
+        tanpa_rupiah.value = formatRupiah(this.value);
+        
+	});
+	
+
+    $(document).on('keydown','.bayar',function(e){
+        if ( (e.which == 13)|(e.which == 9)) {
+            hitung_kembalian();
+        } 
+    });
+
+     $(document).on('blur','.bayar',function(e){
+        hitung_kembalian();
+    });
+
+    function hitung_kembalian(bayar,grand_total){
+
+        bayar       = parseInt($(".bayar").val().replace(/[^,\d]/g, '').toString());
+        total_bayar = parseInt($(".total_bayar").val().replace(/[^,\d]/g, '').toString());
+
+        kembali = Intl.NumberFormat().format(bayar-total_bayar); 
+
+         $(".kembali").val(kembali);
+        
+    }
+
+    //============================== PROSES UPDATYE TRANSAKSI =============================//
+    $(document).on('click','.update_transaksi',function(e){
+        e.preventDefault();
+        grand_total         = parseInt($(".grand_total").val().replace(/[^,\d]/g, '').toString());
+        bayar               = parseInt($(".bayar").val().replace(/[^,\d]/g, '').toString());
+        kembali             = $(".kembali").val();
+        hutang              = $(".kembali").val().replace('-', '');
+
+
+        if ( $(".bayar").val() == "") {
+            swal({
+				
+				text: "Kolom bayar harus terisi",
+				type: "warning"
+			}).then (function(){
+                $('.bayar').focus();		
+			});
+        }else if ( (bayar < grand_total)&(kembali != 0) ){
+
+
+            swal({
+				
+                html                : "Pembayaran yang dilakukan kurang dari Jumlah yang harus dibayar"
+                                    +"<br>Transaksi ini akan dianggap sebagai hutang<br>"
+                                    +"sisa yang belum dibayar sebesar Rp. <b>"+hutang+"</b><br>",
+				type                : "question",
+                //customClass         : 'swal2-overflow',
+                showCancelButton	: true,
+                cancelButtonText	: "Batal",
+			}).then (function(){
+                update_transaksi('2');	
+                
+			}); 
+
+
+        }else{
+            update_transaksi('1');
+        } 
+         
+    });
+
+
+    function update_transaksi(type_bayar){
+        penjualan_id        = $(".penjualan_id").val();
+       
+        bayar               = $(".bayar").val();
+        kembali             = $(".kembali").val().replace('-', '');
+        keterangan          = $(".keterangan").val(); 
+
+
+          $.ajax({
+			url         : "./kelas/transaksi_post.php",
+			type        : "POST",
+			data        : { op                  : "update_transaksi_penjualan",
+                            penjualan_id        : penjualan_id,
+                            bayar               : bayar,
+                            kembali             : kembali,
+                            type_bayar          : type_bayar,
+                            keterangan          : keterangan
+                          },
+			cache       :false,
+			success:function(data){
+                
+                swal({
+					title: "",
+					text: "Sukses",
+					type: "success",
+					width: "200px",
+					showConfirmButton: false,
+					allowOutsideClick : false,
+					timer: 900
+					}).then(function () {
+										
+					},
+					function (dismiss) {
+						if (dismiss === 'timer') {
+                            window.location.assign("home.php?page=penjualan");
+                        }
+					}
+				)
+                
+			
+			},
+            error: function(e) {
+					swal({
+						title: "Gagal",
+						text: "",
+						type: "warning"
+					}).then (function(){
+						
+					});
+				}
+		}); 
     }
 
 

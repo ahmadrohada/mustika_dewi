@@ -68,7 +68,7 @@
         
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa  fa-th-list"></i> Detail Transaksi Penjualan</h3>
+                    <h3 class="box-title"><i class="fa  fa-th-list"></i> Edit Transaksi Penjualan</h3>
                 </div>
                 <div class="box-body">
                 <div class="col-md-12" style="margin-top:10px;">
@@ -121,21 +121,21 @@
                         <div class="form-group" style="margin-top:20px;">
                             <label class="col-sm-6 control-label">Total Belanja</label>
                                 <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm total_belanja" value="0" style="text-align:right;" disabled> 
+                                    <input type="text"  class="form-control input-sm total_belanja input_ket" value="0" style="text-align:right;" disabled> 
                                 </div>
                             </div> 
                        
                         <div class="form-group" style="margin-top:-10px;">
                             <label class="col-sm-6 control-label">Total Tambahan</label>
                                 <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm total_tambahan" value="0" style="text-align:right;" disabled> 
+                                    <input type="text"  class="form-control input-sm total_tambahan input_ket" value="0" style="text-align:right;" disabled> 
                                 </div>
                         </div> 
 
                         <div class="form-group" style="margin-top:-10px;">
                             <label class="col-sm-6 control-label">Total Pengurangan</label>
                                 <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm total_pengurangan" value="0" style="text-align:right;" disabled> 
+                                    <input type="text"  class="form-control input-sm total_pengurangan input_ket" value="0" style="text-align:right;" disabled> 
                                 </div>
                         </div> 
 
@@ -158,7 +158,7 @@
                         <div class="form-group"  style="margin-top:-10px;">
                             <label class="col-sm-6 control-label"><span class="txt-kembali">Kembali</span></label>
                                 <div class="col-sm-6">
-                                    <input type="text"  class="form-control input-sm kembali" value="0" style="text-align:right;" disabled>
+                                    <input type="text"  class="form-control input-sm kembali input_ket" value="0" style="text-align:right;" disabled>
                                 </div>
                             </div>
                         </form>
@@ -285,6 +285,7 @@ $(document).ready(function () {
 					title: 'JUMLAH HARGA',
 					halign:'center',
                     align:'right',
+                    width:140,
 				}
 				]
 	});

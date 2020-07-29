@@ -367,6 +367,31 @@ while($a = $query_a->fetch(PDO::FETCH_OBJ)) {
 	
 
 break;
+case "update_transaksi_penjualan":
+		
+	
+	$penjualan_id 		= $_POST['penjualan_id']	;
+	$bayar 				= preg_replace('/[^0-9]/', '', $_POST['bayar']);
+	//$kembali 			= preg_replace('/[^0-9]/', '', $_POST['kembali']);
+	$type_bayar     	= $_POST['type_bayar'];
+	$keterangan 		= $_POST['keterangan'];
+
+	
+	$update = $koneksi->prepare("UPDATE penjualan
+					SET 	bayar		= :bayar,
+							type_bayar	= :type_bayar,
+							keterangan	= :keterangan
+					WHERE   id			= :penjualan_id ");
+	$update->execute(array(
+				
+				"penjualan_id" 		=> $penjualan_id,
+				"bayar" 			=> $bayar,
+				"type_bayar" 		=> $type_bayar,
+				"keterangan"		=> $keterangan,
+	));
+
+	
+break;
 case "hapus_transaksi_penjualan":
 	
 	$penjualan_id 		= $_POST['penjualan_id'];
