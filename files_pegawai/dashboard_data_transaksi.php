@@ -7,7 +7,7 @@
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-xs-12">
                             <!-- small box -->
                             <div class="small-box bg-maroon transaksi_penjualan" style="cursor:pointer;">
                                 <div class="inner">
@@ -21,7 +21,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 col-md-4 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-xs-12">
                             <!-- small box -->
                             <div class="small-box bg-teal transaksi_pembelian" style="cursor:pointer;">
                                 <div class="inner">
@@ -34,14 +34,30 @@
                                 <a href="#" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-xs-12">
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-xs-12">
+                            <!-- small box -->
+                            <div class="small-box bg-teal hutang" style="cursor:pointer;">
+                                <div class="inner">
+                                    <h3><span class="jm_hutang">*</span></h3>
+                                    <p> HUTANG</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-share"></i>
+                                </div>
+                                <a href="#" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xs-12">
                             <div class="small-box bg-green piutang" style="cursor:pointer;">
                                 <div class="inner">
                                     <h3><span class="jm_piutang">*</span></h3>
                                     <p> PIUTANG</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-ios-undo"></i>
+                                    <i class="fa fa-reply"></i>
                                 </div>
                                 <a href="./home.php?page=dashboard&chart=2" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
                             </div>
@@ -69,5 +85,9 @@
 
     $(document).on('click','.piutang',function(e){
 		window.location.assign("home.php?page=piutang");
+	});
+
+    $(document).on('click','.hutang',function(e){
+		window.location.assign("home.php?page=hutang");
 	});
 </script>

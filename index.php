@@ -43,7 +43,7 @@ if ( !isset($_SESSION['md_user_id'])){
 <?php } else { ?>
 <script>
 	//alert("udah");
-	window.location.href="home.php?page=dashboard";
+	window.location.href="home.php?page=dashboard_transaksi";
 </script>
 <?php } ?>	
 	
