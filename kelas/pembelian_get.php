@@ -306,6 +306,7 @@ case"detail_transaksi_pembelian":
 					'jumlah_dp'			=> number_format($x->jumlah_dp,'0',',','.'),
 					'jumlah_sisa'	   	=> number_format($sisa,'0',',','.'),
 					'keterangan_retur'	=> $x->keterangan_retur,
+					'keterangan'		=> $x->keterangan,
 
 
 					'status_retur'		=> $status_retur,

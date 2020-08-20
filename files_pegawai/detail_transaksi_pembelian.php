@@ -227,6 +227,8 @@ $(document).ready(function () {
 
                 $('.jumlah_sisa').val(data['jumlah_sisa']);
 
+                $('.keterangan').val(data['keterangan']);
+
 
                 if ( data['type_bayar'] == 2){
                     $('.kolom_hutang').show();
